@@ -669,7 +669,7 @@ ACTB_Count_OK:
         jz      SHORT ACTB_Done
         xor     edx, edx
         add     esi, 8
-        jmp     SHORT ACTB_Copy_Region
+        jmp     SHORT ACTB_Find_Region
 ACTB_Done:
         popad
         clc
@@ -730,7 +730,7 @@ ACFB_Count_OK:
         jz      SHORT ACFB_Done
         xor     edx, edx
         add     edi, 8
-        jmp     SHORT ACFB_Copy_Region
+        jmp     SHORT ACFB_Find_Region
 ACFB_Done:
         popad
         clc
