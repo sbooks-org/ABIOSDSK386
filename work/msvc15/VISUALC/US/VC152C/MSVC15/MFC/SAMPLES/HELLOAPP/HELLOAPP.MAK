@@ -1,0 +1,81 @@
+# Microsoft Visual C++ generated build script - Do not modify
+
+PROJ = HELLOAPP
+DEBUG = 0
+PROGTYPE = 0
+CALLER = 
+ARGS = 
+DLLS = 
+D_RCDEFINES = -d_DEBUG
+R_RCDEFINES = -dNDEBUG
+ORIGIN = MSVC
+ORIGIN_VER = 1.00
+PROJPATH = UNKNOWN
+USEMFC = 1
+CC = cl
+CPP = cl
+CXX = cl
+CCREATEPCHFLAG = 
+CPPCREATEPCHFLAG = 
+CUSEPCHFLAG = 
+CPPUSEPCHFLAG = 
+FIRSTC =             
+FIRSTCPP = HELLOAPP.CPP
+RC = rc
+CFLAGS_D_WEXE = /nologo /G2 /W3 /Zi /AM /Od /D "_DEBUG" /FR /GA /Fd"HELLOAPP.PDB"
+CFLAGS_R_WEXE = /nologo /G2 /W3 /O1 /D "NDEBUG" 
+LFLAGS_D_WEXE = /NOLOGO /NOD /PACKC:61440 /STACK:10240 /ALIGN:16 /ONERROR:NOEXE /CO  
+LFLAGS_R_WEXE = /NOLOGO /NOD /PACKC:61440 /STACK:4096 /ALIGN:4 /ONERROR:NOEXE /MAP:FULL
+LIBS_D_WEXE = mafxcwd oldnames libw mlibcew commdlg.lib shell.lib 
+LIBS_R_WEXE = safxcw oldnames libw slibcew commdlg.lib shell.lib 
+RCFLAGS = /nologo
+RESFLAGS = /nologo
+RUNFLAGS = 
+DEFFILE = HELLOAPP.DEF
+OBJS_EXT = 
+LIBS_EXT = 
+!if "$(DEBUG)" == "1"
+CFLAGS = $(CFLAGS_D_WEXE)
+LFLAGS = $(LFLAGS_D_WEXE)
+LIBS = $(LIBS_D_WEXE)
+MAPFILE = nul
+RCDEFINES = $(D_RCDEFINES)
+!else
+CFLAGS = $(CFLAGS_R_WEXE)
+LFLAGS = $(LFLAGS_R_WEXE)
+LIBS = $(LIBS_R_WEXE)
+MAPFILE = nul
+RCDEFINES = $(R_RCDEFINES)
+!endif
+!if [if exist MSVC.BND del MSVC.BND]
+!endif
+SBRS = HELLOAPP.SBR
+
+
+all:	$(PROJ).EXE
+
+HELLOAPP.OBJ:	HELLOAPP.CPP $(HELLOAPP_DEP)
+	$(CPP) $(CFLAGS) $(CPPCREATEPCHFLAG) /c HELLOAPP.CPP
+
+
+$(PROJ).EXE::	HELLOAPP.OBJ $(OBJS_EXT) $(DEFFILE)
+	echo >NUL @<<$(PROJ).CRF
+HELLOAPP.OBJ +
+$(OBJS_EXT)
+$(PROJ).EXE
+$(MAPFILE)
+$(LIBS)
+$(DEFFILE);
+<<
+	link $(LFLAGS) @$(PROJ).CRF
+	$(RC) $(RESFLAGS) $@
+
+
+run: $(PROJ).EXE
+	$(PROJ) $(RUNFLAGS)
+
+
+$(PROJ).BSC: $(SBRS)
+	bscmake @<<
+/o$@ $(SBRS)
+<<

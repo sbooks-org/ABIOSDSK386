@@ -1,0 +1,386 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "dibview.h"
+#include "file.h"
+#include "palette.h"
+#include "options.h"
+#include "print.h"
+#include "dlgs.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+MYICON                  ICON    DISCARDABLE     "dibview.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+SELECTCUR               CURSOR  DISCARDABLE     "select.cur"
+DRAGCURSOR              CURSOR  DISCARDABLE     "dibdrag.cur"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+TESTMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...",                    IDM_OPEN
+        MENUITEM "&Save As...",                 IDM_SAVE
+        MENUITEM "&Print",                      IDM_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       IDM_EXIT
+        MENUITEM SEPARATOR
+        MENUITEM "&About DibView...",           IDM_ABOUT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy",                       IDM_COPY
+        MENUITEM "&Paste",                      IDM_PASTE
+    END
+    POPUP "&Palette"
+    BEGIN
+        MENUITEM "&DIB's",                      IDM_PALDIB
+        MENUITEM "&System's",                   IDM_PALSYS
+        MENUITEM "&Animate",                    IDM_PALANIMATE
+        MENUITEM "&Restore",                    IDM_PALRESTORE
+    END
+    MENUITEM "&Options!",                   IDM_OPTIONS, GRAYED
+    POPUP "&Capture"
+    BEGIN
+        MENUITEM "&Window",                     IDM_CAPTWINDOW
+        MENUITEM "&Client Area",                IDM_CAPTCLIENT
+        MENUITEM "&Desktop",                    IDM_CAPTFULLSCREEN
+        MENUITEM SEPARATOR
+        MENUITEM "&Hide Window on Capture",     IDM_CAPTUREHIDE, CHECKED
+    END
+    POPUP "&Window", GRAYED
+    BEGIN
+        MENUITEM "&Tile",                       IDM_WINDOWTILE
+        MENUITEM "&Cascade",                    IDM_WINDOWCASCADE
+        MENUITEM "Arrange &Icons",              IDM_WINDOWICONS
+        MENUITEM "Close &All",                  IDM_WINDOWCLOSEALL
+    END
+END
+
+PALMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&Square Size"
+    BEGIN
+        MENUITEM "&Tiny",                       IDM_PAL_TINY
+        MENUITEM "&Small",                      IDM_PAL_SMALL
+        MENUITEM "&Medium",                     IDM_PAL_MEDIUM
+        MENUITEM "&Large",                      IDM_PAL_LARGE
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUTDLG DIALOG DISCARDABLE  31, 51, 146, 77
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "DibView"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Microsoft Windows 3.1",-1,0,5,144,8,NOT WS_GROUP
+    CTEXT           "DibView v1.0",-1,0,14,144,8,NOT WS_GROUP
+    CTEXT           "Copyright \251 1989-1991 Microsoft Corp.",-1,5,47,132,9,
+                    NOT WS_GROUP
+    DEFPUSHBUTTON   "Ok",IDOK,53,59,32,14,WS_GROUP
+    ICON            "MyIcon",-1,2,5,0,0
+END
+
+FILEOPEN DIALOG DISCARDABLE  36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Open"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "File &Name:",stc3,6,6,76,10
+    EDITTEXT        edt1,6,16,90,12,ES_LOWERCASE | ES_AUTOHSCROLL | 
+                    ES_OEMCONVERT
+    LISTBOX         lst1,12,28,84,68,LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Directories:",-1,110,6,92,9
+    LTEXT           "",stc1,110,16,92,9
+    LISTBOX         lst2,110,28,92,68,LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "List Files of &Type:",stc2,6,102,90,9
+    COMBOBOX        cmb1,6,112,90,36,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Dri&ves:",stc4,110,102,92,9
+    COMBOBOX        cmb2,110,112,92,68,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | 
+                    CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,208,6,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,208,24,50,14,WS_GROUP
+    PUSHBUTTON      "&Help",psh15,208,46,50,14,WS_GROUP
+    CONTROL         "&Read Only",chx1,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,208,68,50,12
+    PUSHBUTTON      "D&ib Info ...",IDD_INFO,208,95,50,14,WS_GROUP
+END
+
+INFO DIALOG DISCARDABLE  130, 103, 157, 107
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dib Information"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "Name:",-1,10,10,50,8
+    RTEXT           "Format:",-1,11,23,50,8
+    RTEXT           "Width:",-1,10,36,50,8
+    RTEXT           "Height:",-1,10,49,50,8
+    RTEXT           "Colors:",-1,10,62,50,8
+    RTEXT           "Compression:",IDD_COMPHEAD,10,75,50,8
+    LTEXT           "",IDD_NAME,68,10,85,8
+    LTEXT           "",IDD_FORMAT,68,23,85,8
+    LTEXT           "",IDD_WIDTH,68,36,85,8
+    LTEXT           "",IDD_HEIGHT,68,49,85,8
+    LTEXT           "",IDD_COLORS,68,62,85,8
+    LTEXT           "",IDD_COMPRESS,68,75,85,8
+    PUSHBUTTON      "OK",IDOK,56,90,40,14
+END
+
+PRINTDLG DIALOG DISCARDABLE  20, 32, 158, 64
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Printing"
+BEGIN
+    CTEXT           "Printing",-1,0,10,158,8
+    CTEXT           "  0% Done",IDD_PRNPCT,0,25,158,8
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,55,40,48,14
+END
+
+FILESAVE DIALOG DISCARDABLE  36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Open"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "File &Name:",stc3,6,6,76,10
+    EDITTEXT        edt1,6,16,90,12,ES_LOWERCASE | ES_AUTOHSCROLL | 
+                    ES_OEMCONVERT
+    LISTBOX         lst1,12,28,84,68,LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Directories:",-1,110,6,92,9
+    LTEXT           "",stc1,110,16,92,9
+    LISTBOX         lst2,110,28,92,68,LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "List Files of &Type:",stc2,6,102,90,9
+    COMBOBOX        cmb1,6,112,90,36,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Dri&ves:",stc4,110,102,92,9
+    COMBOBOX        cmb2,110,112,92,68,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | 
+                    CBS_AUTOHSCROLL | CBS_SORT | CBS_HASSTRINGS | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,208,6,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,208,24,50,14,WS_GROUP
+    PUSHBUTTON      "&Help",psh15,208,46,50,14,WS_GROUP
+    CONTROL         "&Read Only",chx1,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,208,68,50,12
+    PUSHBUTTON      "F&ile Type...",IDD_FILETYPE,208,94,50,14
+    GROUPBOX        "&File Type:",IDD_FILETYPEGROUP,6,141,98,42,WS_GROUP
+    CONTROL         "R&GB",IDD_RGB,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,
+                    19,152,39,10
+    CONTROL         "R&LE4",IDD_RLE4,"Button",BS_AUTORADIOBUTTON,63,152,39,
+                    10
+    CONTROL         "RL&E8",IDD_RLE8,"Button",BS_AUTORADIOBUTTON,19,167,39,
+                    10
+    CONTROL         "&PM",IDD_PM,"Button",BS_AUTORADIOBUTTON,63,168,39,10
+    GROUPBOX        "&Bits Per Pixel:",IDD_BPP,122,141,86,42,WS_GROUP
+    CONTROL         "&1",IDD_1,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,138,
+                    152,24,10
+    CONTROL         "&4",IDD_4,"Button",BS_AUTORADIOBUTTON,173,152,24,10
+    CONTROL         "&8",IDD_8,"Button",BS_AUTORADIOBUTTON,138,167,24,10
+    CONTROL         "&24",IDD_24,"Button",BS_AUTORADIOBUTTON,173,167,24,10
+END
+
+OPTIONSSTRETCH DIALOG DISCARDABLE  12, 36, 204, 148
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Stretch Options for the Display and Printer"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Display",GB_DISPLAY,4,0,92,102
+    GROUPBOX        "Printer",GB_PRINTER,104,0,92,102
+    CONTROL         "Use &DDBs",IDRB_USEDDBS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,8,12,84,10
+    CONTROL         "Use DIBs (to d&evice)",IDRB_USEDIBS,"Button",
+                    BS_AUTORADIOBUTTON,8,24,84,10
+    CONTROL         "Use DIBs (to &memory)",IDRB_USESETDIBITS,"Button",
+                    BS_AUTORADIOBUTTON,8,36,84,10
+    CONTROL         "&Stretch to Window",IDRB_STRETCHWINDOW,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,8,56,84,12
+    CONTROL         "&Best Fit",IDRB_BESTFIT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,112,12,80,12
+    CONTROL         "Stretch to &Page",IDRB_STRETCH,"Button",
+                    BS_AUTORADIOBUTTON,112,24,80,12
+    CONTROL         "S&cale",IDRB_SCALE,"Button",BS_AUTORADIOBUTTON,112,36,
+                    44,12
+    LTEXT           "&X Axis",IDC_XLABEL,132,50,25,8
+    EDITTEXT        IDEF_XAXIS,160,48,26,12
+    LTEXT           "&Y Axis",IDC_YLABEL,132,66,25,8
+    EDITTEXT        IDEF_YAXIS,160,64,26,12
+    CONTROL         "Use Banding",IDRB_USEBANDING,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,112,80,80,10
+    CONTROL         "Use 3.1 Print APIs",IDRB_USE31APIS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,112,90,80,10
+    LTEXT           "",IDEF_HELP,4,110,192,10,WS_BORDER | NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,12,126,75,14
+    PUSHBUTTON      "Cancel",IDCANCEL,116,126,75,14
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PROGNAME            "DibView"
+    IDS_WINBMP              "Windows Bitmap"
+    IDS_PMBMP               "PM Bitmap"
+    IDS_OPENDLG             "Open a Bitmap"
+    IDS_SAVEDLG             "Save Bitmap"
+    IDS_FILEOPEN            "FILEOPEN"
+    IDS_FILESAVE            "FILESAVE"
+    IDS_RGB                 "RGB"
+    IDS_PM                  "PM"
+    IDS_RLE4                "RLE4"
+    IDS_RLE8                "RLE8"
+    IDS_PASTE               "Paste"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_HELP_NORMALWINDOW   "Use default bitmap dimensions"
+    IDS_HELP_STRETCHWINDOW  "Stretch bitmap to fill window"
+    IDS_HELP_USEDIBS        "Display using Device Independent Bitmaps"
+    IDS_HELP_USEDDBS        "Display using Device Dependent Bitmaps"
+    IDS_HELP_USESETDIBITS   "Display using SetDIBits()"
+    IDS_HELP_BESTFIT        "Best proportional fit for print page"
+    IDS_HELP_STRETCH        "Stretch to fill entire page"
+    IDS_HELP_SCALE          "Scale X/Y stretching independently"
+    IDS_HELP_XAXIS          "X Scaling factor"
+    IDS_HELP_YAXIS          "Y Scaling factor"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_HELP_NOBANDING      "Don't band DIB to printer"
+    IDS_HELP_USEBANDING     "Band DIB to printer"
+    IDS_HELP_NO31APIS       "Use 3.0 Escapes"
+    IDS_HELP_USE31APIS      "Use 3.1 Print APIs"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ERRXYSCALE          "X/Y scaling must be integers!"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_CAPTURE             "Capture%d"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PRN_NONE            "No error while printing."
+    IDS_PRN_NODIB           "No DIB passed to DIBPrint()."
+    IDS_PRN_NODC            "Couldn't get a printer DC."
+    IDS_PRN_CANTBAND        "Driver Bug!  NEXTBAND not implemented."
+    IDS_PRN_BANDINFO        "Error during BANDINFO."
+    IDS_PRN_SETDIBITSTODEV  "Error during SetDIBitsToDevice()."
+    IDS_PRN_STRETCHDIBITS   "Error during StretchDIBits()."
+    IDS_PRN_STARTDOC        "Error during STARTDOC."
+    IDS_PRN_SETABORTPROC    "Error during SETABORTPROC."
+    IDS_PRN_STARTPAGE       "Error during StartPage()."
+    IDS_PRN_NEWFRAME        "Error during NEWFRAME."
+    IDS_PRN_ENDDOC          "Error during ENDOC."
+    IDS_PRN_NEXTBAND        "Error during NEXTBAND."
+    IDS_PRN_NOFNSTARTDOC    "Couldn't find StartDoc() in GDI."
+    IDS_PRN_NOFNSETABORTPROC"Couldn't find SetAbortProc() in GDI."
+    IDS_PRN_NOFNSTARTPAGE   "Couldn't find StartPage() in GDI."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PRN_NOFNENDPAGE     "Couldn't find EndPage() in GDI."
+    IDS_PRN_NOFNENDDOC      "Couldn't find EndDoc() in GDI."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_PAL_RGB             "RGB"
+    IDS_PAL_RESERVED        "PC_RESERVED"
+    IDS_PAL_EXPLICIT        "PCEXPLICIT"
+    IDS_PAL_ERROR           "Error"
+    IDS_PAL_NOCOLLAPSE      "PC_NOCOLLAPSE"
+    IDS_PAL_NOPAL           "No palette"
+    IDS_PAL_DISPRGB         "RGB (%3d, %3d, %3d) Entry %3d of %3d F = %s"
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""dibview.h""\r\n"
+    "#include ""file.h""\r\n"
+    "#include ""palette.h""\r\n"
+    "#include ""options.h""\r\n"
+    "#include ""print.h""\r\n"
+    "#include ""dlgs.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,16 @@
+NAME	     EditFile
+
+DESCRIPTION  'Sample Microsoft Windows Application'
+
+EXETYPE      WINDOWS
+
+STUB	     'WINSTUB.EXE'
+
+CODE	     PRELOAD MOVEABLE
+DATA	     PRELOAD MOVEABLE MULTIPLE
+
+HEAPSIZE     0xAFFF   ; 45k
+
+EXPORTS
+	MainWndProc	@1
+	About		@2

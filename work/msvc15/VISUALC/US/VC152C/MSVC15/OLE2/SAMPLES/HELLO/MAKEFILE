@@ -1,0 +1,158 @@
+####
+#makefile - makefile for hello.exe
+#
+#       Copyright (C) 1992, Microsoft Corporation
+#
+#Purpose:
+#  Builds the OLE 2.0 sample IDispatch server, hello.exe.
+#
+#
+#  Usage: NMAKE                 ; build with defaults
+#     or: NMAKE option          ; build with the given option(s)
+#     or: NMAKE clean           ; erase all compiled files
+#
+#     option:
+#       DEBUG=[0|1]             ; DEBUG=1 is the default
+#       HOST=[DOS | NT]         ; HOST=DOS (for win16)
+#                               ; HOST=NT (for win32)
+#
+#Notes:
+#  This makefile assumes that the PATH, INCLUDE and LIB environment
+#  variables are setup properly.
+#
+##############################################################################
+
+
+##########################################################################
+#
+# Default Settings
+#
+
+!ifndef HOST
+!if "$(OS)" != "Windows_NT"
+HOST  = DOS
+!else
+HOST = NT
+!endif
+!endif
+
+!if "$(DEBUG)" == ""
+DEBUG = 1
+!endif
+
+##########################################################################
+#
+# WIN16 Settings
+#
+
+CC   = cl
+LINK = link
+!if "$(HOST)" == "DOS"
+WX   = wx /w
+!else
+WX   =
+!endif
+
+RCFLAGS = /DWIN16
+CFLAGS = /W3 /AM /GA /GEs /DWIN16
+LINKFLAGS = /NOD /NOI /BATCH /ONERROR:NOEXE
+
+LIBS = libw.lib mlibcew.lib
+
+!if "$(DEBUG)" == "1"
+CFLAGS = $(CFLAGS) /Od /Zi /D_DEBUG
+LINKFLAGS = $(LINKFLAGS) /COD
+!else
+CFLAGS = $(CFLAGS) /Ox
+LINKFLAGS = $(LINKFLAGS) /FAR /PACKC
+!endif
+
+##########################################################################
+#
+# Build rules
+#
+
+.cpp.obj:
+	$(CC) $(CFLAGS) /c $<
+
+.c.obj:
+	$(CC) $(CFLAGS) /c $<
+
+
+##########################################################################
+#
+# Application Settings
+#
+
+APPS = hello
+
+LIBS = ole2.lib compobj.lib ole2disp.lib typelib.lib $(LIBS)
+
+OBJS = \
+	main.obj     \
+	hello.obj    \
+	hellopro.obj \
+	clsid.obj
+
+
+##########################################################################
+#
+# Default Goal
+#
+
+goal : $(APPS).exe
+
+##########################################################################
+#
+# Clean (erase) generated files
+#
+clean :
+	if exist *.obj       del *.obj
+	if exist $(APPS).exe del $(APPS).exe
+	if exist $(APPS).tlb del $(APPS).tlb
+	if exist $(APPS).map del $(APPS).map
+	if exist $(APPS).res del $(APPS).res
+	if exist $(APPS).rs  del $(APPS).rs
+	if exist ihello.h    del ihello.h
+	if exist *.log       del *.log
+	if exist *.pdb       del *.pdb
+
+##########################################################################
+#
+# Application Build (WIN16 Specific)
+#
+
+$(APPS).exe : $(OBJS) $(APPS).def $(APPS).res $(APPS).ico
+	link $(LINKFLAGS) @<<
+$(OBJS),
+$@,,
+$(LIBS),
+$(APPS).def
+<<
+	rc /k /t $(APPS).res $@
+
+##########################################################################
+#
+# Application Build (Common)
+#
+
+$(APPS).res : $(APPS).rc
+	rc $(RCFLAGS) /r /fo$@ $?
+
+##########################################################################
+#
+# Dependencies
+#
+
+ihello.h : hello.odl
+	if exist ihello.h  del ihello.h
+	if exist hello.tlb  del hello.tlb
+	$(WX) mktyplib /nocpp /h ihello.h /o hello.log /tlb hello.tlb hello.odl
+
+main.obj : main.cpp hello.h ihello.h
+
+hello.obj : hello.cpp hello.h resource.h
+
+hellopro.obj : hellopro.cpp hello.h ihello.h
+
+clsid.obj : clsid.c clsid.h

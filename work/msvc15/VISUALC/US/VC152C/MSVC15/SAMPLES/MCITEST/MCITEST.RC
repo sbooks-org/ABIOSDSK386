@@ -1,0 +1,188 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  30, 50, 160, 75
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "MCITest"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Microsoft Windows",-1,33,5,127,8,NOT WS_GROUP
+    CTEXT           "with Multimedia Extensions 1.0",-1,34,14,126,8,NOT 
+                    WS_GROUP
+    CTEXT           "MCI Test Sample Application",-1,34,29,126,8,NOT 
+                    WS_GROUP
+    CTEXT           "(C) Microsoft Corp. 1991. All rights reserved.",-1,0,47,
+                    160,9,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,60,59,32,14,WS_GROUP
+    ICON            "AppIcon",-1,5,8,18,20
+END
+
+IDD_DEVICES DIALOG DISCARDABLE  1, 10, 120, 113
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+BEGIN
+    LISTBOX         ID_DEVICE_LIST,4,4,109,81,WS_VSCROLL
+    DEFPUSHBUTTON   "OK",ID_END_DEVICE_LIST,40,92,36,12
+END
+
+IDD_ERRORDLG DIALOG DISCARDABLE  55, 44, 146, 70
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+BEGIN
+    LTEXT           "Error sending command.",-1,41,12,84,8,NOT WS_GROUP
+    PUSHBUTTON      "&Abort",IDABORT,9,52,32,14
+    PUSHBUTTON      "&Continue",IDOK,53,52,40,14
+    PUSHBUTTON      "&Ignore",IDIGNORE,105,52,32,14
+    ICON            "#32515",-1,15,7,16,16
+    CTEXT           "Use Abort to stop, Continue to resume, or Ignore to resume and ignore errors.",
+                    -1,5,28,139,19,NOT WS_GROUP
+END
+
+IDD_MCITEST DIALOG DISCARDABLE  0, 10, 256, 197
+STYLE WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "MCI TEST"
+BEGIN
+    EDITTEXT        ID_INPUT,5,3,245,93,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_NOHIDESEL | WS_VSCROLL
+    LTEXT           "",ID_OUTPUT,42,102,208,11,WS_BORDER | NOT WS_GROUP
+    LTEXT           "",ID_ERRORCODE,42,117,134,49,WS_BORDER | NOT WS_GROUP
+    LTEXT           "Error:",-1,20,118,18,10,NOT WS_GROUP
+    LTEXT           "MCI Output:",-1,2,104,38,10,NOT WS_GROUP
+    DEFPUSHBUTTON   "Ok",IDD_ABOUTBOX,0,0,0,0,NOT WS_TABSTOP
+    PUSHBUTTON      "&Go!",ID_GO,42,169,40,14
+    PUSHBUTTON      "&Step",ID_STEP,89,169,40,14
+    PUSHBUTTON      "E&xit",ID_EXIT,136,169,40,14
+    GROUPBOX        "Notification",-1,185,114,65,52,WS_TABSTOP
+    RADIOBUTTON     "Successful",ID_NOT_SUCCESS,190,124,47,10,WS_TABSTOP
+    RADIOBUTTON     "Superseded",ID_NOT_SUPER,190,134,52,10,WS_TABSTOP
+    RADIOBUTTON     "Aborted",ID_NOT_ABORT,190,144,38,10,WS_TABSTOP
+    RADIOBUTTON     "Failure",ID_NOT_FAIL,190,154,38,10,WS_TABSTOP
+    LTEXT           "Run Count:",-1,183,172,44,10,NOT WS_GROUP
+    EDITTEXT        ID_RUNCOUNT,228,171,21,12,ES_AUTOHSCROLL | NOT 
+                    WS_TABSTOP
+END
+
+DLGOPENBOX DIALOG DISCARDABLE  61, 25, 262, 133
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Open File &Name:",DLGOPEN_STATIC,5,13,66,9
+    EDITTEXT        DLGOPEN_EDIT,81,13,114,12,ES_AUTOHSCROLL | ES_OEMCONVERT | 
+                    WS_GROUP
+    LTEXT           "&Files:",-1,5,28,60,9,NOT WS_GROUP
+    LISTBOX         DLGOPEN_FILE_LISTBOX,5,38,90,87,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_GROUP | 
+                    WS_TABSTOP
+    LTEXT           "Directory is:",-1,104,38,47,9,NOT WS_GROUP
+    LTEXT           "Invalid drive",DLGOPEN_PATH,152,38,106,9
+    LTEXT           "&Directories:",-1,104,49,60,9,NOT WS_GROUP
+    LISTBOX         DLGOPEN_DIR_LISTBOX,103,59,90,65,LBS_SORT | 
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,213,5,45,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,213,21,45,14,WS_GROUP
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+IDI_MCITEST             ICON    DISCARDABLE     "mcitest.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDM_MCITEST MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...",                    MENU_OPEN
+        MENUITEM "&Save",                       MENU_SAVE
+        MENUITEM "Save &As...",                 MENU_SAVEAS
+        MENUITEM SEPARATOR
+        MENUITEM "&About...",                   MENU_ABOUT
+        MENUITEM "E&xit",                       MENU_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tAlt+Bksp",             772
+        MENUITEM "Cu&t\tShift+Del",             768
+        MENUITEM "&Copy\tCtrl+Ins",             769
+        MENUITEM "&Paste\tShift+Ins",           770
+        MENUITEM "C&lear\tDel",                 771
+    END
+    MENUITEM "&Devices!",                   MENU_DEVICES
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDA_MCITEST ACCELERATORS MOVEABLE PURE 
+BEGIN
+    VK_BACK,        772,                    VIRTKEY,ALT
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

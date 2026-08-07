@@ -1,0 +1,134 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+APPICON                 ICON    DISCARDABLE     "CropDIB.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+CROPDIBBOX DIALOG DISCARDABLE  50, 50, 218, 156
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CropDIB"
+BEGIN
+    LTEXT           "&Input File or Pattern:",201,6,8,74,10,NOT WS_GROUP
+    EDITTEXT        ID_INPUTFILEEDIT,80,6,132,12
+    LTEXT           "&Output File or Pattern:",202,6,24,74,10,NOT WS_GROUP
+    EDITTEXT        ID_OUTPUTFILEEDIT,80,22,132,12
+    LTEXT           "Example Pattern:  frm%02d.dib means frm00.dib, frm01.dib...",
+                    203,6,40,206,10,NOT WS_GROUP
+    GROUPBOX        "&Crop Rectangle",204,6,54,170,62
+    LTEXT           "&Upper-Left Corner:",205,12,66,70,10,NOT WS_GROUP
+    RTEXT           "x",206,80,66,9,8,NOT WS_GROUP
+    EDITTEXT        ID_XEDIT,92,64,28,12
+    RTEXT           "y",207,128,66,9,8,NOT WS_GROUP
+    EDITTEXT        ID_YEDIT,140,64,28,12
+    LTEXT           "&Dimensions:",208,12,82,70,10,NOT WS_GROUP
+    RTEXT           "w",209,80,82,9,8,NOT WS_GROUP
+    EDITTEXT        ID_WEDIT,92,80,28,12
+    RTEXT           "h",210,128,82,9,8,NOT WS_GROUP
+    EDITTEXT        ID_HEDIT,140,80,28,12
+    LTEXT           "&Brighten By:",220,12,98,70,10,NOT WS_GROUP
+    EDITTEXT        ID_BRIGHTEDIT,92,96,28,12
+    DEFPUSHBUTTON   "B&egin",IDOK,182,62,30,14
+    PUSHBUTTON      "E&xit",IDCANCEL,182,80,30,14
+    LTEXT           "Note: to copy without cropping, leave dimensions zero",
+                    ID_STATUSTEXT,6,124,206,24,NOT WS_GROUP
+END
+
+ABOUTBOX DIALOG DISCARDABLE  30, 50, 160, 75
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "CropDIB"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Microsoft Windows",-1,0,5,160,8,NOT WS_GROUP
+    CTEXT           "with Multimedia Extensions 1.0",-1,0,14,160,8,NOT 
+                    WS_GROUP
+    CTEXT           "CropDIB Sample Application",-1,0,29,160,8,NOT WS_GROUP
+    CTEXT           "(C) Microsoft Corp. 1991. All rights reserved.",-1,0,47,
+                    160,9,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,60,59,32,14,WS_GROUP
+    ICON            "AppIcon",-1,2,5,0,0
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_APPNAME             "CropDIB"
+    IDS_CANTOPENFILE        "Cannot open file '%ls'."
+    IDS_ERRORWRITING        "Error writing file '%ls'."
+    IDS_ERRORREADING        "Error reading file '%ls'."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_OUTOFMEMORY         "Out of memory."
+    IDS_INTERNALERROR       "Internal error %d."
+    IDS_CANTLOADDIBDRV      "Cannot load DIB.DRV."
+    IDS_FORMATNOTSUPPORTED  "Cannot work with 24-bit DIBs."
+END
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

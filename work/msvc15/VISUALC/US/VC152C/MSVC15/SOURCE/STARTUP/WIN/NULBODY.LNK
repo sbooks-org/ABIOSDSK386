@@ -1,0 +1,4 @@
+nulbody wcrt0 crt0dat crt0msg nmsghdr +
+stdargv stdalloc stdenvp qwcinit +
+wchkstk stubmain
+nulbody/NOI/MAP/NOE/PM:VIO

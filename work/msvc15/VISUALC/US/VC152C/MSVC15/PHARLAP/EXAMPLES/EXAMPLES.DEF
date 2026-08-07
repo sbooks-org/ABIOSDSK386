@@ -1,0 +1,6 @@
+; This line is required to magically invoke LITE286 when the app's
+; name is typed on the command line.
+STUB 'gorun286.exe'
+; This line is not required, but it makes Windows less likely
+; to complain about the resulting executable.
+EXETYPE OS2

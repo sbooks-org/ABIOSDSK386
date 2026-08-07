@@ -1,0 +1,20 @@
+NAME Rotary
+
+DESCRIPTION 'Rotray Control Sample by NigelT'
+
+STUB 'WINSTUB.EXE'
+EXETYPE WINDOWS
+
+CODE MOVEABLE
+DATA MOVEABLE MULTIPLE PRELOAD
+
+HEAPSIZE  2000
+
+SEGMENTS
+    _TEXT           DISCARDABLE PRELOAD   
+
+
+
+EXPORTS
+    MainWndProc     @1  
+    RotaryWndProc   @2

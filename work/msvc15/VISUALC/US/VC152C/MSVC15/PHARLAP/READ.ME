@@ -1,0 +1,150 @@
+
+	      Welcome to 286|DOS-Extender (TM) Lite !!
+
+Technical Support             Email: tech-support@pharlap.com
+Phar Lap Software, Inc.         BBS: +1 617 661 1009 (300-9600, 8N1)
+60 Aberdeen Ave.              Voice: +1 617 661 1510
+Cambridge, MA  02138            FAX: +1 617 876 2972
+
+Welcome, and thank you for using Phar Lap's 286|DOS-Extender Lite 3.0.
+Lite is a special trial version of Phar Lap's award-winning
+286|DOS-Extender SDK designed for users of Microsoft's Visual C++ 1.5.  If
+you enjoy using 286|DOS-Extender Lite, we hope that you will consider
+purchasing our full-featured SDK.
+
+These notes explain how to install Lite on your hard disk, provide a
+simple description of building one of the example programs, and describe
+other documentation files on this diskette.  A complete description of how
+to compile for protected mode can be found in LITE286.DOC, described
+below.
+
+286|DOS-Extender Lite is a product of Phar Lap Software, Inc.  If you
+you require assistance during installation, please contact Phar Lap
+Software Technical Support.  Please do not contact Microsoft Corporation
+with questions about this product.
+
+*******************************************************************************
+			Other Documentation
+*******************************************************************************
+
+There are several other files which contain valuable information about
+286|DOS-Extender Lite.  These files are copied to a subdirectory called
+DOC during installation.
+
+LITE286.DOC contains the "286|DOS-Extender Lite User's Guide."
+It explains how to compile and run DOS-extended programs after installing
+Lite.  You may want to print this file and keep it handy as a reference
+while you are writing programs for Lite.  LITE286.HLP is the same information
+in WinHelp format.
+
+LITEINFO is a short description of 286|DOS-Extender Lite, and contains an
+overview of the major differences between Lite and our full-featured SDK.
+It is identical to the text that is displayed if you run LITE286.EXE with
+no arguments or options.
+
+INTL.DLR contains a list of overseas dealers.  If you are outside the USA,
+please feel free to contact either Phar Lap or one of these dealers for
+technical support, or to order your 286|DOS-Extender SDK.
+
+ORDER.FRM provides a convenient way to purchase 286|DOS-Extender SDK.
+
+
+*******************************************************************************
+			Installation
+*******************************************************************************
+
+Installing 286|DOS-Extender Lite is a two-step process.  First, you must
+copy all of the files from the distribution media to your hard drive.  This
+step is normally accomplished by running Visual C++'s setup program.
+You must be certain to install "MS-DOS EXE Files" from the "Run-Time
+Library Options" dialog box in setup.
+
+For our examples, we assume you have installed Visual C++ in C:\MSVC.  If
+you have installed it elsewhere, modify these instructions accordingly.
+
+Second, you must build a special, protected-mode version of the C run-time
+library.  After you have completed both of these steps, you are ready to
+start building protected mode applications!
+
+Instead of using the large-model real-mode LLIBCE.LIB that comes with
+Visual C++, 286|DOS-Extender Lite requires a protected-mode library called
+LLIBCEP.LIB.  LLIBCEP.LIB is based on LLIBCE.LIB but contains some small
+but important modifications for protected mode.  The batch program
+\MSVC\PHARLAP\MSVC\LIB\MKLIB.BAT creates LLIBCEP.LIB from a copy of
+LLIBCE.LIB.  The new library is created in \MSVC\PHARLAP\MSVC\LIB.  MKLIB.BAT
+does not in any way modify files elsewhere in the \MSVC directory tree.
+
+MKLIB.BAT should be executed while \MSVC\PHARLAP\MSVC\LIB is the current
+directory:
+
+	C:\> cd \msvc\pharlap\msvc\lib
+	C:\MSVC\PHARLAP\MSVC\LIB> mklib l e \msvc\lib
+
+MKLIB.BAT invokes LIB.EXE from Microsoft Visual C++ 1.5 -- if MKLIB.BAT
+fails, check that you installed Visual C++ correctly, and that \MSVC\BIN
+is in your PATH environment variable.
+
+
+*******************************************************************************
+			Building Sample Executables
+*******************************************************************************
+
+The Microsoft Visual C++ compiler, CL.EXE, is capable of creating
+protected-mode executables using the (nearly undocumented) "-Lp" switch,
+and the "STUB" directive of a .DEF file.  An example of creating a
+protected-mode program is presented here.
+
+LITE286.DOC provides complete details of the build process; it also
+describes LITE286.EXE and GORUN286.EXE, the programs which actually load
+and execute your program in protected mode.
+
+
+Microsoft Visual C++ -- Compiling with CL
+-----------------------------------------
+
+CL.EXE uses certain environment variables to control its operations.
+These variables are not strictly required, but we will use them in this
+demonstration.  For complete information about LIB and INCLUDE, please
+consult the Microsoft documentation.
+
+The LIB environment variable contains a list of directories in which to
+search for libraries.  This list must include Lite's library directory in
+addition to Visual C++'s.
+
+The PATH environment variable must include both Lite's executable
+directory and Visual C++'s.
+
+	C:\MSVC\PHARLAP\EXAMPLES> set LIB=\msvc\pharlap\msvc\lib;\msvc\lib
+	C:\MSVC\PHARLAP\EXAMPLES> set PATH=\dos;\msvc\bin;\msvc\pharlap\bin
+	C:\MSVC\PHARLAP\EXAMPLES> set INCLUDE=\msvc\include;\msvc\pharlap\inc
+
+	C:\MSVC\PHARLAP\EXAMPLES> cl -AL -Lp hello.c
+	C:\MSVC\PHARLAP\EXAMPLES> bind286 hello.exe
+	C:\MSVC\PHARLAP\EXAMPLES> hello
+	Hello from protected mode!
+
+	C:\MSVC\PHARLAP\EXAMPLES> cl -AL -Lp hello.c
+					\msvc\pharlap\msvc\lib\example.def
+	C:\MSVC\PHARLAP\EXAMPLES> hello.exe
+	Hello from protected mode!
+
+In the first example, the "stub loader," that is, the real-mode code
+required to load 286|DOS-Extender Lite, is attached to hello.exe by the
+program BIND286.EXE.  In the second example, EXAMPLE.DEF directs the
+Microsoft linker (LINK.EXE) to include the stub loader.  More information
+about the default stub loader, GORUN286.EXE, is in LITE286.DOC.
+
+
+
+*******************************************************************************
+				What Next?
+*******************************************************************************
+
+You have now completely installed 286|DOS-Extender Lite, and are ready to
+build multimegabyte programs.  Please read the file LITE286.DOC for more
+information on protected-mode programming.
+
+We sincerely hope that you find 286|DOS-Extender Lite both useful and easy
+to use.  If Lite makes you more productive, then consider what our
+full-featured 286|DOS-Extender SDK can do for you!  Ordering information
+is contained in the files LITEINFO, ORDER.FRM, and INTL.DLR.

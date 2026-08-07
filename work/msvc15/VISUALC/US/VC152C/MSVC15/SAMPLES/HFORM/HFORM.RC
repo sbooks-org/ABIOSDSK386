@@ -1,0 +1,110 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "hfres.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+iconHform               ICON    DISCARDABLE     "hform.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+menuMain MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Clear All",                  miClearAll
+        MENUITEM "&Dialog...",                  miSampleDlg
+        MENUITEM SEPARATOR
+        MENUITEM "Delay Directions &Recognition",miDelayRecog
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       miExit
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+SAMPLEH DIALOG DISCARDABLE  10, 10, 148, 60
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Hform Sample"
+BEGIN
+    LTEXT           "Sample:",IDC_SAMPLE,4,4,130,10
+    EDITTEXT        IDC_EDIT,4,16,108,12
+    DEFPUSHBUTTON   "&OK",IDOK,4,32,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,58,32,50,14
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDHFORM ACCELERATORS MOVEABLE PURE 
+BEGIN
+    VK_TAB,         miNextField,            VIRTKEY 
+    VK_TAB,         miPrecField,            VIRTKEY,SHIFT
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""hfres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

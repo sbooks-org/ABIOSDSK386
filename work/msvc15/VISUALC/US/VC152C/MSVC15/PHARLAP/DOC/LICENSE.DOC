@@ -1,0 +1,128 @@
+Binary License Agreement
+Phar Lap Software, Inc.
+
+
+You, the Licensee, assume responsibility for the selection of the 
+program to achieve your intended results, and for the installation, 
+use, and results obtained from the program.
+
+IF YOU USE, COPY, MODIFY, OR TRANSFER THE PROGRAM, OR ANY COPY, 
+MODIFICATION, OR MERGED PORTION, IN WHOLE OR PART, EXCEPT AS EXPRESSLY 
+PROVIDED FOR IN THIS LICENSE, YOUR LICENSE IS AUTOMATICALLY TERMINATED.
+
+
+LICENSE: You may:
+
+Use the program on a single machine and copy the program into any 
+machine-readable or printed form for backup or support of your use of 
+the program on the single machine.
+
+Modify the program and/or merge it into another program for your use 
+on the single machine.  Any portion of the program merged into another 
+program will continue to be subject to the terms of this Agreement.  
+You must reproduce and include the copyright notice on any copy, 
+modification, or portion merged into another program.
+
+Transfer the program and license to another party if the other party 
+agrees to accept the terms and conditions of this Agreement.  If you 
+transfer the program, you must at the same time either transfer all 
+copies, whether in machine readable or printed form, to the same party 
+or destroy any copies not transferred; this includes all modifications 
+and portions of the program merged into other programs.
+
+
+TERM
+
+The license is effective on the date you accept this agreement, and 
+remains in effect until terminated as indicated above or until you 
+terminate it.  If the license is terminated for any reason, you agree 
+to destroy the program together with all copies, modifications, and 
+merged portions in any form.
+
+WARRANTY DISCLAIMER
+
+THE PROGRAM IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER 
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  
+THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS 
+WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU (AND NOT PHAR LAP 
+SOFTWARE, INC. OR ITS DEALERS) ASSUME THE ENTIRE COST FOR ALL 
+NECESSARY REPAIR OR CORRECTION.
+
+SOME STATES DO NOT ALLOW THE EXCLUSIONS OF IMPLIED WARRANTIES, SO THE 
+ABOVE EXCLUSION MAY NOT APPLY TO YOU.  THIS WARRANTY GIVES YOU 
+SPECIFIC LEGAL RIGHTS AND YOU MAY ALSO HAVE OTHER RIGHTS WHICH VARY 
+FROM STATE TO STATE.
+
+PHAR LAP SOFTWARE, INC. DOES NOT WARRANT THAT THE FUNCTIONS CONTAINED 
+IN THE PROGRAM WILL MEET YOUR REQUIREMENTS OR THAT THE OPERATION OF 
+THE PROGRAM WILL BE UNINTERRUPTED OR ERROR FREE.
+
+
+LIMITATION OF REMEDIES
+
+IN NO EVENT WILL PHAR LAP SOFTWARE, INC. OR ITS DEALERS BE LIABLE TO 
+YOU FOR ANY DAMAGES, INCLUDING LOST PROFITS, LOST SAVINGS, OR OTHER 
+INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING FROM THE USE OR INABILITY 
+TO USE THE PROGRAM (WHETHER OR NOT DUE TO ANY DEFECTS THEREIN) EVEN IF 
+PHAR LAP SOFTWARE, INC. OR ITS DEALERS HAVE BEEN ADVISED OF THE 
+POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY.
+(SOME STATES DO NOT ALLOW THE LIMITATION OR EXCLUSION OF LIABILITY FOR 
+CONSEQUENTIAL DAMAGES SO THE ABOVE LIMITATION MAY NOT APPLY TO YOU.)
+
+
+GENERAL TERMS
+
+This Agreement can only be modified by a written agreement signed by 
+you and Phar Lap Software, Inc., and changes from the terms and 
+conditions of this Agreement made in any other manner will be of no 
+effect.  If any portion of this Agreement shall be held invalid, 
+illegal, or unenforceable, the validity, legality, and enforceability 
+of the remainder of the Agreement shall not in any way be affected or 
+impaired thereby.  This Agreement shall be governed by the laws of the 
+Commonwealth of Massachusetts.
+
+ACKNOWLEDGMENT
+
+YOU ACKNOWLEDGE THAT YOU HAVE READ THIS AGREEMENT, UNDERSTAND IT, AND 
+AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.  YOU FURTHER AGREE THAT 
+IT IS THE COMPLETE AND EXCLUSIVE STATEMENT OF THE AGREEMENT BETWEEN 
+YOU AND PHAR LAP SOFTWARE, INC. WHICH SUPERSEDES ALL PROPOSALS OR 
+PRIOR AGREEMENTS, ORAL OR WRITTEN, AND ALL OTHER COMMUNICATIONS 
+BETWEEN YOU AND PHAR LAP SOFTWARE, INC. RELATING TO THE SUBJECT MATTER 
+OF THIS AGREEMENT.
+
+
+ADDENDUM to Binary License Agreement 
+Phar Lap Software, Inc.
+
+This Addendum, together with the Phar Lap Software, Inc. ("Phar Lap") 
+Binary License Agreement, applies only to the use of the Phar Lap 
+example code and programs (the "Example Code") contained in the 
+\EXAMPLES directory of the Phar Lap distribution disks.  Some products 
+may contain Example Code on separate disks labelled "examples" in 
+addition to or in place of the \EXAMPLES directory; this addendum 
+applies to any such Example Code, directories and disks, regardless of 
+the manner or media on which they are provided.
+
+In addition to the permitted uses set forth in the Binary License 
+Agreement, you may:
+
+   Incorporate "Example Code" in any program(s) you develop; however, 
+   you may so incorporate only the object code form, and not the 
+   source code form, of the Example Code into any program(s) you 
+   develop which are distributed, sublicensed or otherwise 
+   transferred by or for you to any person, entity or organization.  
+   You may not incorporate in any program(s) you develop, for any 
+   purpose whatsoever, any other code or programs or any portion of 
+   code or programs contained in any other directory on the 
+   distribution disks.
+
+
+ADDENDUM 2
+Microsoft C/C++ support library, Portions Copyright (C) Microsoft
+Coporation.  These support libraries are neither warranted nor 
+supported by Microsoft Corporation.
+
+Phar Lap Software, Inc. makes no warrantees, express or implied,
+with respect to any of the foregoing support libraries.

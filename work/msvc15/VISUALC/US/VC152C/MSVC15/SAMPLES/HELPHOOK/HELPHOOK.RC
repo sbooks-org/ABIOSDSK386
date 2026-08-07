@@ -1,0 +1,308 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+helphook                ICON    DISCARDABLE     "helphook.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+HELPHOOKMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&Dialogs"
+    BEGIN
+        MENUITEM "Context &1...",               IDM_DLG1
+        MENUITEM "Context &2...",               IDM_DLG2
+        MENUITEM "Context &3...",               IDM_DLG3
+        MENUITEM "Context &4...",               IDM_DLG4
+        MENUITEM "Context &5...",               IDM_DLG5
+        MENUITEM "Context &6...",               IDM_DLG6
+        MENUITEM "Context &7...",               IDM_DLG7
+        MENUITEM "Context &8...",               IDM_DLG8
+        MENUITEM "Context &9...",               IDM_DLG9
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About HelpHook...",          IDM_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUTBOX DIALOG DISCARDABLE  13, 19, 191, 41
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About helphook"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "Microsoft Windows",-1,47,4,101,8
+    CTEXT           "HelpHook Application",-1,47,12,101,8
+    CTEXT           "Version 3.1",-1,47,20,101,8
+    DEFPUSHBUTTON   "OK",IDOK,153,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,153,23,32,14,WS_GROUP
+    LTEXT           "0",ID_HELPCONTEXT,65,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    ICON            helphook,-1,17,12,16,16
+END
+
+IDM_DLG1 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 1"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box1",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "1",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG2 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 2"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box2",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "2",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG3 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 3"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box3",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "3",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG4 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 4"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box4",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "4",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG5 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 5"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box5",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "5",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG6 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 6"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box6",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "6",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG7 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 7"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box7",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "7",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG8 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 8"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box8",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "8",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+IDM_DLG9 DIALOG DISCARDABLE  22, 17, 136, 94
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box 9"
+FONT 6, "Helv"
+BEGIN
+    CTEXT           "HookHelp",-1,0,4,101,8
+    CTEXT           "Dialog Box9",-1,0,12,101,8
+    DEFPUSHBUTTON   "OK",IDOK,102,6,32,14,WS_GROUP
+    PUSHBUTTON      "&Help",ID_HELP,102,23,32,14,WS_GROUP
+    LTEXT           "9",ID_HELPCONTEXT,18,31,20,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    PUSHBUTTON      "Box &1...",IDM_DLG1,2,40,40,14
+    PUSHBUTTON      "Box &2...",IDM_DLG2,48,40,40,14
+    PUSHBUTTON      "Box &3...",IDM_DLG3,94,40,40,14
+    PUSHBUTTON      "Box &4...",IDM_DLG4,2,59,40,14
+    PUSHBUTTON      "Box &5...",IDM_DLG5,48,59,40,14
+    PUSHBUTTON      "Box &6...",IDM_DLG6,94,59,40,14
+    PUSHBUTTON      "Box &7...",IDM_DLG7,2,78,40,14
+    PUSHBUTTON      "Box &8...",IDM_DLG8,48,78,40,14
+    PUSHBUTTON      "Box &9...",IDM_DLG9,94,78,40,14
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,13 @@
+
+NAME         SPOLY
+
+DESCRIPTION  'IDispatch Polygon Test Server'
+
+EXETYPE      WINDOWS
+
+STUB         'WINSTUB.EXE'
+
+CODE         PRELOAD MOVEABLE DISCARDABLE
+DATA         PRELOAD MULTIPLE
+
+HEAPSIZE     4096

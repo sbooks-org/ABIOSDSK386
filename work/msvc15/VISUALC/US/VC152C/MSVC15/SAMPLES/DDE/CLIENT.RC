@@ -1,0 +1,213 @@
+//Microsoft App Studio generated resource script.
+//
+#include "clires.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+CLIENTMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&DDE"
+    BEGIN
+        MENUITEM "&Initiate...",                IDM_INITIATE
+        MENUITEM "&Terminate...",               IDM_TERMINATE
+        MENUITEM "&Advise...",                  IDM_ADVISE
+        MENUITEM "&Unadvise...",                IDM_UNADVISE
+        MENUITEM "&Request...",                 IDM_REQUEST
+        MENUITEM "&Poke...",                    IDM_POKE
+        MENUITEM "&Execute...",                 IDM_EXECUTE
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "Paste &Link",                 IDM_PASTELINK
+        MENUITEM "&Clear...",                   IDM_CLEAR
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About Client...",            IDM_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUT DIALOG DISCARDABLE  22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About Client"
+BEGIN
+    CTEXT           "Microsoft Windows",-1,0,5,144,8
+    CTEXT           "DDE Client Application",-1,0,14,144,8
+    CTEXT           "Version 3.0",-1,0,34,144,8
+    DEFPUSHBUTTON   "OK",IDOK,53,59,32,14,WS_GROUP
+END
+
+INITIATE DIALOG DISCARDABLE  56, 28, 133, 76
+STYLE WS_CAPTION
+CAPTION "Initiate"
+BEGIN
+    LTEXT           "Application:",IDC_CANCEL,12,16,48,8
+    EDITTEXT        IDC_APPLICATION,61,15,66,12,ES_AUTOHSCROLL
+    LTEXT           "Topic:",IDC_CANCEL,12,35,45,8
+    EDITTEXT        IDC_TOPIC,61,33,67,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Ok",IDC_OK,19,53,32,16
+    PUSHBUTTON      "Cancel",IDC_CANCEL,65,53,32,16
+END
+
+TERMINATE DIALOG DISCARDABLE  56, 28, 195, 100
+STYLE WS_CAPTION
+CAPTION "Terminate"
+BEGIN
+    LISTBOX         IDC_CONVBOX,45,12,146,60,WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Ok",IDC_OK,19,78,32,16
+    PUSHBUTTON      "Cancel",IDC_CANCEL,65,78,32,16
+END
+
+ADVISE DIALOG DISCARDABLE  56, 28, 210, 107
+STYLE WS_CAPTION
+CAPTION "Advise"
+BEGIN
+    LTEXT           "hWndServer:",IDC_CANCEL,12,16,48,8
+    COMBOBOX        IDC_CONVBOX,61,15,146,60,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Item:",IDC_CANCEL,12,35,45,8
+    EDITTEXT        IDC_ITEM,61,33,67,12
+    DEFPUSHBUTTON   "Advise",IDC_OK,19,73,40,16
+    PUSHBUTTON      "Done",IDC_CANCEL,73,73,32,16
+END
+
+UNADVISE DIALOG DISCARDABLE  56, 28, 210, 107
+STYLE WS_CAPTION
+CAPTION "Unadvise"
+BEGIN
+    LTEXT           "hWndServer:",IDC_CANCEL,12,16,48,8
+    COMBOBOX        IDC_CONVBOX,61,15,146,60,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Item:",IDC_CANCEL,12,35,45,8
+    EDITTEXT        IDC_ITEM,61,33,67,12
+    DEFPUSHBUTTON   "Unadvise",IDC_OK,19,73,40,16
+    PUSHBUTTON      "Done",IDC_CANCEL,73,73,32,16
+END
+
+REQUEST DIALOG DISCARDABLE  56, 28, 210, 107
+STYLE WS_CAPTION
+CAPTION "Request"
+BEGIN
+    LTEXT           "hWndServer:",IDC_CANCEL,12,16,48,8
+    COMBOBOX        IDC_CONVBOX,61,15,146,60,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Item:",IDC_CANCEL,12,35,45,8
+    EDITTEXT        IDC_ITEM,61,33,67,12
+    LTEXT           "Value:",IDC_CANCEL,12,56,45,8
+    LTEXT           " ",IDC_VALUE,61,56,67,12
+    PUSHBUTTON      "Request",IDC_OK,19,84,32,16
+    PUSHBUTTON      "Done",IDC_CANCEL,65,84,32,16
+END
+
+POKE DIALOG DISCARDABLE  56, 28, 210, 97
+STYLE WS_CAPTION
+CAPTION "Poke"
+BEGIN
+    LTEXT           "hWndServer:",IDC_CANCEL,12,16,48,8
+    COMBOBOX        IDC_CONVBOX,61,15,146,60,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Item:",IDC_CANCEL,12,35,45,8
+    EDITTEXT        IDC_ITEM,61,33,67,12
+    LTEXT           "Value:",IDC_CANCEL,12,56,45,8
+    EDITTEXT        IDC_VALUE,61,56,67,12
+    DEFPUSHBUTTON   "Poke",IDC_OK,19,74,32,16
+    PUSHBUTTON      "Done",IDC_CANCEL,65,74,32,16
+END
+
+CLEAR DIALOG DISCARDABLE  97, 9, 210, 119
+STYLE WS_CAPTION
+CAPTION "Clear"
+BEGIN
+    LTEXT           "This dialog clears a link set by the Edit/Paste Link command.",
+                    IDC_CANCEL,12,8,131,24
+    LTEXT           "hWndServer:",IDC_CANCEL,12,38,48,8
+    COMBOBOX        IDC_CONVBOX,61,37,146,60,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Item:",IDC_CANCEL,12,57,45,8
+    EDITTEXT        IDC_ITEM,61,55,67,12
+    DEFPUSHBUTTON   "Ok",IDC_OK,19,95,40,16
+    PUSHBUTTON      "Cancel",IDC_CANCEL,73,95,32,16
+END
+
+SELECTNEWCONVERSATION DIALOG DISCARDABLE  56, 28, 195, 100
+STYLE WS_POPUP | WS_CAPTION
+CAPTION "Select New Conversation"
+BEGIN
+    LISTBOX         IDC_CONVBOX,45,12,145,57,WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Ok",IDC_OK,19,78,32,16
+    PUSHBUTTON      "Cancel",IDC_CANCEL,65,78,32,16
+END
+
+EXECUTE DIALOG DISCARDABLE  57, 28, 229, 97
+STYLE WS_POPUP | WS_CAPTION
+CAPTION "Execute"
+BEGIN
+    LTEXT           "hWndServer:",IDC_CANCEL,12,19,48,9
+    LTEXT           "Execute String:",-1,12,36,58,8
+    EDITTEXT        IDC_EXECUTE_STRING,71,35,144,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Execute",IDC_OK,24,73,48,16
+    PUSHBUTTON      "Done",IDC_CANCEL,109,72,32,16
+    COMBOBOX        IDC_CONVBOX,71,17,144,60,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "clires.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

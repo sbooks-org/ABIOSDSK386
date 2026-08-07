@@ -1,0 +1,58 @@
+//Microsoft App Studio generated resource script.
+//
+#include "timers.h"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+TIMERMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&Timers"
+    BEGIN
+        MENUITEM "Timer stopped",               cmdStop, CHECKED
+        MENUITEM "WM_TIMER to hwnd",            cmdToHwnd
+        MENUITEM "Call timer proc",             cmdCallProc
+        MENUITEM SEPARATOR
+        MENUITEM "Slow (5 second)",             cmdSlow, CHECKED
+        MENUITEM "Medium (1 second)",           cmdMedium
+        MENUITEM "Fast (.25 second)",           cmdFast
+    END
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "timers.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

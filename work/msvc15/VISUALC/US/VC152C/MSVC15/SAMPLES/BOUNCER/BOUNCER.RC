@@ -1,0 +1,179 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "bouncer.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+ID_APP                  ICON    DISCARDABLE     "bouncer.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+BOUNCEDIB               BITMAP  MOVEABLE PURE   "frog.bmp"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// WAVE
+//
+
+SOUND WAVE MOVEABLE PURE "ribbit.wav"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DLG_SCRNSAVECONFIGURE DIALOG DISCARDABLE  34, 32, 189, 117
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Bouncer"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Time interval:",DEF_INIT_YPOS,5,6,55,8,NOT WS_GROUP
+    EDITTEXT        ID_SPEED,64,4,17,12
+    LTEXT           "ms",DEF_INIT_YPOS,85,6,12,10,NOT WS_GROUP
+    LTEXT           "Initial &X position:",DEF_INIT_YPOS,5,20,58,10,NOT 
+                    WS_GROUP
+    EDITTEXT        ID_XPOS,64,19,17,12
+    LTEXT           "Initial &Y position:",DEF_INIT_YPOS,5,35,57,11,NOT 
+                    WS_GROUP
+    EDITTEXT        ID_YPOS,64,34,17,12
+    LTEXT           "Initial X &velocity:",DEF_INIT_YPOS,5,49,58,12,NOT 
+                    WS_GROUP
+    EDITTEXT        ID_VELOCITY,64,49,17,12
+    LTEXT           "&Gravity:",DEF_INIT_YPOS,5,65,30,10,NOT WS_GROUP
+    EDITTEXT        ID_GRAVITY,64,64,17,12
+    CONTROL         "Bouncing &sound",ID_SOUND,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,116,46,67,13
+    CONTROL         "&Pause at bottom",ID_PAUSE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,116,57,67,13
+    DEFPUSHBUTTON   "OK",IDOK,116,6,67,16,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,116,25,67,16
+    GROUPBOX        "Password Options",-1,5,83,179,30
+    PUSHBUTTON      "&Set Password...",ID_SETPASSWORD,115,92,66,16
+    CONTROL         "&Password Protected",ID_PASSWORDPROTECTED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,9,96,78,10
+END
+
+DLG_CHANGEPASSWORD DIALOG DISCARDABLE  8, 16, 174, 79
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Change Password"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Old Password:",ID_OLDTEXT,4,3,80,14
+    EDITTEXT        ID_ETOLD,84,3,80,14,ES_PASSWORD
+    LTEXT           "&New Password:",ID_NEWTEXT,4,21,80,14
+    EDITTEXT        ID_ETNEW,84,21,80,14,ES_PASSWORD
+    LTEXT           "&Retype New Password:",ID_AGAIN,4,39,80,14
+    EDITTEXT        ID_ETAGAIN,84,39,80,14,ES_PASSWORD
+    DEFPUSHBUTTON   "OK",IDOK,4,59,40,14
+    PUSHBUTTON      "&Help",ID_PASSWORDHELP,64,59,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,124,59,40,14
+END
+
+DLG_ENTERPASSWORD DIALOG DISCARDABLE  250, 175, 170, 96
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "<name of screensaver>"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "The screen saver you are using is password protected.  You must type in the screen saver password to turn off the screen saver.",
+                    -1,31,3,140,40
+    LTEXT           "Password:",ID_PASSWORD,31,45,40,14
+    EDITTEXT        ID_ETPASSWORD,71,45,80,14,ES_PASSWORD
+    DEFPUSHBUTTON   "OK",IDOK,31,66,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,111,66,40,14
+    ICON            "",ID_ICON,3,3,32,32
+END
+
+DLG_INVALIDPASSWORD DIALOG DISCARDABLE  8, 16, 174, 79
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "<name of screen saver>"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            "",ID_ICON,3,3,0,0
+    LTEXT           "Incorrect password;\n\nCheck your screen saver password and try again.",
+                    -1,40,3,130,40
+    DEFPUSHBUTTON   "OK",IDOK,70,50,40,14
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""bouncer.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    idsIsPassword           "PWProtected"
+    idsIniFile              "control.ini"
+    idsScreenSaver          "ScreenSaver"
+    idsPassword             "Password"
+    idsDifferentPW          "The values for New Password and Retype New Password do not match.\n\nTry again."
+    idsChangePW             "Change Password"
+    idsBadOldPW             "The value for Old Password is not correct.\n\nCheck your screen-saver password, and then try again."
+    idsAppName              "ScreenSaver.Bouncer"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    idsNoHelpMemory         "Not enough memory to start Help.\n\nQuit one or more applications to increase available memory, and then try again."
+    idsHelpFile             "control.hlp"
+END
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

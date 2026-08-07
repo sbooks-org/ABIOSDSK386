@@ -1,0 +1,23 @@
+; module-definition file for generic -- used by LINK.EXE
+
+NAME            VerStamp                ;application's module name
+
+DESCRIPTION   'Version Stamp Sample Application'
+
+EXETYPE       WINDOWS                   ;required for all Windows applications
+
+STUB            'WINSTUB.EXE'           ;Generates error message if application
+                            ;is run without Windows
+
+                      ;CODE can be moved in memory
+CODE  PRELOAD MOVEABLE DISCARDABLE    ;and discarded/reloaded
+                      ;DATA must be MULTIPLE if program
+DATA  PRELOAD MOVEABLE MULTIPLE       ;can be invoked more than once
+
+HEAPSIZE      2048
+                      ;All functions that will be called
+                      ;by any Windows routine MUST be exported
+                      
+EXPORTS     WndProc
+            About
+            MoreVerInfo

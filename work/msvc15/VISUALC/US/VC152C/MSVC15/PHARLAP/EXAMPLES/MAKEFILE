@@ -1,0 +1,37 @@
+POPTS=-Lp -AL -DDOSX286
+WOPTS=-W4
+
+all:		big.exe		\
+		dosmem.exe	\
+		memtest.exe	\
+		memtest2.exe	\
+		vidtest.exe	\
+		keys.exe	\
+		keys2.exe	\
+		hello.exe
+
+big.exe: BIG.C
+	cl -f- $(POPTS) $(WOPTS) big.c examples.def
+
+dosmem.exe: DOSMEM.C
+	cl $(POPTS) $(WOPTS) dosmem.c examples.def
+
+memtest.exe: MEMTEST.C
+	cl $(POPTS) $(WOPTS) memtest.c examples.def
+
+memtest2.exe: MEMTEST2.CPP
+	cl $(POPTS) $(WOPTS) memtest2.cpp examples.def
+
+vidtest.exe: VIDTEST.C FULLSCRN.C FULLSCRN.H
+	cl $(POPTS) $(WOPTS) -I..\inc vidtest.c fullscrn.c examples.def
+
+keys2.exe: KEYS2.C
+	cl $(POPTS) $(WOPTS) -I..\inc keys2.c examples.def
+
+keys.exe: KEYS.C
+	cl $(POPTS) $(WOPTS) -I..\inc keys.c examples.def
+
+# We could have used examples.def here, but bind286 works, too.
+hello.exe: HELLO.C
+	cl $(POPTS) $(WOPTS) hello.c 
+	bind286 hello

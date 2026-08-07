@@ -1,0 +1,111 @@
+##############################################################################
+#
+#  (c) Copyright Microsoft Corp. 1992-1993 All Rights Reserved
+#
+#  File:
+#
+#    makefile - makefile for spoly2.exe
+#
+#  Purpose:
+#
+#    Builds the OLE 2.0 sample IDispatch server, spoly2.exe.
+#
+#
+#  Usage:
+#
+#     NMAKE                     ; build with defaults
+#     or: NMAKE option          ; build with the given option(s)
+#     or: NMAKE clean           ; erase all compiled files
+#
+#  Notes:
+#
+#    This makefile assumes that the PATH, INCLUDE and LIB environment
+#    variables are setup properly.
+#
+##############################################################################
+
+
+##########################################################################
+#
+# WIN16 Settings
+#
+
+CC   = cl
+LINK = link
+
+RCFLAGS = /DWIN16
+CFLAGS = /W3 /AM /GA /GEs /DWIN16
+LINKFLAGS = /NOD /NOI /BATCH /ONERROR:NOEXE /STACK:10240
+
+LIBS = libw.lib mlibcew.lib
+
+CFLAGS = $(CFLAGS) /Od /Zi /D_DEBUG $(CL)
+LINKFLAGS = $(LINKFLAGS) /COD
+
+##########################################################################
+#
+# Application Settings
+#
+
+LIBS = ole2.lib compobj.lib ole2disp.lib $(LIBS)
+
+OBJS = \
+		winmain.obj     \
+		cpoly.obj       \
+		cpoint.obj      \
+		cenumpt.obj     \
+		statbar.obj     \
+		clsid.obj       \
+		misc.obj        \
+		tdata.obj
+
+goal: spoly2.exe
+
+clean:
+	if exist spoly2.exe del spoly2.exe
+	if exist spoly2.map del spoly2.map
+	if exist spoly2.res del spoly2.res
+	if exist spoly2.rs  del spoly2.rs
+	if exist *.pdb del *.pdb
+	if exist *.obj del *.obj
+
+##########################################################################
+#
+# Application Build (WIN16 Specific)
+#
+
+spoly2.exe : $(OBJS) spoly2.def spoly2.res spoly2.ico
+		link $(LINKFLAGS) @<<
+$(OBJS),
+$@,,
+$(LIBS),
+spoly2.def
+<<
+		rc /k /t spoly2.res $@
+
+spoly2.res : spoly2.rc resource.h
+		rc $(RCFLAGS) /r /fo$@ spoly2.rc
+
+winmain.obj: winmain.cpp hostenv.h resource.h spoly.h statbar.h
+		$(CC) $(CFLAGS) /c winmain.cpp
+
+cpoint.obj: cpoint.cpp cpoint.h hostenv.h spoly.h statbar.h
+		$(CC) $(CFLAGS) /c cpoint.cpp
+
+cpoly.obj: cpoly.cpp cpoint.h cpoly.h hostenv.h spoly.h statbar.h
+		$(CC) $(CFLAGS) /c cpoly.cpp
+
+clsid.obj: clsid.c clsid.h
+		$(CC) $(CFLAGS) /c clsid.c
+
+cenumpt.obj: cenumpt.cpp cenumpt.h
+		$(CC) $(CFLAGS) /c cenumpt.cpp
+
+statbar.obj: statbar.cpp statbar.h
+		$(CC) $(CFLAGS) /c statbar.cpp
+
+misc.obj: misc.cpp hostenv.h spoly.h
+		$(CC) $(CFLAGS) /c misc.cpp
+
+tdata.obj: tdata.cpp
+		$(CC) $(CFLAGS) /c tdata.cpp

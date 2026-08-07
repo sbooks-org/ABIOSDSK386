@@ -1,0 +1,18 @@
+NAME    MCITEST
+
+DESCRIPTION 'Multimedia Windows MCI Test Application'
+
+STUB    'WINSTUB.EXE'
+EXETYPE WINDOWS
+
+CODE    MOVEABLE DISCARDABLE PRELOAD
+DATA	MOVEABLE MULTIPLE PRELOAD
+
+HEAPSIZE  4024
+
+EXPORTS
+          DlgfnOpen
+          mcitester
+          ErrDlgFunc
+          AboutDlgProc
+          devices

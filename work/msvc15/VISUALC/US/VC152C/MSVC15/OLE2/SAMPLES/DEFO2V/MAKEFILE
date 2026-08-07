@@ -1,0 +1,85 @@
+# ============================================================================
+# File: M A K E F I L E
+#
+# NMAKE description file for the DEFO2V (OLE2VIEW interface viewer)
+#
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) Microsoft Corporation, 1992-1993.  All Rights Reserved.
+# ============================================================================
+#
+# Usage:    NMAKE           (build DEBUG DLL)
+#           NMAKE DEBUG=0   (build RELEASE DLL)
+#
+# ============================================================================
+
+DEBUG=1
+GOAL: defo2v.dll
+
+PCH=precomp.h
+
+SRCS=precomp.cpp idataobj.cpp idisp.cpp tofile.cpp util.cpp defo2v.cpp
+
+INCS=precomp.h debug.h defo2v.h idataobj.h idisp.h util.h
+
+OBJS=$(SRCS:cpp=obj)
+
+#############################################################################
+
+G_LIBS=ole2 ole2disp compobj storage libw ver commdlg typelib
+
+G_CPPFLAGS=/AMw /GD /GEd /W3 /Zp /G2 /Yu$(PCH) /D_USRDLL
+D_CPPFLAGS=/Zi /Od /f /D_DEBUG
+R_CPPFLAGS=/O1 /DNDEBUG
+G_LINKFLAGS=/NOD /ONERROR:NOEXE /NOE /BATCH
+D_LINKFLAGS=/COD
+R_LINKFLAGS=/FAR /PACKC
+D_LIBS=mdllcew
+R_LIBS=$(D_LIBS)
+
+!if "$(DEBUG)"=="0"
+CPPFLAGS=$(G_CPPFLAGS) $(R_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(R_LINKFLAGS)
+LIBS=$(R_LIBS) $(G_LIBS)
+!else
+CPPFLAGS=$(G_CPPFLAGS) $(D_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(D_LINKFLAGS)
+LIBS=$(D_LIBS) $(G_LIBS)
+!endif #//DEBUG
+
+#############################################################################
+
+precomp.obj: precomp.cpp $(INCS)
+	nmake clean
+	cl $(CPPFLAGS) /Yc$(PCH) /c precomp.cpp
+
+.cpp.obj:
+	$(CPP) @<<
+$(CPPFLAGS) /c $<
+<<
+
+defo2v.dll: $(OBJS) defo2v.res defo2v.def
+	link $(LINKFLAGS) @<<
+$(OBJS: = +^
+),
+defo2v.dll,
+defo2v.MAP/MAP,
+$(LIBS),
+defo2v.def;
+<<
+	rc /k /t defo2v.res defo2v.dll
+
+#############################################################################
+
+clean:
+	if exist *.pch erase *.pch
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.res erase *.res
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw
+
+#############################################################################

@@ -1,0 +1,20 @@
+NAME         DragDrop
+
+DESCRIPTION  'Drag and Drop Client Sample Application for Microsoft Windows 3.1'
+
+EXETYPE      WINDOWS
+
+STUB         'WINSTUB.EXE'
+
+CODE  PRELOAD MOVEABLE DISCARDABLE
+
+DATA  PRELOAD MOVEABLE MULTIPLE
+
+
+HEAPSIZE     1024
+
+
+EXPORTS
+    MainWndProc             @1
+    About                   @2
+    Info

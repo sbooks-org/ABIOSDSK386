@@ -1,0 +1,1710 @@
+
+
+
+
+ 
+ 
+
+                   286|DOS-Extender Lite User's Guide
+ 
+                         Phar Lap Software, Inc.
+                60 Aberdeen Ave., Cambridge, MA  02138
+		       tech-support@pharlap.com
+		       (617) 661-1510 (Voice)
+			(617) 876-2972 (FAX)
+
+			Bulletin Board Service:
+			   (617) 661-1009
+		   300, 1200, 2400, 4800, 9600 baud
+		    8 data, No parity, 1 stop bit
+
+
+
+
+
+
+
+
+
+Copyright (c) 1992-93 Phar Lap Software, Inc.
+
+Fourth Edition November 1993
+
+All rights reserved.  Printed in the United States of America.  No
+part of this publication may be reproduced, stored in a retrieval
+system, or transmitted in any form or by any means, without prior
+written permission of Phar Lap Software, Inc.  Use, duplication, or
+disclosure by the Government is subject to restrictions as set forth
+in subparagraph (c)(1)(ii) of the Rights in Technical Data and
+Computer Software clause at 252.227-7013.
+
+Microsoft C/C++ support library, Portions Copyright (c) Microsoft
+Corporation.
+
+286|DOS-Extender(TM), 286|DOS-Extender Lite(TM), 386|DOS-Extender(TM),
+	and TNT DOS-Extender(TM) are trademarks, and Phar Lap(R) is a
+	registered trademark of Phar Lap Software, Inc.
+
+386MAX(TM) is a trademark of Qualitas, Inc.
+AutoCAD(R) is a registered trademark of Autodesk, Inc.
+COMPAQ(R) is a registered trademark of Compaq Computer Corporation.
+DESQview(TM) and QEMM(TM) are trademarks, and DESQ(R) is a registered 
+	trademark of Quarterdeck Office Systems.
+PC/XT(TM) is a trademark, and IBM(R), AT(R), PS/2(R), and OS/2(R) are 
+	registered trademarks of International Business Machines Corporation.
+287(TM), 386(TM), 387(TM), 486(TM), and i486(TM) are trademarks, and Intel(R) 
+	is a registered trademark of Intel Corporation.
+Interleaf Publisher(R) is a registered trademark of Interleaf, Inc.
+Lotus(R) is a registered trademark of Lotus Development Corporation.
+Mathematica(TM) is a trademark of Wolfram Research Inc.
+Windows(TM) is a trademark, and Microsoft(R), MS(R), MS-DOS(R), and 
+	CodeView(R) are registered trademarks of Microsoft Corporation.
+
+
+
+
+			 Outline of Contents
+ 
+Introduction	       
+
+
+Chapter 1    A Quick Tour of 286|DOS-Extender Lite
+  1.1 Big Malloc
+  1.2 Protected Mode C++
+  1.3 Protected Mode MS-DOS
+  1.4 BIOS Calls in Protected Mode
+  1.5 Compatibility with Industry Standards
+  1.6 What's So Protected About Protected Mode?
+  1.7 Debugging with CVP7 Under MS-DOS (With the 286|DOS-Extender
+      Software Development Kit)
+             The Nuts and Bolts of CVP7
+  1.8 What About Direct Screen Writes?
+  1.9 Summary
+ 
+
+Chapter 2    Using 286|DOS-Extender Lite with Microsoft C/C++
+  2.1 Differences Between Real- and Protected-Mode CL
+  2.2 Linking by Hand
+             CL Switches
+             LINK Switches
+
+
+Chapter 3    Running Protected Mode Applications Under MS-DOS
+  3.1 Compatibility
+  3.2 LITE286 Requirements
+  3.3 Error Messages
+  3.4 LITE286 Command Line Options
+  3.5 The Phar Lap Application Program Interface (PHAPI)
+
+ 
+Further Reading
+
+
+------------
+Introduction
+------------
+
+Welcome to the world beyond 640K!
+
+Now, with your FREE 286|DOS-Extender Lite, it's easy to build
+multi-megabyte Microsoft Visual C++ programs!  286|DOS-Extender Lite
+is a special trial version of Phar Lap Software's award-winning
+286|DOS-Extender Software Development Kit (SDK).  It enables your
+program to break the 640K DOS barrier and access up to 2 MB of
+memory, with no need for overlays or EMS.  Your Extended-DOS programs
+will run under DOS, DESQview and Windows.  
+
+286|DOS-Extender Lite includes all the capabilities you need to build
+and run Extended-DOS programs with Microsoft Visual C++ 1.5,
+Professional Edition.  However, you may want to purchase Phar Lap's
+286|DOS-Extender SDK if you would like the following features: 
+debugger support, access to up to 16 MB of memory, Phar Lap's
+technical support and extensive documentation, and the ability to
+deliver your Extended-DOS application to customers with Phar Lap's 
+286|DOS-Extender Run-Time Kit (RTK).  The following chart outlines the
+differences between 286|DOS-Extender Lite and 286|DOS-Extender SDK. 
+To order your SDK, just fill out the following order form or contact
+Phar Lap.
+
+286|DOS-Extender SDK is available from:    Phar Lap Software, Inc.
+                                           60 Aberdeen Avenue
+     FREE PHAR LAP T-SHIRT               Cambridge, MA  02138
+       WITH EVERY ORDER!                 Phone 617-661-1510
+                                           Fax 617-876-2972
+
+             286|DOS-EXTENDER LITE VS 286|DOS-EXTENDER SDK
+
+286|DOS-Extender Lite               ณ    286|DOS-Extender SDK
+ออออออออออออออออออออออออออออออออออออุอออออออออออออออออออออออออออออออออออออ
+No debugging support                ณ  Full support for CodeView
+                                    ณ
+Programs can use up to 2 MB memory  ณ  Programs can use up to 16 MB memory
+                                    ณ
+50 pages of documentation on disk   ณ  700+ pages of printed documentation
+                                    ณ
+Technical support for installation  ณ  Technical support for development
+                                    ณ
+Cannot deliver Extended-DOS         ณ  Add-on run-time kit available for
+  programs to customers             ณ    delivering Extended-DOS programs
+                                    ณ
+Several example programs            ณ  Extensive example programs
+                                    ณ
+No spawn function available         ณ  Supports spawn function
+                                    ณ
+
+
+
+
+
+                     286|DOS-Extender Order Form
+
+
+YES!  I would like to order ____ 286|DOS-Extender SDK x $495 each = _______
+      Mass. customers add 5% sales tax:                             _______
+      Shipping:  $5 U.S. or Canada, $50 overseas:                   _______
+      TOTAL =                                                       _______
+
+Shipping Address:  (Please provide a street address.  No P.O. boxes.)
+      Name:__________________________ Company:_____________________________
+      Address:_____________________________________________________________
+      City:__________________________ State/Country:__________ Zip:________
+      Phone:_________________________ Fax:_________________________________
+
+Method of Payment: (Check one)
+      ____ Check/money order (US$, US bank)    
+      ____ P.O.#  (Approval required):_____________________________________
+      ____ MasterCard     ____ Visa     ____ American Express
+      Credit Card #:__________________________________ Exp. Date:__________
+      Cardholder's name:___________________________________________________
+
+Return to:  Phar Lap Software, Inc.           FREE PHAR LAP T-SHIRT 
+            60 Aberdeen Avenue                  WITH EVERY ORDER!   
+            Cambridge, MA  02138
+            Phone 617-661-1510
+            Fax 617-876-2972
+
+
+
+
+
+
+-------------------------------------
+Chapter 1
+A Quick Tour of 286|DOS-Extender Lite
+-------------------------------------
+ 
+Computers with Intel and Intel-compatible 80286 and later
+microprocessors hold a majority share of the IBM PC-compatible
+marketplace.  These machines typically have two or more megabytes of
+memory.  This is in sharp contrast to the situation just a few years
+ago, when the typical PC had an 8088 and less than a megabyte of
+memory.
+
+But MS-DOS has not kept up with these sweeping changes.  While PCs are
+shipping with more memory and better processors, more DOS
+applications than ever run out of memory.  
+
+Many users have found that a 2 MB machine, for example, does not
+actually give their applications 2 MB of memory:  applications are
+held back by the 640K limitation imposed by MS-DOS.  You can add
+memory to an IBM AT, PS/2, or 386 clone until you're blue in the
+face, and many DOS applications will nonetheless run out of memory.
+
+These machines have untapped resources.  286|DOS-Extender Lite, Phar
+Lap's 16-bit DOS extender for 80286, 80386, and 80486 PCs, puts all
+this potential energy to work while fully preserving your investments
+in MS-DOS and Microsoft Visual C++.
+
+NOTE:	The examples throughout this file assume that you have already
+	installed 286|DOS-Extender Lite according to the installation
+	instructions included on disk.  We hope you enjoy trying out
+	286|DOS-Extender Lite.
+
+Let's look at an example. Many manuals begin with the "hello world"
+sample program, but to show the power of 286|DOS-Extender Lite we
+need a sample program that suffers from the 640K confines of MS-DOS. 
+Such programs are plentiful; almost any DOS program that uses large
+model, huge model, overlays, expanded memory (EMS), or the eXtended
+Memory Specification (XMS), is a good example.  Any such program is
+also a likely candidate for using 286|DOS-Extender Lite!
+
+But short of including 50,000 lines of code in our manual, how can we
+provide a quick look at the problem of running old DOS on the new
+machines?
+
+We can simulate some "programming in the large" issues by using a
+small C program that requires a large amount of memory.  The program
+shown below, BIG.C, attempts to allocate one megabyte of memory, and
+to use it as a 512 x 512 two-dimensional array of longs:
+
+/* BIG.C */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <malloc.h>
+
+#define NROWS    512
+#define NCOLS    512
+#define	ARSIZE	((long)NROWS * sizeof(long [NCOLS]))
+
+main()
+{
+    int i, j;
+
+    long (huge * array)[NCOLS];
+    array = (long (huge *)[NCOLS]) _halloc ( NROWS, sizeof(long [NCOLS]) );
+    if( ! array )
+    {
+	printf("Can't allocate %lu-byte array, giving up!\n", ARSIZE);
+	return 1;
+    }
+
+    printf("Using %lu-byte array\n", ARSIZE);
+
+    for (i=0; i<NROWS; i++)
+    {
+        for (j=0; j<NCOLS; j++)
+            array[i][j] = (long) i * j; /* touch every element */
+        printf("%d\r", i);              /* display odometer */
+    }
+
+    printf("done\n");
+    return 0;
+}
+D:\LITE.30\EXAMPLES>big
+Can't allocate 1048576-byte array, giving up!
+
+
+The Visual C++ command-line compiler, CL, can be used to compile and
+link this straightforward C program for plain-vanilla, real-mode
+MS-DOS.  The -AL (large model) switch is used in the CL command line
+to get the maximum amount of available memory: 
+
+C:\>cl -AL big.c
+
+While CL compiles and links BIG.C without error, the huge allocation
+function _halloc must always fail.  Real-mode MS-DOS simply cannot
+address, much less allocate, more than one megabyte.  Even if the
+computer has 16 megabytes of memory, MS-DOS can only directly address
+the first megabyte.
+
+But to run BIG.EXE you don't have to switch to a different operating
+system.  286|DOS-Extender Lite removes the one-megabyte DOS barrier,
+while continuing to run under DOS.  You get to have your cake and eat
+it too!
+
+To produce a 286|DOS-Extender Lite version of the BIG program, simply
+compile and link with CL's -Lp switch.  Specifying -Lp tells the
+linker to look for protected-mode libraries and create a
+protected-mode executable.  (BIND286 is explained in the section
+"Running Under DOS.") Protected-mode executable?  Under DOS?  That's
+right: 
+
+C:\>cl -AL -Lp big.c
+C:\>bind286 big
+C:\>big
+Using 1048576-byte array
+done
+
+We just allocated and accessed one megabyte under MS-DOS, in a program
+whose name we typed on the DOS command line-just like any other
+regular DOS program.  The source code for the program, as we've seen,
+used absolutely standard PC constructs:  no messing with special
+interfaces like EMS or XMS, and no overlays.
+
+It's as if MS-DOS had been turned into a protected-mode operating
+system, or at least into an operating system that can run
+protected-mode programs!  This in fact is exactly what
+286|DOS-Extender Lite does.  Behind the scenes, when BIG is run from
+the DOS command line, the program reinvokes itself under 286|DOS-
+Extender Lite, which resides in a program named LITE286.EXE. 
+(Incidentally, LITE286.EXE plus another file, DOSCALLS.DLL, must be
+somewhere on the path.) Running BIG is equivalent to running LITE286
+BIG. The LITE286 program puts the machine into protected mode, runs
+BIG, then puts the machine back into real mode.
+
+Clearly, BIG is not a typical real-mode DOS program.  CL takes
+advantage of the linker's ability to produce protected-mode Windows
+and OS/2 programs, using it instead to produce protected-mode DOS
+programs.  Chapter 2 of this document explains precisely how this
+happens; if you prefer, you can run the compile and link steps
+yourself (from MAKE, for example).
+
+
+--------------
+1.1 Big Malloc
+--------------
+
+The huge allocation used in BIG.C provides a simple first example of
+286|DOS-Extender Lite.  In the same way that LITE286 can allocate
+large amounts of data, it can also load programs with large amounts
+of code, so the huge array is a good simulation of a large program. 
+Most C programs do not allocate huge arrays, but many DOS programs do
+contain enormous amounts of code.  Such programs often resort to
+performance-crippling overlays; BIG shows that, on an 80286 or higher
+machine with extended memory, this workaround is not necessary.
+
+BIG.C made life easy for itself by using the "huge" keyword, but due
+to its often poor performance, "huge" is usually avoided in
+commercial PC software.  More typically, large PC applications
+dynamically allocate memory via the C malloc() function, via operator
+new in C++, or directly via the MS-DOS Allocate Memory Block function
+(INT 21h AH=48h).  
+
+Our next example program, MEMTEST, does nothing more than run malloc()
+in a loop and touch every byte of the allocated memory.  When
+malloc() eventually returns NULL, indicating that memory is
+exhausted, MEMTEST breaks out of the loop.  While clearly the program
+does not do anything useful with the memory it allocates, its
+insatiable appetite for memory is a very good simulation of a large
+application:
+
+/* MEMTEST.C */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+main()
+{
+    char *p;
+    unsigned long allocs;
+
+    for (allocs = 0; ; allocs++)
+       if ((p = malloc(1024)) != 0)    /* in 1k blocks */
+       {
+           memset(p, 0, 1024); /* touch every byte */
+           *p = 'x';           /* do something, anything with */
+           p[1023] = 'y';      /* the allocated memory      */
+
+           if (allocs && (allocs % 1024) == 0)   /* odometer */
+               printf("Allocated %u megabytes\r", allocs >> 10);
+       }
+       else
+           break;
+
+       printf("Allocated %lu bytes\n", allocs << 10);
+       return 0;
+}
+
+Using Visual C++, this program can be compiled for real-mode MS-DOS with the 
+following command line:
+
+C:\>cl -AL memtest.c
+
+This command produces a large model version of MEMTEST.EXE, allowing
+maximum memory allocation under real-mode MS-DOS.  On a COMPAQ 386
+with 2 MB of memory, MEMTEST should allocate around 2 MB of memory
+(if you don't think this is what MEMTEST should do, you've been
+programming in real mode for too long!).  But of course, here is what
+real-mode large model MEMTEST does instead:  
+
+C:\>memtest
+Allocated 417792 bytes
+
+Only 408 KB available on a 2 MB machine?!  By making better use of the
+DOS 5.0 LOADHIGH, DEVICEHIGH, and DOS=HIGH,UMB statements, or by
+using superb expanded memory managers such as Quarterdeck QEMM or
+Qualitas 386MAX, we could probably have created a better
+configuration, in which MEMTEST might get as much as 610 KB or so. 
+But no matter how much we huffed and puffed and fooled with 
+CONFIG.SYS, real-mode MEMTEST would never allocate more than one
+megabyte of memory.
+
+Furthermore, even if you do maximize the available DOS memory on one
+machine, there is no guarantee that all (or even most) of a program's
+users will have such an "ideal" configuration.  By developing for
+protected-mode DOS, you can bypass a lot of these messy
+user-configuration issues.
+
+Now, to produce a version of MEMTEST that behaves more sensibly, the
+only thing you need to differently is to run in protected mode: 
+
+C:\>cl -Lp -AL memtest.c
+C:\>bind286 memtest
+C:\>memtest
+Allocated 2193408 bytes
+
+We allocated almost 2 MB of memory under MS-DOS!  This is dramatically
+different behavior from the first version of MEMTEST we produced, yet
+we're using the same source code.  Simply recompiling for
+286|DOS-Extender Lite, without source code changes, gives us a
+program that runs under DOS yet breaks the 640K barrier, without EMS,
+overlays, or other workarounds.  Using 286|DOS-Extender Lite with
+Microsoft Visual C++ provides a version of malloc() that 
+transparently uses extended memory, plus functions such as memset()
+and pointer dereferences such as *p and p[1023], which transparently
+access extended memory.
+
+
+----------------------
+1.2 Protected Mode C++
+----------------------
+
+286|DOS-Extender Lite is not limited to programs written in C; C++
+programs can just as easily run under protected-mode DOS.  For
+example, the C++ operator "new" works in protected-mode DOS exactly
+the same as the C malloc() function:  instead of halting somewhere
+around 640K, operator new can be used to allocate up to 2 MB of
+memory under 286|DOS-Extender Lite.  (286|DOS-Extender SDK can 
+allocate up to 16 MB.) 
+
+Other C++ features, such as the iostream input and output operators
+and static constructors and destructors, work just the way one would
+expect from having used C++ in real-mode DOS.  
+
+The next sample program, MEMTEST2.CPP, uses a number of C++ features. 
+The C++ set_new_handler() function is particularly useful; it lets
+MEMTEST2 install a handler that will automatically be called when
+operator new fails.  This considerably simplifies the program's main
+loop:  
+
+/* MEMTEST2.CPP */
+
+#include <stdlib.h>
+#include <iostream.h>
+#include <new.h>
+#include <string.h>
+
+class msg {
+public:
+    msg()   { cout << "hello from " << __FILE__ << "\n" ; }
+    ~msg()  { cout << "bye\n" ; }
+    } ;
+
+static msg banner;  // test C++ static constructors, destructors
+
+static unsigned long bytes = 0;
+static unsigned long allocs = 0;
+static unsigned blk_size = 10240;
+
+int new_fail(size_t )
+{
+    if (blk_size)
+        blk_size >>= 1;  // try to allocate a smaller block
+    else
+    {   // memory exhausted
+        cout << "Allocated " << bytes << " bytes\n" ;
+        exit(1);
+    }
+    return 1;
+}
+
+void
+main(void)
+{
+    char *p;
+
+    _set_new_handler(new_fail);   // called when new fails
+
+    for (;;)
+    {
+       p = new char[blk_size];   // allocate memory
+       memset(p, 0, blk_size);   // touch every byte
+       *p = 'x';                 // do something, anything with
+       p[blk_size-1] = 'y';      //   the allocated memory
+
+       bytes += blk_size;
+       allocs++;
+       if ((allocs % 25) == 0)   // odometer
+            cout << "Allocated " << bytes << " bytes\r";
+    }
+}
+
+
+We won't even bother showing the real-mode version this time, since by
+now it's pretty obvious how limited real mode is.  To compile this
+C++ program for protected-mode DOS, all you need to do is add the -Lp
+switch to the CL command line. 
+
+C:\>cl -AL -Lp memtest2.cpp
+C:\>bind286 memtest2
+C:\>memtest2
+hello from memtest2.cpp
+Allocated 2027520 bytes
+bye
+
+Because 286|DOS-Extender Lite is compatible with the DPMI
+specification (as well as with every other major memory-management
+specification, including VCPI, XMS, VDS, and INT 15h), this protected
+mode C++ program can allocate up to 2 MB of memory under all modes of
+Windows 3.x:
+
+C:\>memtest2
+hello from memtest2.cpp
+Allocated 2027520 bytes
+bye
+
+
+-------------------------
+1.3 Protected Mode MS-DOS
+-------------------------
+
+What's really happening here?  We've seen that 286|DOS-Extender Lite
+can load programs with huge arrays or enormous amounts of code, and
+that protected-mode DOS versions of C functions such as malloc(), and
+of operator new in C++, can dynamically allocate large amounts of
+memory.  How does all this work?
+
+In essence, 286|DOS-Extender Lite provides MS-DOS (INT 21h) functions
+in protected mode.  Since your program runs in protected mode, any
+software interrupts your program generates -- such as DOS calls made
+by the C run-time library when you call a function such as
+printf() -- occur in protected mode too, and are caught by
+286|DOS-Extender Lite. 
+
+In most cases, 286|DOS-Extender Lite passes the call down to MS-DOS,
+which is still running in real mode.  DOS file I/O functions are
+handled this way, for example:  the 286|DOS-Extender Lite handler for
+these functions reissues (or "reflects") the call in real mode. 
+
+Merely by providing protected-mode surrogates for these functions, 286|DOS-
+Extender Lite allows your program to think that it is running under a 
+protected-mode version of MS-DOS.  The program can call INT 21h in protected 
+mode without worrying about the fact that its file I/O buffers are probably 
+located in extended memory.  286|DOS-Extender Lite automatically takes care of 
+all the details of transferring data between conventional memory (where real-
+mode DOS can get at it) and extended memory (where your protected-mode program 
+probably allocated it).
+
+Because 286|DOS-Extender Lite acts as a protected-mode "wrapper" around real-
+mode MS-DOS, you have a completely compatible environment.  286|DOS-Extender 
+Lite isn't replacing DOS, so it will work with whatever version of DOS you or 
+your customers already have.
+
+Of course, real-mode MS-DOS does not know how to do things like run protected-
+mode programs, allocate extended memory, load dynamic link libraries (DLLs), or 
+install protected-mode interrupt handlers.  Requests such as these are handled 
+by 286|DOS-Extender Lite entirely in protected mode.
+
+Memory allocation is a good example.  Rather than use C or C++ constructs to 
+allocate memory, the next sample program, DOSMEM.C, goes directly to DOS using 
+INT 21h Function 48h (Allocate Memory Block).  Typically, a DOS program finds 
+out how much memory is available by asking this function for 0FFFFh paragraphs 
+(one megabyte).  Real-mode DOS will naturally fail such a request, but it will 
+also return the actual number of paragraphs available in the largest block of 
+free memory:
+
+/*  DOSMEM.C */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <dos.h>
+
+main()
+{
+    unsigned avail;
+    char far *fp;
+    _asm mov ah, 48h
+    _asm mov bx, 0FFFFh
+    _asm int 21h
+    _asm jc error
+    _asm mov word ptr fp+2, ax
+    _asm mov word ptr fp, 0
+    *fp = 'x';   /* make sure it's genuine */
+    printf("Allocated 0FFFFh paragraphs: %Fp\n", fp);
+    return 0;
+error:
+    _asm mov avail, bx
+    printf("Only %04Xh paragraphs available\n", avail);
+    return 1;
+}
+
+C:\>cl dosmem.c
+
+C:\>dosmem
+Only 4FE9 paragraphs available
+
+In protected mode, an amazing thing happens:  a request for 0FFFFh paragraphs 
+easily succeeds:
+
+C:\>cl -AL -Lp dosmem.c
+C:\>bind286 dosmem
+C:\>dosmem
+Allocated 0FFFFh paragraphs: 0A3D:0000
+
+Using the exact same INT 21h functional interface as real-mode DOS, 286|DOS-
+Extender Lite provides functionality that DOS alone can't provide.  This new 
+functionality is provided to every protected-mode program running under 
+286|DOS-Extender Lite.  Thus, 286|DOS-Extender Lite isn't a library, but an 
+extension to the operating system.  (That's why it's called a DOS extender.)
+
+When protected-mode DOSMEM allocates 0FFFFh paragraphs, where does this memory 
+come from?  In general, this doesn't matter to the program, because it has 
+asked INT 21h Function 48h for memory, and has received a value back in the AX 
+register which it can use as the basis for a far segment:offset pointer.  In 
+DOSMEM.C, note how a far pointer is created with the assembly-language 
+instructions and poked with the C * dereferencing operator.   Thus, we have 
+immediately usable memory; it doesn't really matter where it "comes from," nor 
+for that matter what value INT 21h Function 48h returns in AX.  All we need to 
+know is that we can use it.
+
+However, the pointer 0A3D:0000 displayed above by DOSMEM in protected mode is a 
+little strange.  Paragraph 0A3Dh seems to be too low in memory, for example.  
+But in protected mode the address 0A3D:0000 has nothing whatever to do with 
+absolute memory location 0A3D0h.  Instead, 0A3Dh is a protected-mode selector 
+that is essentially an index into a table of segment descriptors used by the 
+chip.  These descriptors in turn contain the base address, size, and protection 
+"access rights" of the corresponding segment.  Thus, memory management in 
+protected mode is somewhat indirect, but all the indirection is managed 
+entirely by the chip, "inside" an instruction such as MOV AX, ES:[BX].
+
+
+--------------------------------
+1.4 BIOS Calls in Protected Mode
+--------------------------------
+
+To create a useful environment for PC software, it is not sufficient merely to 
+provide INT 21h in protected mode.  The ROM BIOS calls (INT 10h, INT 16h, and 
+so on) need to be available in protected mode too. 
+
+C run-time library functions such as _bios_serialcom(), _bios_printer(), and 
+_bios_keybrd() are available in protected mode.  Furthermore, protected-mode 
+DOS programs can call BIOS functions from separate .ASM modules assembled with 
+MASM, or by using inline assembler, or the int86() and int86x() functions. 
+
+For example, if our sample program did direct screen writes (which we will 
+discuss in more detail later in this chapter), it might include initialization 
+code such as the following, which uses INT 10h Function 0Fh (Get Video Mode):
+
+
+	#include <dos.h>
+
+	#define GET_VIDEO_MODE      0x0F
+
+	int video_mode(void)
+	{
+	    union REGS r;
+	    r.h.ah = GET_VIDEO_MODE;
+	    int86(0x10, &r, &r);
+	    return r.h.al;
+	}
+
+or, using inline assembler, something like this:
+
+	int video_mode(void)
+	{
+	    _asm mov ah, GET_VIDEO_MODE
+	    _asm int 10h
+	    _asm xor ah, ah
+	    // 2 byte quantity returned in AX
+	}
+
+Both of these varieties of the video_mode() function run just fine in
+protected mode, because 286|DOS-Extender Lite supports INT 10h (BIOS
+Video) in protected mode.  
+
+The following list shows all interrupts and functions that are
+supported in protected mode -- the vast majority of DOS (INT 21h) and
+BIOS (INT 10h, INT 16h, etc.) calls: 
+
+INT 10h (BIOS Video)      
+  Functions 0 through 1Ch 
+ 
+INT 11h (BIOS Equipment Check)
+ 
+INT 12h (Conventional Memory Size) 
+
+INT 14h (BIOS Communications)
+  Functions 0 through 5  
+
+INT 16h (BIOS Keyboard)
+  Functions 0 through 12h 
+
+INT 17h (BIOS Printer)
+  Functions 0 through 2  
+ 
+INT 1Ah (BIOS Time)
+  Functions 0 through 80h
+ 
+INT 21h (MS-DOS Functions)
+  Functions 0 through 0Eh
+  Functions 19h through 30h
+  Functions 32h through 43h
+  Function 44h (IOCTL)
+    Subfunctions 0, 1, 6, 7, 8, 9, 0Ah, 0Bh, 0Eh, and 0Fh
+  Functions 45h through 63h
+    Because a request to INT 21h Function 48h (Allocate Memory Block)
+    for FFFFh paragraphs can succeed in protected mode, this function 
+    should be used only for memory allocation, not to determine the 
+    amount of available memory.  Use the DosMemAvail() and DosRealAvail() 
+    functions instead for this purpose.
+  Functions 66h through 6Ch
+ 
+INT 33h (Microsoft Mouse)
+
+
+-----------------------------------------
+1.5 Compatibility with Industry Standards
+-----------------------------------------
+ 
+We have seen that 286|DOS-Extender Lite (that is, LITE286.EXE) manages
+the interface between your protected-mode program and real-mode
+MS-DOS.  At the DOS command line, when you type the name of a
+protected-mode .EXE file, LITE286 puts the machine into protected
+mode and launches your program.  Whenever your program makes DOS or
+BIOS calls from protected mode, 286|DOS-Extender Lite handles them
+and/or passes them down to MS-DOS or the ROM BIOS.  When your program
+exits, 286|DOS-Extender Lite puts the computer back into real mode.
+
+But what if the machine wasn't in real mode to begin with?  Many 80386
+and 80486 computers, for example, will be running software such as
+Microsoft Windows 3.x (Enhanced mode), Microsoft EMM386, Quarterdeck
+DESQview/386, or Qualitas 386MAX.  When these are loaded, MS-DOS is
+running not in real mode but in a one-megabyte protected mode that
+Intel calls "virtual 8086" mode.  Furthermore, users may be running
+programs that use extended memory, such as VDISK, HIMEM, or
+SMARTDrive.
+
+286|DOS-Extender Lite handles all these situations gracefully.  It is
+compatible with all the PC industry standards for protected mode,
+expanded memory (EMS), and extended memory (XMS).  It supports the
+Virtual Control Program Interface (VCPI) and DOS Protected Mode
+Interface (DPMI).  VCPI, a specification developed jointly by
+Quarterdeck Office Systems and Phar Lap Software, allows EMS
+emulators and DOS extenders to coexist; it is an extension to EMS
+4.0.  DPMI is a specification whose primary goal is compatibility 
+between DOS extenders and DOS multitasking environments; DPMI was
+jointly developed by a committee including Microsoft, Intel, IBM,
+Phar Lap, Quarterdeck, Borland, Lotus, Rational Systems, and other
+companies.  
+
+This means that programs developed with 286|DOS-Extender Lite can run
+in a wide variety of DOS environments.
+
+All this compatibility requires no work from you.  There is no
+configuration or "tune" program to run.  286|DOS-Extender Lite
+automatically configures itself each time it runs.  If run under
+Windows 3.x Enhanced mode, for example, the program will
+automatically get virtual memory with no additional effort.  Or if 
+you switch from HIMEM.SYS to QEMM386.SYS, you don't have to
+reconfigure 286|DOS-Extender Lite in any way.  
+
+
+---------------------------------------------
+1.6 What's So Protected About Protected Mode?
+---------------------------------------------
+
+So far we have described the process of compiling for protected mode
+and running under MS-DOS.  The next step in the development cycle is
+debugging.
+
+Returning to the MEMTEST sample program, for example, suppose we 
+forgot to check the return value from malloc().  In the C++ version,
+we could use set_new_handler() to catch failed memory allocations. 
+But in C, it's simply a mistake to forget to check the return value
+from malloc():
+
+	for (allocs = 0; ; allocs++)
+	{
+	   p = malloc(1024);
+	   /* BUG:  not checking return value from malloc!*/
+	   memset(p, 0, 1024);
+	   *p = 'x';
+	   p[1023] = 'y';
+	}
+
+This horrible code runs without complaint in real mode.  In a large
+model program, its probable effect is to repeatedly bash the
+low-memory interrupt vector table.
+
+What happens in protected mode when malloc() fails and we then try to
+dereference (peek or poke) the resulting NULL pointer?  Instead of
+trashing memory, the program halts with a message like this:
+
+Fatal error 286.3330: General protection fault detected.
+PID=0001  TID=0001  SID=0001  ERRORCODE=0000
+AX=0000  BX=0000  CX=0200  DX=0000  SI=056C  DI=0000  BP=2DCC
+CS:IP=014F:0CC5   DS=0157  ES=0000  SS:SP=0157:2DCA   FLAGS=3216
+
+The message "General protection fault detected" is an indication that
+the program has in some way violated the rules of protected mode. 
+These rules prevent writing into code segments, executing data
+segments, reading or writing past the end of a segment, or using a
+segment that doesn't belong to you.  
+
+A general protection violation, or GP fault, shows either a bug in
+your program, or an area that needs to be converted so that it will
+work in protected mode.  In either case, the CPU signals a GP fault
+when your program tries to violate protection.  This makes protected
+mode a superb environment for software development:  the hardware
+will help you find bugs and trouble spots.  
+
+In the case of the buggy version of MEM, the message "General
+protection fault detected" message alerts us to a bug that the CPU
+found for us:  the program dereferences pointers without checking if
+malloc() succeeded.  If you examine the register dump produced by
+286|DOS-Extender Lite, you will note that the ES register is set to
+zero, suggesting we tried to dereference a NULL pointer.  This NULL
+pointer checking is not inserted by the compiler:  the Intel 
+processor takes care of it in hardware, making it just one example of
+the many checks that the CPU does in protected mode, with no extra
+work on our part.
+
+
+--------------------------------------------------------
+1.7 Debugging with CVP7 Under MS-DOS 
+    (With the 286|DOS-Extender Software Development Kit)
+--------------------------------------------------------
+
+As explained earlier, 286|DOS-Extender Lite does not support
+debuggers.  The 286|DOS-Extender SDK, however, supports the powerful
+debugging features of the protected-mode CodeView for Windows (CVW). 
+(286|DOS-Extender includes a front-end program for CVW, called
+CVP7.  That's the executable used in the following examples.)  We
+would like to take this opportunity to illustrate the debugging 
+support available with the 286|DOS-Extender SDK.
+
+Let's look at the buggy MEMTEST program.  A protected-mode symbolic
+debugger like CVW would let us pinpoint the exact location of the bug
+in the MEMTEST program (if we didn't already know it).  We wouldn't
+run CVW under Windows, though.  Rather, we would use 286|DOS-Extender
+to run CVP7 under MS-DOS, right from the DOS prompt, without Windows.
+
+Just as 286|DOS-Extender runs your protected-mode applications under
+MS-DOS, it can run protected-mode debuggers such CVP7. 
+(286|DOS-Extender makes this possible through its support for dynamic
+link libraries (DLLs).  This feature is explained in the
+documentation for the 286|DOS-Extender SDK.)  CVP7 runs under DOS
+because 286|DOS-Extender supplies Windows-emulation libraries such as
+KERNEL.DLL, USER.DLL, and WINDEBUG.DLL.  
+
+To make symbolic information available for CVP7 under DOS, we would
+use the Visual C++ -Zi switch:  
+
+C:\>cl -Zi -AL -Lp buggymem.c
+
+The next section provides specifics for debugging CVW.
+
+
+
+The Nuts and Bolts of CVW
+-------------------------
+
+To debug a protected-mode Microsoft Visual C++ program under DOS, run
+CVP7, together with your program, under 286|DOS-Extender:
+
+C:\>cvp7 buggymem
+
+To fully support all of its features, CodeView requires a little help
+to get started.  CVP7 is a "wrapper" program supplied with the
+286|DOS-Extender SDK.  CVP7 changes the video mode, adjusts certain
+aspects of CVW's execution environment, filters out dangerous CVW
+switches, and (finally) invokes CVW4.EXE 
+
+If you are familiar with either CodeView or CodeView for Windows, you
+can do source-level debugging of protected-mode programs without
+having to learn a new debugger.  If you are not familiar with
+CodeView, then using 286|DOS-Extender is an excellent way to get
+started. Running CodeView in protected mode helps you to catch bugs
+as they happen, by signaling General protection ("GP") faults. This
+is in contrast to what occurs in real mode, where programs are 
+allowed to dereference pointers willy-nilly, often corrupting data
+structures in obscure, hard-to-find ways.  However you learn
+CodeView, you will want to read Microsoft's documentation to
+completely understand each command.
+
+If you've used real-mode CV, but have not done much protected-mode
+programming, there's only one thing you should be aware of: 
+protected-mode selectors don't look quite the same as the real-mode
+paragraph addresses you're used to.  The first time you use CVP7, you
+might find yourself asking "What is this strange value I get back
+from malloc()?"  For example, if the value in ES is 049F, don't
+assume it's a bad value:  that's a typical number for a protected mode
+selector.
+
+Additionally, the switches allowed for real- and protected-mode
+CodeView differ.  CV's /R switch, which enables the use of 80386
+debug registers, is not allowed with CVP7.  Similarly, /E and /X
+(expanded and extended memory support, respectively) are not allowed;
+CVP7, running as a 286|DOS-Extended program in protected mode, has no
+need for these switches.
+
+One feature of real-mode CodeView that is lacking in CVP7 is the
+ability to launch a sub-shell via the "!" command or the "FILE"
+menu.  Essentially all the other commands in real-mode CodeView work
+exactly as you would expect.  Inside CVP7, you can switch between
+displaying source code and object code with F3, you can use F2 to
+display the current register set, and you can use F9 and F5 to set a
+breakpoint and run your program.  If the HELPFILES environment 
+variable is set correctly, F1 invokes CodeView's built-in help system.
+Of course you may invoke all functions either by pulling down menus
+or by typing in the command window, just like real-mode CodeView or
+CodeView for Windows.
+
+When debugging BUGGYMEM, if you type "g", malloc would eventually run
+out of memory.  CVP7 would run into our offending code, and place the
+cursor on the REP STOSW instruction and display this message: 
+
+	Exception #13
+
+Sure enough, forgetting to check the return value from malloc() causes
+an "exception 13" (also known as an INT 0D, a General protection
+violation, or a GP fault).  The register window would show that the
+ES segment register holds a value of zero, indicating that we're
+trying to do something with a NULL pointer.
+
+In real mode, the interpretation of 0:0 as a NULL pointer is an
+arbitrary convention, because in real mode, 0:0 is a completely
+legitimate address (it holds the address of the divide-by-zero
+interrupt handler).  Protected mode, however, provides hardware
+support for the notion of a NULL pointer.
+
+Where would we be?  By selecting the CVP7 "Calls" menu, and then
+navigating the stack view window, we would see that we're somewhere
+inside the call to memset() inside main().  This is not surprising,
+given that the call to memset() immediately follows the incorrect use
+of malloc().
+
+Can you imagine debugging this code without CodeView?  We hope you
+will see from this example how much easier protected-mode programming
+can be with the features available in the 286|DOS-Extender SDK.  
+
+See Microsoft's Visual C++ CodeView Debugger User's Guide for more
+information on using CVW4. 
+
+
+------------------------------------
+1.8 What About Direct Screen Writes?
+------------------------------------
+
+So far we have seen that straightforward C or C++ code can be run,
+without source-code changes, under Phar Lap's 286|DOS-Extender Lite.
+
+But while they allocated large amounts of memory, and showed some of
+the benefits of 286|DOS-Extender Lite and the basic process of
+developing applications with 286|DOS-Extender Lite, the previous
+sample programs are too simple to illustrate all the issues involved
+in PC software development.
+
+Clearly, MEMTEST is not a typical PC program.  For example, it uses
+the portable printf() function to display output.  With the exception
+of programs such as compilers and linkers, however, applications for
+the PC tend to use direct screen writes or other low-level code.  How
+well do such programs run under 286|DOS-Extender Lite? 
+
+We saw earlier that DOS (INT 21h) and BIOS calls are supported in
+protected mode.  Thus, low-level PC code runs as is under
+286|DOS-Extender Lite.  
+
+However, the PC programming interface doesn't consist only of DOS and
+BIOS calls.  The ability to peek and poke absolute memory locations
+is also part of the PC programming interface, and this ability
+normally assumes that the program is running in real mode.
+
+Consider direct screen writes, for example.  These assume that
+absolute memory locations such as B8000h can be addressed through
+pointers such as B800:0000.  When a program is manipulating an
+address such as B800:0000, it's really interested in absolute memory
+location B8000h.  Similarly, when it manipulates an address such as
+0040:006C, it's really interested in absolute memory location 46Ch. 
+In protected mode the equivalence of B8000h and B800:0000 no longer
+holds.  It is precisely because protected mode throws out this 
+equivalence that it can provide more than one megabyte of memory.
+
+Besides the tiny video_mode() function we saw in the discussion of 
+DOS and BIOS calls, a program that does direct screen writes probably
+would also include code such as the following, which puts the 
+paragraph address of the text mode video display memory (0xB000 or 
+0xB800) into a global variable.  This code also uses the _MK_FP() 
+macro from DOS.H (distributed with Visual C++) to create a far
+pointer to B000:0000 or to B800:0000:
+
+	unsigned short get_vid_mem(void)
+	{
+	    int vmode = video_mode();
+	    unsigned short seg;
+	
+	    if (vmode == 7) /* monochrome */
+		seg = 0xB000;
+	    else if ((vmode == 2) || (vmode == 3))
+		seg = 0xB800;
+	    else
+		return 0;
+	
+	    return seg;
+	}
+	
+	static BYTE far *vid_mem;   /* use far pointer */
+	
+	video_init(void)
+	{
+	    vid_mem = MK_FP(get_vid_mem(), 0);
+	}
+	
+	#define SCR(y,x)    (((y) * 160) + ((x) << 1))
+	
+	void wrt_str(int y, int x, ATTRIB attr, unsigned char *p)
+	{
+	    BYTE far *v = vid_mem + SCR(y, x);
+	    while (*p)
+	    {
+		*v++ = *p++;
+		*v++ = attr;
+	    }
+	}
+	
+But if we now try to run a program that includes this code under
+286|DOS-Extender Lite, we get another one of those "General
+protection fault detected" messages, just as if our code contained a
+bug:
+
+C:\>cl -AL -Lp memtest3.c
+C:\>bind286 memtest3
+C:\>memtest3
+Fatal error 286.3330:  General protection fault detected.
+PID=0001  TID=0001  SID=0001  ERRORCODE=B800
+AX=0041  BX=0098  CX=01ED  DX=0000  SI=042E  DI=042E  BP=0F08
+CS:IP=022F:01FD   DS=024F  ES=024F  SS:SP=024F:0F06   FLAGS=3206
+
+Our code doesn't contain a bug.  However, ERRORCODE=B800 suggests that
+simply loading the paragraph address of the video display memory into
+a segment register such as DS or ES isn't going to work in protected
+mode.
+
+It's extremely simple to get this code working in protected mode. To
+write directly to video memory from protected mode, you need a
+function call that "maps" absolute memory locations into the address
+space of your protected-mode program.  The only function that needs
+to be changed is get_vid_mem(), so that instead of returning 0xB000
+or 0xB800, it returns a protected-mode selector that maps one of
+these real-mode paragraph addresses.  To do this, we use the Phar Lap
+API (PHAPI) function DosMapRealSeg(), whose prototype is in PHAPI.H.
+
+	#ifdef DOSX286
+	// symbol DOSX286 must be specified on CL command line
+	#include <phapi.h>
+	#endif
+	
+	unsigned short get_vid_mem(void)
+	{
+	    int vmode = video_mode();
+	    unsigned seg;
+	
+	    if (vmode == 7)
+		seg = 0xB000;
+	    else if ((vmode == 2) || (vmode == 3))
+		seg = 0xB800;
+	    else
+		return 0;
+	
+	
+	#ifdef DOSX286
+	{
+	    unsigned short sel;  
+	    /*
+	       DosMapRealSeg() takes a real-mode paragraph address
+	       and a count of bytes, and gives back a selector that
+	       can be used to address the memory from protected 
+	       mode.  Like all PHAPI functions, DosMapRealSeg()
+	       returns 0 for success, or a non-zero error code.  Any 
+	       other information (such as the selector we're 
+	       interested in) is returned via parameters.
+	    */
+	    if (DosMapRealSeg(seg, (long) 25*80*2, &sel) == 0)
+		return sel;
+	    else
+		return 0;
+	}
+	#endif
+	
+	    return seg;
+	}
+	
+In the larger program from which this code was extracted, this was the
+only source-code change needed to get the program running under
+286|DOS-Extender Lite.  All the actual direct screen writes ran in
+protected mode without modification.  Most graphics code can be
+ported to 286|DOS-Extender Lite in the same way, simply by changing
+the function that returns the segment number of video memory to use
+DosMapRealSeg(0xA000, ...).  Since the PHAPI-specific or 
+protected-mode code is inside an #ifdef, the same code can be compiled
+for real mode.  (Note that you must specify -DDOSX286 on the CL
+command line.)
+
+When the program is finished with the selector to video memory, it should free 
+it by calling DosFreeSeg(): 
+
+DosFreeSeg(FP_SEG(vid_mem));    // segment of far pointer
+
+That's all it takes to get direct screen writes working in protected
+mode.
+
+
+-----------
+1.9 Summary
+-----------
+
+Any given program probably will require only a few changes; the vast
+majority of your DOS code will work "as is" under 286|DOS-Extender
+Lite.
+
+286|DOS-Extender Lite turns Microsoft Visual C++ into a toolkit for
+protected-mode DOS development.  Just by adding the -Lp switch to
+CL, your Visual C++ programs break the 640K barrier.
+ 
+
+
+------------------------------------------------
+Chapter 2
+Using 286|DOS-Extender with Microsoft Visual C++
+------------------------------------------------
+
+The easiest way to build Microsoft Visual C++ protected-mode programs
+is to use the CL command, with which you are probably already
+familiar:
+
+C:\TEST> cl -Lp -AL memtest.c
+C:\TEST> bind286 memtest
+C:\TEST> memtest
+
+The -Lp switch instructs CL to link against the protected-mode library
+LLIBCEP.LIB, which should already be installed in
+\MSVC\PHARLAP\MSVC\LIB. The -AL switch instructs CL to create a
+large-model program.  Using large model is not a requirement to run
+in protected mode, but it offers the best combination of speed and
+data-segment size under most conditions.  If your program can fit 
+into small model, however, you will obtain better performance by
+running in real mode.
+
+Protected-mode programs are linked against LLIBCEP.LIB and PHAPI.LIB,
+both of which should be in the sub-directory MSVC\LIB of your LITE286
+directory.  (If LLIBCEP.LIB is not present, please review the
+installation instructions, and re-run MKLIB.BAT.) 
+
+In order for CL to find the 286|DOS-Extender Lite libraries, include
+files, and programs, you must edit three of your environment
+variables.  The LIB environment variable specifies a list of
+directories in which to search for libraries.  The INCLUDE
+environment variable lists the directories containing include files.
+You must add the LITE286 subdirectory BIN to you PATH variable.  A
+typical set of environment variables would include:
+
+C:\> set PATH=c:\;c:\dos;c:\bin;c:\msvc\bin;c:\msvc\pharlap\bin
+C:\> set LIB=c:\msvc\lib;c:\msvc\pharlap\msvc\lib
+C:\> set INCLUDE=c:\msvc\include;c:\msvc\pharlap\inc
+
+
+---------------------------------------------------
+2.1 Differences Between Real- and Protected-Mode CL
+---------------------------------------------------
+
+With 286|DOS-Extender Lite, programming for protected mode is
+surprisingly similar to programming for real mode.  This includes,
+for instance, providing switches to CL.  There are, however, slight
+differences in the command line used to build a protected-mode
+program:
+
+ The -AH (huge model) and -AT (tiny, or COM model) switches
+  are not supported in protected mode.
+
+ You may not build p-code programs.  This means you will not use
+  the -Of -Ov -Oq -Gn -Gp and -NQ switches in building protected-
+  mode programs.
+
+ The various -G switches that specify Windows entry/exit code
+  generation should not be used when compiling 286|DOS-Extender Lite
+  programs.
+
+
+
+-------------------
+2.2 Linking by Hand
+-------------------
+
+Ordinarily, you would use CL to build protected-mode programs.  CL
+invokes the various compiler passes, and then optionally invokes the
+linker.  You may want, however, to run the Microsoft C/C++ linker,
+LINK.EXE, by hand.  If you want to replicate exactly the action of
+CL, the command line is fairly simple: 
+
+C:\> cl -c -AL hand.c
+C:\> link hand.obj,hand.exe/noi,,/nod:llibce.lib llibcep.lib; 
+C:\> bind286 hand
+
+The related topics below briefly describe each switch, statement, and
+file.  This information is necessary only if you are linking with
+LINK rather than using CL.  
+ 
+ 
+CL Switches
+-----------
+
+ -c (compile only):  This switch instructs CL to create an object
+  file, but to not run the linker.  The object file that you link
+  against might be created by CL, MASM, or any other tool compatible
+  with the Visual C++ linker and run-time libraries.
+
+ -AL (large model):  While not strictly required, large model and
+  protected-mode programming go hand in hand.  Real-mode DOS provides
+  a more space-efficient execution environment for small model than
+  does 286|DOS-Extender Lite. 
+
+ -Lp (protected mode):  Note that this switch is absent from the
+  CL command line.  Since CL is not running LINK, -Lp is not
+  required.
+
+
+LINK Switches
+-------------
+
+Refer to the Microsoft Visual C++ Environment and Tools Manual for
+information on LINK command line specifiers.
+
+The following sample command line links a protected-mode program:
+
+C:\> link hand.obj,hand.exe/noi,nul,/nod:llibce.lib llibcep.lib; 
+
+ hand.obj (object list):  All the names that precede the first
+  comma comprise a list of objects to be included in the resulting
+  executable image.  If any file name in this list does not have
+  an extension, .OBJ is assumed.
+
+ hand.exe (executable image): The file name in this position specifies
+  the name of the resulting image.  The default extension here is
+  .EXE.
+
+ /noi (no ignore case):  This switch determines the case-significance
+  of external symbols.
+
+ nul (map file):  LINK can optionally generate a map file.  By naming
+  the NUL device file NUL.MAP, no file is generated.
+
+ /nod:llibce.lib (no default search):  LINK will search, by default,
+  the set of library names embedded in the object files.  /nod:llibce
+  instructs LINK to avoid searching that library.
+
+ llibcep.lib (library list):  LLIBCEP is the protected-mode library
+  created during the installation process.  It completely replaces,
+  and is built from, LLIBCE.LIB.
+
+For more information about each of the CL and LINK options, please
+consult the Environment and Tools Manual.
+
+
+
+------------------------------------------------
+Chapter 3
+Running Protected-Mode Applications Under MS-DOS
+------------------------------------------------
+
+So far we have seen that a program produced by CL can be run directly
+from the DOS command line simply by typing its name, like any other
+DOS program.  286|DOS-Extender Lite programs can also be run under
+DOS without a command line, using any of the many alternatives to
+COMMAND.COM such as the DOSSHELL in DOS 5.
+
+By default, a protected-mode program modified by BIND286 includes a
+real-mode "stub" program called GORUN286.  When one of these programs
+is started under DOS, an embedded copy of GORUN286.EXE actually runs
+initially.  GORUN286 is called a stub because its sole job is to
+restart the program under 286|DOS-Extender Lite (LITE286.EXE).  In
+other words, if PHOO.C is compiled with:
+
+C:\>cl -AL -Lp phoo.c 
+C:\>bind286 phoo
+
+then running the program by typing its name:
+
+C:\TEST>phoo
+
+is equivalent to typing LITE286 followed by the name of the program:
+
+C:\TEST>lite286 phoo
+
+This seems like no big deal:  after all, we've saved only seven
+letters and a space.  However, by eliminating the need to type those
+eight keystrokes, we have effectively hidden the DOS extender, and
+created the useful illusion that MS-DOS is an operating system that
+runs protected-mode executables.
+
+Though usually hidden, the key components of 286|DOS-Extender Lite are
+LITE286.EXE, which loads 16-bit protected-mode .EXE files under
+MS-DOS, and DOSCALLS.DLL, a dynamic link library (DLL) which contains
+some of the functions used by the protected-mode startup code and
+run-time library.  The directory containing LITE286.EXE, for example
+C:\MSVC\PHARLAP\BIN, must be located somewhere on the DOS file-search
+path when you start an executable produced by BIND286.
+
+LITE286.EXE puts the computer into protected mode and loads your
+protected-mode program.  Whenever your program makes DOS (INT 21h) or
+BIOS requests from protected mode, the DOS extender quickly and
+invisibly does the work of sending the requests off to MS-DOS or the
+ROM BIOS, which are running in real mode.  Thus, 286|DOS-Extender
+Lite is 100% compatible with DOS:  it's not an emulation, but
+literally an extension of DOS.
+ 
+-----------------
+3.1 Compatibility
+-----------------
+
+There is another side to extending MS-DOS.  One of the key services of
+286|DOS-Extender Lite, in contrast to any "roll your own" approach
+to protected mode, is compatibility.
+
+We've been assuming that the computer is in real mode, that LITE286
+switches it into protected mode, installs some interrupt handlers,
+spawns your protected-mode program and, when your program completes,
+puts the computer back into real mode.
+
+But that would involve a simplistic view of the PC world in the 1990s.
+Most users of 80386 and 80486 machines are employing memory managers
+such as EMM386, 386MAX and QEMM, or multitasking window systems such
+as DESQview or Microsoft Windows 3.x.  When such programs are
+running, the computer is not in real mode; it's running in a
+one-megabyte protected mode called virtual 8086 mode.  The assumption
+that a DOS extender can simply switch the machine from real mode to 
+protected mode does not take into account the fact that many machines
+won't be in real mode.  Furthermore, users may be running programs
+such as VDISK or HIMEM or SMARTDrive, which use extended memory. 
+LITE286 must be able to run your protected-mode program under DOS,
+yet be highly compatible with any other memory-management software a
+user might be running.  
+
+One of the key questions about any protected-mode MS-DOS solution is
+how compatible it is with all this different software.  Is it
+compatible with EMM386, 386MAX, and QEMM?  Does it run in a window
+inside DESQview/386 or Microsoft Windows 3.x Enhanced mode?  What if
+the machine is already running an expanded memory (EMS) or extended
+memory (XMS) manager?  What if there are VDISKs or a SMARTDrive? What
+if your protected-mode program has been spawned from within a
+386|DOS-Extender or TNT DOS-Extender program such as IBM Interleaf
+Publisher, Mathematica, or AutoCAD/386? 
+
+286|DOS-Extender Lite handles all these situations gracefully.  It is
+compatible with all the PC industry standards for protected mode and
+extended memory.  In particular, it supports the Virtual Control
+Program Interface (VCPI) and DOS Protected Mode Interface (DPMI). 
+VCPI is a specification developed jointly by Quarterdeck Office
+Systems and Phar Lap Software that allows EMS emulators and DOS
+extenders to coexist; it is an extension to EMS 4.0.  DPMI is a
+specification whose primary goal is compatibility between DOS 
+extenders and DOS multitasking environments; DPMI was jointly
+developed by a committee including Microsoft, Intel, IBM, Phar Lap,
+Quarterdeck, Borland, Lotus, and other companies.  For more details
+on VCPI and DPMI, plus the old INT 15h and XMS standards, we
+recommend the book Extending DOS, Second Edition, edited by Ray
+Duncan (Reading MA:  Addison-Wesley, 1991, 538 pp., 
+ISBN 0-201-56798-9).
+
+To summarize, programs developed with 286|DOS-Extender Lite can run in
+a wide variety of environments.  LITE286 takes care of all the messy
+details of compatibility.  There is no separate configuration or
+"tune" program to run.  
+ 
+------------------------
+3.2 LITE286 Requirements
+------------------------
+
+LITE286 does have a few modest requirements:
+
+ If an expanded memory (EMS) handler is installed, it must follow 
+  the EMS 4.0 and VCPI specifications.  Almost all EMS managers 
+  shipping today are VCPI-compatible; if yours isn't, contact the 
+  manufacturer about upgrading to a new version.  (The exception is 
+  IBM PC-DOS 4.01, which has an EMS manager that is not VCPI-
+  compatible.)
+ 
+ Microsoft's EMM386, included with DOS 5.0 and later and Windows 3.x,
+  is VCPI-compatible, and can therefore be used with 286|DOS-Extender 
+  Lite.  However, the EMM386 NOEMS switch effectively disables VCPI 
+  support, and therefore cannot be used.  We recommend adding the
+  switch FRAME=NONE, which uses no more Upper Memory Blocks than NOEMS,
+  but which does allow VCPI-compatible clients to run.
+ 
+ If an extended memory (XMS) manager such as HIMEM.SYS is 
+  installed, we recommend setting a fairly large handle count.  For 
+  example: 
+ 
+  DEVICE=C:\WIN30\HIMEM.SYS /NUMHANDLES=127
+ 
+ LITE286 will not run in the DOS compatibility box of OS/2 1.x, 
+  because that environment is limited to a maximum of 640K.  However, 
+  it will run in the DOS compatibility box of OS/2 2.x, which 
+  provides DPMI support.
+ 
+One important word of warning:  Even though you don't have to
+explicitly type "LITE286" to run an executable produced by BIND286
+under MS-DOS, the LITE286.EXE file is necessary.  The directory
+containing both this file and DOSCALLS.DLL (for example
+C:\MSVC\PHARLAP\BIN) must be located somewhere on the DOS file-search
+path.  If GORUN286 cannot find LITE286.EXE, it will display the 
+message:
+
+This program requires Phar Lap's 286|DOS-Extender
+
+If LITE286.EXE cannot find DOSCALLS.DLL (which should be located in
+the same directory as LITE286.EXE), it will display the message:
+
+Fatal error 286.2190: Load program failed -- File not found -- DOSCALLS.DLL.
+
+If you receive either of these messages when trying to run a
+286|DOS-Extender Lite executable, ensure that your path is correct.
+For example:
+
+C:\TEST>set path=c:\bin;c:\msvc\pharlap\bin;c:\dos
+
+Note that neither LITE286.EXE nor the 286|DOS-Extender Lite DLLs can
+be shipped to end-users.  In order to prepare programs for
+redistribution, you must purchase the 286|DOS-Extender Run-Time Kit
+(RTK), which lets you bind 286|DOS-Extender plus any necessary DLLS
+into your application (an application may consist of multiple
+executable files, all of which are covered by a single license
+agreement).
+
+With these details out of the way, protected-mode programs will run
+under MS-DOS.
+ 
+------------------
+3.3 Error Messages
+------------------
+
+The most common fatal error messages are described briefly in the
+following sample sessions.
+
+
+C:\TEST>LITE286 phoobar
+Fatal error 286.2190:  Load program failed -- File not found -- phoobar.exe.
+
+There is no program named PHOOBAR.EXE.  Either you have misspelled the 
+program's name, or it is not located on the path.
+
+
+C:\DOS>LITE286 bad
+Fatal error 286.3330:  General protection fault detected.
+PID=0001  TID=0001  SID=0001  ERRORCODE=0000
+AX=0004  BX=0000  CX=0019  DX=008B  SI=00DA  DI=00DA  BP=0BE2
+CS:IP=0237:001D   DS=024F  ES=0000  SS:SP=024F:0BDE   FLAGS=3246
+
+Your program violated a rule of protected mode, causing a General
+protection fault (GP fault).  There is a bug in your program, or a
+piece of code which must be modified before it can be run in
+protected mode, or you have unintentionally included real-mode code
+(for example, real-mode libraries) in the program.
+
+
+C:\DOS>LITE286 mem
+Fatal error 286.1000:  System does not have an 80286 (or newer) processor.
+
+You have attempted to run a 286|DOS-Extender Lite program on a machine which 
+does not have an 80286 or later processor.
+
+
+C:\DOS>LITE286 mem
+Fatal error 286.1020:  This program requires VCPI or DPMI in V86 mode.
+
+A program, probably an expanded-memory manager, has put the computer
+into virtual 8086 mode, but the program does not support either the
+Virtual Control Program Interface (VCPI) or the DOS Protected Mode
+Interface (DPMI).  Contact the manufacturer about upgrading to a
+later version which does support VCPI or DPMI, or remove the
+program.  Some of the expanded memory simulators with which LITE286
+works are: 
+
+	 QEMM 4.1 or later (Quarterdeck)
+	 386MAX 4.02 or later (Qualitas)
+	 CEMM 4.02 or later (COMPAQ)
+	 EMM386 (DOS 5.0 or later, Microsoft Windows 3.x versions)
+ 
+
+--------------------------------
+3.4 LITE286 Command Line Options
+--------------------------------
+
+What if you want to run your 286|DOS-Extender Lite program on hardware
+that is not 100% IBM-compatible?  What if you need to reserve a
+certain amount of extended memory because some other program doesn't
+adhere to any of the PC industry's standards for extended memory
+usage?  What if your program does a large amount of file I/O and you
+want LITE286 to use a larger conventional-memory "transfer buffer"
+for DOS and BIOS calls?
+
+LITE286 has a number of command line options which can be used in
+(frankly, rather rare) situations such as these.  If you type LITE286
+-help on the DOS command line, a list of these command line options
+is displayed (the following display is not complete):
+
+C:\DOS>LITE286 -help
+286|DOS-Extender Lite: 3.0 -- Copyright (C) 1986-93 Phar Lap Software, Inc.
+      LITE286  switch(es) filename
+
+	 -EXTLIMIT n       Set max. bytes of extended memory used
+	 -EXTLOW addr      Set lowest extended memory address used
+	 -EXTHIGH addr     Set highest extended memory address used
+	 -ISTKSIZE n       Set size of interrupt stacks (1K blocks)
+	 -LDTSIZE n        Set number of LDT entries
+	 -NISTACK n        Set number of interrupt stacks
+	 -REALIMIT n       Set max. bytes of real memory used
+	 -SWITCH name      Select mode switch method (AUTO, AT, 386,
+			    SURESWITCH, PS2, INBOARD, 6300, ACER,
+			    VECTRA, VCPI, or FAST)
+	 -SWITCHFILE name  Select external switching .BIN file
+	 -XFERSIZE n       Set size of transfer buffer (1K blocks)
+
+Any LITE286 switch can be set on the DOS command line.  For example,
+the following runs MYPROG.EXE with a transfer buffer of 16 KB:
+
+C:\TEST>LITE286 -xfersize 16 myprog
+
+However, since normally we don't bother typing "LITE286" to run a
+program produced by BIND286, we need another way to set LITE286
+command-line options.  For example, the following is equivalent to
+the LITE286 command line just shown:
+
+C:\TEST>set RUN286=-xfersize 16
+C:\TEST>myprog
+
+Of course, you must have sufficient room in your DOS environment.  If
+you receive an "Out of environment space" message, you need a larger
+DOS environment.  Add a line such as the following to your CONFIG.SYS
+file, and reboot:
+
+SHELL=c:\dos\command.com /p /e:512
+
+Note that only LITE286 switches are processed in the LITE286 or
+application-specific DOS extender environment variables, or in the
+"configuration block" in an executable.  Any command line switches
+specific to your program must be handled by your program in the usual
+way.
+
+------------------------------------------------------
+3.5 The Phar Lap Application Program Interface (PHAPI)
+------------------------------------------------------
+
+The full-blown 286|DOS-Extender SDK comes with extensive support for
+the Phar Lap Application Program Interface (PHAPI), which provides
+protected-mode DOS programs with a set of services in the following
+areas:
+
+   Creating and changing protected-mode selectors
+
+   Communication between real and protected mode
+
+   Dynamic Link Library (DLL) support
+
+   Interrupt and exception handling
+
+   DOS memory management
+
+   80386 paging functions
+
+
+The functions listed below are part of PHAPI; prototypes for these
+functions appear in PHAPI.H:
+
+Selector and Memory Management
+------------------------------
+
+DosAllocHuge		Allocate huge (> 64k) segment
+DosAllocRealSeg		Allocate segment in conventional memory
+DosAllocSeg		Allocate segment
+DosCreateCSAlias	Create code alias to a data segment
+DosCreateDSAlias	Create data alias to a code segment
+DosFreeSeg		Free segment
+DosGetBIOSSeg		Get selector to the BIOS data area
+DosGetHugeShift		Get selector increment for huge segments
+DosGetPhysAddr		Convert selector:offset to physical address
+DosGetSegDesc		Get segment descriptor
+DosLockSegPages		Lock pages of a segment
+DosMapLinSeg		Map linear address
+DosMapRealSeg		Map real-mode address into protected mode
+DosMapPhysSeg		Map physical address
+DosMemAvail		Get amount of available extended memory
+DosRealAvail		Get amount of available conventional memory
+DosReallocHuge		Resize a huge segment
+DosReallocSeg		Resize a segment
+DosSetSegAttrib		Set access rights of a segment
+DosUnlockSegPages	Unlock pages of a segment
+DosVerifyAccess		Verify segment for read, write, execute
+
+
+Interrupts and Exceptions
+-------------------------
+
+DosChainToProtIntr	Chain to a protected-mode interrupt handler
+DosChainToRealIntr	Chain to a real-mode interrupt handler
+DosGetExceptionHandler	Get exception (e.g., GP fault) handler
+DosGetProtVec		Get protected-mode interrupt vector
+DosGetRealProtVec	Get real- and protected-mode interrupt vector
+DosGetRealVec		Get real-mode interrupt vector
+DosIsProtIntr		Test if interrupt is from protected mode
+DosIsRealIntr		Test if interrupt is from real mode
+DosProtIntr		Generate a protected-mode interrupt from real mode
+DosRealIntr		Generate a real-mode interrupt from protected mode
+DosSetExceptionHandler	Set exception handler
+DosSetPassToProtVec	Set interrupt vector to go to protected-mode handler
+DosSetPassToRealVec	Set interrupt vector to go to real-mode handler
+DosSetProtVec		Set protected-mode interrupt vector
+DosSetRealProtVec	Set real- and protected-mode interrupt vectors
+DosSetRealVec		Set real-mode interrupt vector
+DosVProtIntr		Generate a protected-mode interrupt from real mode
+DosVRealIntr		Generate a real-mode interrupt from protected mode
+
+
+Mixing Real- and Protected-Mode Code
+------------------------------------
+
+DosFreeProtStack	Free a protected-mode stack
+DosFreeRealStack	Free a real-mode stack
+DosProtFarCall		Call a protected-mode function from real mode
+DosProtFarJump		Jump to protected mode from real mode
+DosProtToReal		Convert a protected- to a real-mode address
+DosRealFarCall		Call a real-mode function from protected mode
+DosRealFarJump		Jump to real-mode from protected mode
+DosRealToProt		Convert a real- to a protected-mode address
+DosVProtFarCall		Call a protected-mode function from real mode
+DosVProtFarJump		Jump to protected mode from real mode
+DosVRealFarCall		Call a real-mode function from protected mode
+DosVRealFarJump		Jump to real-mode from protected mode
+
+
+Dynamic Linking
+---------------
+
+DosEnumMod		Enumerate the currently-loaded modules
+DosEnumProc		Enumerate the functions in a DLL
+DosFreeModule		Free a DLL
+DosGetModHandle		Get the module handle of a DLL
+DosGetModName		Get the filename of a DLL
+DosGetProcAddr		Get the selector:offset of a function in a DLL
+DosGetRealProcAddr	Get the real-mode address of a function in a DLL
+DosLoadModule		Load a DLL
+DosSetProcAddr		Set the address of a function in a DLL
+
+
+Miscellaneous
+-------------
+
+DosExecPgm		Start a new protected- or real-mode process
+DosExit			Exit from a program
+DosExitList		Register an exit routine
+DosGetMachineMode	Get processor mode
+DosIsPharLap		Test if running under 286|DOS-Extender
+DosPTrace		Debug a child program
+
+
+---------------
+Further Reading
+---------------
+
+Developers using 286|DOS-Extender Lite may be interested in the
+following books:
+
+The second edition of the book Extending DOS, edited by Ray Duncan.
+Chapter 4, on 16-bit protected-mode DOS extenders, contains over 70
+pages devoted largely to 286|DOS-Extender.  Other chapters describe
+32-bit protected-mode DOS extenders, the VCPI and DPMI
+specifications, and other topics in protected-mode DOS programming:
+
+Ray Duncan et al., Extending DOS: A Programmer's Guide to
+Protected-Mode DOS, Second Edition, Reading MA: Addison-Wesley, 1991,
+538 pp., ISBN 0-201-56798-9.  
+
+Al Williams' survey of DOS Extenders, DOS and Windows Protected Mode. 
+This book describes nearly every 16- and 32-bit DOS extender
+available, with working examples of how to write programs for each
+one.  It also includes a previous version of 286|DOS-Extender Lite.  
+
+Al Williams, DOS and Protected Mode: Programming with DOS Extenders in
+C, Reading MA: Addison-Wesley, 1993, 503 pp., ISBN 0-201-63218-7.
+

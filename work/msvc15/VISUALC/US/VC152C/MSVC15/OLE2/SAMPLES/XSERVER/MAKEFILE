@@ -1,0 +1,87 @@
+# ============================================================================
+# File: M A K E F I L E
+#
+# NMAKE description file for the XSERVER (in-proc server) sample
+#
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) Microsoft Corporation, 1992-1993.  All Rights Reserved.
+# ============================================================================
+#
+# Usage:    NMAKE           (build DEBUG DLL)
+#           NMAKE DEBUG=0   (build RELEASE DLL)
+#
+# ============================================================================
+
+DEBUG=1
+GOAL: xserver.dll
+
+PCH=xserver.h
+
+SRCS=xserver.cpp xobject.cpp intrface.cpp classfct.cpp enumstat.cpp\
+	 dispatch.cpp cdebug.cpp utils.cpp
+
+INCS=xserver.h xobject.h classfct.h enumstat.h dispatch.h cdebug.h\
+	 utils.h resource.h
+
+OBJS=$(SRCS:cpp=obj)
+
+#############################################################################
+
+G_LIBS=ole2 ole2disp compobj storage libw
+
+G_CPPFLAGS=/ALw /GD /GEd /W3 /Zp /G2 /Yu$(PCH)
+D_CPPFLAGS=/Zi /Od /f /D_DEBUG
+R_CPPFLAGS=/O1 /Gs
+G_LINKFLAGS=/NOD /ONERROR:NOEXE /NOE /BATCH
+D_LINKFLAGS=/COD
+R_LINKFLAGS=/FAR /PACKC
+D_LIBS=ldllcew
+R_LIBS=$(D_LIBS)
+
+!if "$(DEBUG)"=="0"
+CPPFLAGS=$(G_CPPFLAGS) $(R_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(R_LINKFLAGS)
+LIBS=$(R_LIBS) $(G_LIBS)
+!else
+CPPFLAGS=$(G_CPPFLAGS) $(D_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(D_LINKFLAGS)
+LIBS=$(D_LIBS) $(G_LIBS)
+!endif #//DEBUG
+
+#############################################################################
+
+xserver.obj: xserver.cpp $(INCS)
+	nmake clean
+	cl $(CPPFLAGS) /Yc$(PCH) /c xserver.cpp
+
+.cpp.obj:
+	$(CPP) @<<
+$(CPPFLAGS) /c $<
+<<
+
+xserver.dll: $(OBJS) xserver.res xserver.def
+	link $(LINKFLAGS) @<<
+$(OBJS: = +^
+),
+xserver.dll,
+xserver.MAP/MAP,
+$(LIBS),
+xserver.def;
+<<
+	rc /k /t xserver.res xserver.dll
+
+#############################################################################
+
+clean:
+	if exist *.pch erase *.pch
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.res erase *.res
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw
+
+#############################################################################

@@ -1,0 +1,33 @@
+# ============================================================================
+# File: M A K E F I L E
+#
+# NMAKE description file for the PSSAMP (proxy/stub) sample
+#
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) Microsoft Corporation, 1992-1993.  All Rights Reserved.
+# ============================================================================
+#
+# Usage:    NMAKE           (build DEBUG DLL)
+#
+# ============================================================================
+
+# Win16 compiler/linker flags; NOTE: we are using a trick to get exported
+# entries w/o the corresponding EXPDEF record: /GA /GEd /D_WINDLL
+
+CPPFLAGS= /Alnw /GA /GEd /D_WINDLL /Zi
+LINKFLAGS=/NOD /BATCH /ONERROR:NOEXE /NOE /PACKC /COD
+LIBS=libw mdllcew compobj
+
+goal: pssamp.dll
+
+pssamp.obj : pssamp.cpp
+	cl $(CPPFLAGS) /c $*.cpp
+
+pssamp.dll: pssamp.obj pssamp.def
+	link $(LINKFLAGS) @<<pssamp.lnk
+pssamp.obj
+$@,
+pssamp.map /m,
+$(LIBS),
+pssamp.def
+<<KEEP

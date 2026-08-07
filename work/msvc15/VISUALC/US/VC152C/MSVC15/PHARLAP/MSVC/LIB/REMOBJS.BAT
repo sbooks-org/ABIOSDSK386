@@ -1,0 +1,25 @@
+@rem $Id: remobjs.bat 1.6 92/09/18 11:26:30 rob Exp $
+del crt0.obj 
+del growscan.obj 
+del growseg.obj 
+del newseg.obj 
+del patch.obj
+del stdargv.obj
+del unlinksg.obj
+del emoem.obj
+del cenvarg.obj
+del doexec.obj
+del dospawn.obj
+del spawnve.obj
+del execve.obj
+del wait.obj
+del os2ret.obj
+del hdiff.obj
+del halloc.obj
+del mint86.obj
+del mint86x.obj
+del plgraph.obj
+del fakegraf.obj
+del plfinit.obj
+del getcvfp.obj
+del signal.obj

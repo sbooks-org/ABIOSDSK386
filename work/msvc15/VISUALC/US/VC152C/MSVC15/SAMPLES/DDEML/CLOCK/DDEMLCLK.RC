@@ -1,0 +1,99 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+1 DIALOG DISCARDABLE  17, 15, 162, 80
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+BEGIN
+    CTEXT           "Microsoft Windows",-1,0,5,161,8
+    CTEXT           "DDEMLCLK",-1,0,15,161,8
+    CTEXT           "Version 3.1",-1,0,34,161,8
+    CTEXT           "Copyright \251 1987-1992 Microsoft Corp.",-1,0,47,161,9
+    DEFPUSHBUTTON   "OK",IDS_ABOUTMENU,65,60,32,14,WS_GROUP
+    ICON            "DDEMLCLK",-1,14,13,19,26,WS_GROUP
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+DDEMLCLK                ICON    DISCARDABLE     "ddemlclk.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// DATA
+//
+
+DDEMLCLK DATA MOVEABLE IMPURE "clockdat.bin"
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTMENU           "&About ddemlclk..."
+    IDS_APPNAME             "DDEMLCLK"
+    IDS_DATA                "data"
+    IDS_TOOMANY             "Too many clocks or timers."
+END
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

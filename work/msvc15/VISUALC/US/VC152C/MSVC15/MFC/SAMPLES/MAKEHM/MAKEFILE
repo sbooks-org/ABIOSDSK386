@@ -1,0 +1,39 @@
+# makefile : Builds the makehm application
+#
+# Usage:     NMAKE options (build makehm)
+#    or:     NMAKE clean   (erase all compiled files)
+#
+# options:   DEBUG=[0|1]   (DEBUG not defined is equivalent to DEBUG=0)
+#
+# This is a part of the Microsoft Foundation Classes C++ library.
+# Copyright (C) 1992 Microsoft Corporation
+# All rights reserved.
+#
+# This source code is only intended as a supplement to the
+# Microsoft Foundation Classes Reference and Microsoft
+# QuickHelp and/or WinHelp documentation provided with the library.
+# See these sources for detailed information regarding the
+# Microsoft Foundation Classes product.
+#
+
+CPPFLAGS= /AM /W3 /D_DOS
+LINKFLAGS=/NOD /ONERROR:NOEXE
+
+!if "$(DEBUG)"=="1"
+CPPFLAGS=/D_DEBUG $(CPPFLAGS) /Od /Zi
+LINKFLAGS=$(LINKFLAGS) /COD
+LIBS=mafxcrd mlibce $(LIBS)
+!else
+CPPFLAGS=$(CPPFLAGS) /O1 /Gs
+LINKFLAGS=$(LINKFLAGS)
+LIBS=mafxcr mlibce $(LIBS)
+!endif
+
+makehm.exe:   makehm.obj
+	link $(LINKFLAGS) makehm, makehm, makehm/MAP, $(LIBS);
+
+clean:
+	-if exist makehm.exe erase makehm.exe
+	-if exist makehm.obj erase makehm.obj
+	-if exist makehm.map erase makehm.map
+	-if exist msvc.pdb erase msvc.pdb

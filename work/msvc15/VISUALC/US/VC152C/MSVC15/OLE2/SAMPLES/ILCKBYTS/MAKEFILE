@@ -1,0 +1,79 @@
+# ============================================================================
+# File: M A K E F I L E
+#
+# NMAKE description file for the ILBDLL (ILockBytes implementation) sample
+#
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) Microsoft Corporation, 1992-1993.  All Rights Reserved.
+# ============================================================================
+#
+# Usage:    NMAKE           (build DEBUG)
+#           NMAKE DEBUG=0   (build RELEASE DLL)
+#
+# ============================================================================
+
+DEBUG=1
+APPNAME=ilbdll
+GOAL: $(APPNAME).dll $(APPNAME).lib
+
+SRCS=memstm.cpp
+
+INCS=memstm.h
+
+OBJS=$(SRCS:cpp=obj)
+
+#############################################################################
+
+G_LIBS=ole2 compobj storage libw commdlg shell
+
+G_CPPFLAGS=/ALw /GD /GEd /W3 /Zp /G2
+D_CPPFLAGS=/Zi /Od /f /D_DEBUG
+R_CPPFLAGS=/O1 /Gs
+G_LINKFLAGS=/NOD /ONERROR:NOEXE /NOE /BATCH
+D_LINKFLAGS=/COD
+R_LINKFLAGS=/FAR /PACKC
+D_LIBS=ldllcew
+R_LIBS=$(D_LIBS)
+
+!if "$(DEBUG)"=="0"
+CPPFLAGS=$(G_CPPFLAGS) $(R_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(R_LINKFLAGS)
+LIBS=$(R_LIBS) $(G_LIBS)
+!else
+CPPFLAGS=$(G_CPPFLAGS) $(D_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(D_LINKFLAGS)
+LIBS=$(D_LIBS) $(G_LIBS)
+!endif #//DEBUG
+
+#############################################################################
+
+$(APPNAME).dll: $(OBJS) $(APPNAME).def
+	link $(LINKFLAGS)  @<<
+$(OBJS: = +^
+),
+$(APPNAME).dll,
+$(APPNAME),
+$(LIBS: = +^
+),
+$(APPNAME);
+<<
+
+.cpp.obj:
+	$(CPP) @<<
+$(CPPFLAGS) /c $<
+<<
+
+$(APPNAME).lib: $(APPNAME).def
+	implib $(APPNAME).lib $(APPNAME).dll
+
+clean:
+	if exist $(APPNAME).dll erase $(APPNAME).dll
+	if exist $(APPNAME).lib erase $(APPNAME).lib
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw

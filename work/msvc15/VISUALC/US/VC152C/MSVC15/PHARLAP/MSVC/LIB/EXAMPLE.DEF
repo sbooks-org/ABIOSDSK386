@@ -1,0 +1,24 @@
+; Example .DEF file for compiling with Microsoft C/C++ 7.00
+; $Id: example.def 1.2 92/05/14 10:23:41 rob Exp $
+
+;
+; The first two entries are required -- they direct the linker
+; to produce an executable that 286|DOS-Extender can load.
+PROTMODE
+EXETYPE WINDOWS 3.0
+
+;
+; GORUN286.EXE is Phar Lap's default stub program for programs
+; that use 286|DOS-Extender.  GORUN286 spawns RUN286.EXE, and directs
+; the DOS-Extender to load the application.  We find this much
+; more useful than printing out an error message.  LINK.EXE requires
+; that GORUN286.EXE be found in your PATH environment varaible.
+STUB 'gorun286.exe'		; Convenient, not required
+
+;
+; BCC286_EXE is used to trigger certain responses in RUN286.EXE, with
+; respect to floating-point emulation.  The name of this symbol *will*
+; change in the next release.  This export is only required for programs
+; that use floating-point emulation code.
+EXPORTS
+	BCC286_EXE=__astart

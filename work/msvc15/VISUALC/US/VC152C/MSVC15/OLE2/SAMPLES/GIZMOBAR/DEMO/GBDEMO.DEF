@@ -1,0 +1,11 @@
+NAME            GBDEMO
+DESCRIPTION     'GIZMOBAR Demo, By Kraig Brockschmidt, (c)1993 Microsoft Corporation'
+EXETYPE         WINDOWS
+STUB            'WINSTUB.EXE'
+CODE            PRELOAD MOVEABLE DISCARDABLE
+DATA            PRELOAD MOVEABLE MULTIPLE
+
+HEAPSIZE        2048
+
+EXPORTS         GBDemoWndProc       @1
+				GBClientWndProc     @2

@@ -1,0 +1,123 @@
+#
+# Makefile
+# Standard Button Images and Cursors DLL Version 1.1, March 1993
+#
+# Copyright (c)1992-1993 Microsoft Corporation, All Rights Reserved,
+# as applied to redistribution of this source code in source form
+# License is granted to use of compiled code in shipped binaries.
+#
+# Environment Variables:
+#   SAMPBIN_DIR             --  Directory to install built .DLL file
+#                               (Default: \ole2\samp\bin)
+#   SAMPLIB_DIR             --  Directory to install built .LIB file
+#                               (Default: \ole2\samp\bin)
+#   SAMPINC_DIR             --  Directory to install public header files
+#                               (Default: \ole2\samp\include)
+
+ROOT_DRIVE = c:
+
+!CMDSWITCHES +s
+
+!ifndef SAMPBIN_DIR
+SAMPBIN_DIR=..\bin
+!endif
+
+!ifndef SAMPINC_DIR
+SAMPINC_DIR=..\include
+!endif
+
+!ifndef SAMPLIB_DIR
+SAMPLIB_DIR=..\lib
+!endif
+
+#
+#Compiler and assembler flags
+#Use "SET RETAIL=1" from MS-DOS to compile non-debug version.
+#
+
+CPP     = cl
+IMPLIB = implib $@ $*.def
+
+!ifndef RETAIL
+CLFLAGS = -c -Od -AS -Zipe -G2sw -W3
+LINK    = /A:16/ON:N/CO
+DEFS    = -DDEBUG
+!else
+CLFLAGS = -c -Oat -AS -Zpe -G2sw -W3
+LINK    = /A:16/ON:N
+DEFS    =
+!endif
+
+.SUFFIXES: .h .c .obj .exe .res .rc
+
+#
+#
+
+goal: bttncur.lib
+
+
+INCLS    = bttncur.h bttncuri.h
+OBJS     = bttncur.obj cursors.obj
+
+RCFILES1 = bttncur.rcv res\harrows.cur res\help.cur res\larrows.cur
+RCFILES2 = res\magnify.cur res\neswarrs.cur res\nodrop.cur res\nwsearrs.cur
+RCFILES3 = res\rarrow.cur res\sarrows.cur res\sizebarh.cur res\sizebarv.cur
+RCFILES4 = res\splith.cur res\splitv.cur res\tabletop.cur res\varrows.cur
+RCFILES5 = res\stdim72.bmp res\stdim96.bmp res\stdim120.bmp
+RCFILES  = $(RCFILES1) $(RCFILES2) $(RCFILES3) $(RCFILES4) $(RCFILES5)
+
+
+#
+# Tool Directives
+#
+.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+	$(CPP) $(CLFLAGS) $(DEFS) $*.c
+
+.rc.res:
+	echo +++++++++
+	echo Compiling Resources
+	rc -r $(DEFS) $*.rc
+
+#This rule builds a linker response file on the fly depending on debug flags
+
+bttncur.dll : $(OBJS) bttncur.res bttncur.def
+	echo ++++++++++
+	echo Linking $@
+	echo $(OBJS)                              >> bttncur.lrf
+
+	echo bttncur.dll $(LINK)                  >> bttncur.lrf
+	echo nul/li                               >> bttncur.lrf
+	echo libw sdllcew/NOD/NOE                 >> bttncur.lrf
+	echo bttncur.def                          >> bttncur.lrf
+
+	link /BATCH @bttncur.lrf
+	rc -v -30 bttncur.res bttncur.dll
+	del bttncur.lrf
+
+bttncur.lib: bttncur.dll
+	$(IMPLIB)
+
+clean:
+	if exist bttncur.dll erase bttncur.dll
+	if exist bttncur.lib erase bttncur.lib
+	if exist  *.obj erase *.obj
+	if exist  *.sbr erase *.sbr
+	if exist  *.pdb erase *.pdb
+	if exist  *.map erase *.map
+	if exist  *.aps erase *.aps
+	if exist  *.bsc erase *.bsc
+	if exist  *.wsp erase *.wsp
+	if exist  *.vcw erase *.vcw
+
+# install built library and public header files to release directories
+install:
+	copy bttncur.dll $(SAMPBIN_DIR)
+	copy bttncur.lib $(SAMPLIB_DIR)
+	copy bttncur.h $(SAMPINC_DIR)
+
+##### Dependencies #####
+bttncur.obj  : bttncur.c    $(INCLS)
+cursors.obj  : cursors.c    $(INCLS)
+bttncur.res  : bttncur.rc   $(INCLS) $(RCFILES)

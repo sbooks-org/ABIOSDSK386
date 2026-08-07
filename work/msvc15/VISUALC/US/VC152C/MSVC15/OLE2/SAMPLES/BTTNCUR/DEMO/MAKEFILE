@@ -1,0 +1,82 @@
+#
+# Makefile
+# Standard Button Images and Cursors DLL Version 1.1, March 1993
+#
+# Copyright (c)1992-1993 Microsoft Corporation, All Rights Reserved,
+# as applied to redistribution of this source code in source form
+# License is granted to use of compiled code in shipped binaries.
+#
+
+!CMDSWITCHES +s
+
+#
+#Compiler flags
+#Use "SET RETAIL=1" from MS-DOS to compile non-debug version.
+#
+!ifndef RETAIL
+CFLAGS  = -c -Od -AS -Zipe -G2s -W3 -GA
+LINK    = /al:16/ONERROR:NOEXE/CO/STACK:8192
+DEFS    = -DDEBUG
+!else
+CFLAGS  = -c -Oas -AS -Zpe -G2s -W3 -GA
+LINK    = /al:16/ONERROR:NOEXE/STACK:8192
+DEFS    =
+!endif
+
+
+#Files on which every C file depends.  Add others as appropriate
+INCLS=bcdemo.h
+
+.SUFFIXES: .h .c .obj .exe .res .rc
+
+goal:  bcdemo.exe
+
+
+OBJS   =bcdemo.obj init.obj
+RCFILES=bcdemo.ico appim72.bmp appim96.bmp appim120.bmp
+
+
+#####
+
+.c.obj:
+	echo ++++++++++
+	echo Compiling $*.c
+	cl $(CFLAGS) $(DEFS) $*.c
+
+.rc.res:
+	echo +++++++++
+	echo Compiling Resources
+	rc -r $*.rc
+
+
+#This rule builds a linker response file on the fly depending on debug flags
+bcdemo.exe : $(OBJS) bcdemo.res bcdemo.def
+	echo bcdemo init                          > bcdemo.lrf
+
+	echo bcdemo $(LINK)                      >> bcdemo.lrf
+	echo nul/li                              >> bcdemo.lrf
+	echo libw slibcew ..\bttncur/NOD/NOE >> bcdemo.lrf
+	echo bcdemo.def                          >> bcdemo.lrf
+
+	link /BATCH @bcdemo.lrf
+	rc -v -30 bcdemo.res
+	del bcdemo.lrf
+
+
+clean:
+	if exist bcdemo.exe erase bcdemo.exe
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw
+
+
+##### Dependencies #####
+
+bcdemo.obj    : bcdemo.c    $(INCLS)
+init.obj      : init.c      $(INCLS)
+bcdemo.res    : bcdemo.rc   $(INCLS) $(RCFILES)

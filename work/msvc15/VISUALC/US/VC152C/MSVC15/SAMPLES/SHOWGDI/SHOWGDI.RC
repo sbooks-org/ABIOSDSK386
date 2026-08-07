@@ -1,0 +1,1427 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+SHOWGDIICON             ICON    DISCARDABLE     "ShowGDI.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+SHOWGDIMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Clear\tCtrl+C",              IDM_CLEAR
+        MENUITEM "&Drawing Size...",            IDM_DRAWINGSIZE
+        MENUITEM SEPARATOR
+        MENUITEM "&Normal Size\tCtrl+N",        IDM_NORMALSIZE
+        MENUITEM "Zoom &In\tCtrl+I",            IDM_ZOOMIN
+        MENUITEM "Zoom &Out\tCtrl+O",           IDM_ZOOMOUT
+        MENUITEM "Set &Scale...",               IDM_SETSCALE
+        MENUITEM SEPARATOR
+        MENUITEM "Pixel &Grid\tCtrl+G",         IDM_PIXGRID
+    END
+    POPUP "&General"
+    BEGIN
+        MENUITEM "Set DC &Defaults\tCtrl+D",    IDM_DEFAULTS
+        MENUITEM SEPARATOR
+        MENUITEM "Coordinate &System...",       IDM_COORDS
+        MENUITEM "&Clipping...",                IDM_CLIP
+        MENUITEM SEPARATOR
+        MENUITEM "Bac&k Color...",              IDM_BKCOLOR
+        MENUITEM "Back &Mode...",               IDM_BKMODE
+        MENUITEM SEPARATOR
+        MENUITEM "&ROP2...",                    IDM_ROP2
+        MENUITEM "&Polygon Fill Mode...",       IDM_POLYMODE
+        MENUITEM "Stretch&Blt Mode...",         IDM_BLTMODE
+    END
+    POPUP "&Pen"
+    BEGIN
+        MENUITEM "PS_NULL",                     IDM_NULLPEN
+        MENUITEM "PS_SOLID",                    IDM_SOLIDPEN
+        MENUITEM "PS_INSIDEFRAME",              IDM_INSIDEFRAMEPEN
+        MENUITEM "PS_DASH",                     IDM_DASHPEN
+        MENUITEM "PS_DOT",                      IDM_DOTPEN
+        MENUITEM "PS_DASHDOT",                  IDM_DASHDOTPEN
+        MENUITEM "PS_DASHDOTDOT",               IDM_DASHDOTDOTPEN
+        MENUITEM SEPARATOR
+        MENUITEM "&Width...",                   IDM_PENWIDTH
+        MENUITEM "&Color...",                   IDM_PENCOLOR
+        MENUITEM SEPARATOR
+        MENUITEM "Pen &Position...",            IDM_PENPOS
+    END
+    POPUP "&Brush"
+    BEGIN
+        MENUITEM "BS_NULL",                     IDM_NULLBRUSH
+        MENUITEM "BS_SOLID...",                 IDM_SOLIDBRUSH
+        MENUITEM "BS_HATCHED...",               IDM_HATCHBRUSH
+        MENUITEM "BS_PATTERN...",               IDM_PATBRUSH
+        MENUITEM "BS_DIBPATTERN...",            IDM_DIBPATBRUSH
+        MENUITEM SEPARATOR
+        MENUITEM "Brush &Origin..",             IDM_BRUSHORG
+    END
+    POPUP "&Text"
+    BEGIN
+        MENUITEM "&Font...",                    IDM_FONT
+        MENUITEM "Text &Alignment...",          IDM_TEXTALIGN
+        MENUITEM "Text &Justification...",      IDM_TEXTJUST
+        MENUITEM "Text Character &Extra...",    IDM_TEXTEXTRA
+        MENUITEM "Text &Color...",              IDM_TEXTCOLOR
+    END
+    POPUP "&Draw"
+    BEGIN
+        MENUITEM "&LineTo...",                  IDM_LINETO
+        MENUITEM "&MoveTo/LineTo...",           IDM_LINE
+        MENUITEM SEPARATOR
+        MENUITEM "&Rectangle...",               IDM_RECTANGLE
+        MENUITEM "&Ellipse...",                 IDM_ELLIPSE
+        MENUITEM "Ro&undRect...",               IDM_ROUNDRECT
+        MENUITEM SEPARATOR
+        MENUITEM "&Arc...",                     IDM_ARC
+        MENUITEM "&Pie...",                     IDM_PIE
+        MENUITEM "&Chord...",                   IDM_CHORD
+        MENUITEM SEPARATOR
+        MENUITEM "Pol&yline...",                IDM_POLYLINE
+        MENUITEM "Poly&gon...",                 IDM_POLYGON
+        MENUITEM "P&olyPolygon...",             IDM_POLYPOLYGON
+        MENUITEM "&TextOut...",                 IDM_TEXTOUT, MENUBARBREAK
+        MENUITEM "E&xtTextOut...",              IDM_EXTTEXTOUT
+        MENUITEM "&DrawText...",                IDM_DRAWTEXT
+        MENUITEM SEPARATOR
+        MENUITEM "SetP&ixel...",                IDM_SETPIXEL
+        MENUITEM SEPARATOR
+        MENUITEM "PatBlt...",                   IDM_PATBLT
+        MENUITEM "&BitBlt...",                  IDM_BITBLT
+        MENUITEM "&StretchBlt...",              IDM_STRETCHBLT
+        MENUITEM "StretchDIBits...",            IDM_STRETCHDIB
+        MENUITEM SEPARATOR
+        MENUITEM "&FloodFill...",               IDM_FLOODFILL
+        MENUITEM "ExtFloodFill...",             IDM_EXTFLOODFILL
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About ShowGDI...",           IDM_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+SHOWGDIACC ACCELERATORS MOVEABLE PURE 
+BEGIN
+    "C",            IDM_CLEAR,              VIRTKEY,CONTROL
+    "D",            IDM_DEFAULTS,           VIRTKEY,CONTROL
+    "G",            IDM_PIXGRID,            VIRTKEY,CONTROL
+    "I",            IDM_ZOOMIN,             VIRTKEY,CONTROL
+    "N",            IDM_NORMALSIZE,         VIRTKEY,CONTROL
+    "O",            IDM_ZOOMOUT,            VIRTKEY,CONTROL
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DLGOPENBOX DIALOG DISCARDABLE  30, 35, 247, 120
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "File Open"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        DLGOPEN_EDIT,45,6,130,12,ES_AUTOHSCROLL | WS_GROUP
+    LTEXT           "",DLGOPEN_PATH,70,22,110,9
+    LISTBOX         DLGOPEN_FILE_LISTBOX,5,24,60,78,LBS_SORT | WS_VSCROLL | 
+                    WS_GROUP | WS_TABSTOP
+    LISTBOX         DLGOPEN_DIR_LISTBOX,70,32,60,69,LBS_SORT | WS_VSCROLL | 
+                    WS_TABSTOP
+    DEFPUSHBUTTON   "Ok",1,136,41,45,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,136,61,45,14,WS_GROUP
+    LTEXT           "Filename:",-1,5,7,40,10
+    LTEXT           "",DLGOPEN_SMALL,190,2,8,10,NOT WS_GROUP
+    LTEXT           "",DLGOPEN_BIG,236,2,11,10,NOT WS_GROUP
+END
+
+BKCOLORDLG DIALOG DISCARDABLE  107, 75, 92, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Background Color"
+BEGIN
+    LTEXT           "&Color",-1,6,20,22,12,NOT WS_GROUP
+    EDITTEXT        IF_RGB_R,28,16,16,12
+    EDITTEXT        IF_RGB_G,46,16,16,12
+    EDITTEXT        IF_RGB_B,64,16,16,12
+    CTEXT           "R",-1,28,6,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,46,6,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,64,6,16,8,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,10,42,32,14
+    PUSHBUTTON      "Cancel",2,50,42,32,14
+END
+
+BKMODEDLG DIALOG DISCARDABLE  88, 60, 110, 70
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Background Mode"
+BEGIN
+    GROUPBOX        "BkMode",-1,12,4,86,40
+    CONTROL         "&OPAQUE",BF_OPAQUE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,22,16,70,12
+    CONTROL         "&TRANSPARENT",BF_TRANSPARENT,"Button",
+                    BS_AUTORADIOBUTTON,22,28,72,12
+    DEFPUSHBUTTON   "OK",1,14,50,36,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,60,50,36,14
+END
+
+BLTMODEDLG DIALOG DISCARDABLE  88, 60, 110, 86
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "StretchBlt Mode"
+BEGIN
+    GROUPBOX        "StretchBltMode",-1,12,4,86,52
+    CONTROL         "&BLACKONWHITE",BF_BLACKONWHITE,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,22,16,70,12
+    CONTROL         "&WHITEONBLACK",BF_WHITEONBLACK,"Button",
+                    BS_AUTORADIOBUTTON,22,28,72,12
+    CONTROL         "&COLORONCOLOR",BF_COLORONCOLOR,"Button",
+                    BS_AUTORADIOBUTTON,22,40,72,12
+    DEFPUSHBUTTON   "OK",1,14,64,36,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,60,64,36,14
+END
+
+COORDSDLG DIALOG DISCARDABLE  75, 28, 164, 152
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Coordinate System"
+BEGIN
+    GROUPBOX        "&Map Mode",-1,4,4,156,68
+    CONTROL         "MM_TEXT",BF_MM_TEXT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,8,16,56,12
+    CONTROL         "MM_TWIPS",BF_MM_TWIPS,"Button",BS_AUTORADIOBUTTON,8,28,
+                    52,12
+    CONTROL         "MM_ISOTROPIC",BF_MM_ISOTROPIC,"Button",
+                    BS_AUTORADIOBUTTON,8,40,68,12
+    CONTROL         "MM_ANISOTROPIC",BF_MM_ANISOTROPIC,"Button",
+                    BS_AUTORADIOBUTTON,8,52,72,12
+    CONTROL         "MM_LOMETRIC",BF_MM_LOMETRIC,"Button",BS_AUTORADIOBUTTON,
+                    88,16,64,12
+    CONTROL         "MM_HIMETRIC",BF_MM_HIMETRIC,"Button",BS_AUTORADIOBUTTON,
+                    88,28,64,12
+    CONTROL         "MM_LOENGLISH",BF_MM_LOENGLISH,"Button",
+                    BS_AUTORADIOBUTTON,88,40,68,12
+    CONTROL         "MM_HIENGLISH",BF_MM_HIENGLISH,"Button",
+                    BS_AUTORADIOBUTTON,88,52,68,12
+    LTEXT           "&ViewPortOrg",IF_DIAM_Y,4,90,44,12,NOT WS_GROUP
+    EDITTEXT        IF_VO_X,48,88,28,12
+    EDITTEXT        IF_VO_Y,78,88,28,12
+    LTEXT           "View&PortExt",IF_DIAM_X,4,104,44,12,NOT WS_GROUP
+    EDITTEXT        IF_VE_X,48,102,28,12
+    EDITTEXT        IF_VE_Y,78,102,28,12
+    LTEXT           "Window&Org",-1,4,122,44,12,NOT WS_GROUP
+    EDITTEXT        IF_WO_X,48,120,28,12
+    EDITTEXT        IF_WO_Y,78,120,28,12
+    LTEXT           "Window&Ext",IF_RGB_R,4,136,44,12,NOT WS_GROUP
+    EDITTEXT        IF_WE_X,48,134,28,12
+    EDITTEXT        IF_WE_Y,78,134,28,12
+    CTEXT           "X",-1,48,78,28,8,NOT WS_GROUP
+    CTEXT           "Y",-1,78,78,28,8,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,116,96,38,16
+    PUSHBUTTON      "Cancel",2,116,120,38,16
+END
+
+PENCOLORDLG DIALOG DISCARDABLE  107, 75, 92, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Pen Color"
+BEGIN
+    LTEXT           "&Color",-1,6,20,22,12,NOT WS_GROUP
+    EDITTEXT        IF_RGB_R,28,16,16,12
+    EDITTEXT        IF_RGB_G,46,16,16,12
+    EDITTEXT        IF_RGB_B,64,16,16,12
+    CTEXT           "R",-1,28,6,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,46,6,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,64,6,16,8,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,10,42,32,14
+    PUSHBUTTON      "Cancel",2,50,42,32,14
+END
+
+POLYMODEDLG DIALOG DISCARDABLE  88, 60, 110, 70
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Polygon Fill Mode"
+BEGIN
+    GROUPBOX        "PolyFillMode",-1,12,4,86,40
+    CONTROL         "&ALTERNATE",BF_ALTERNATE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,22,16,70,12
+    CONTROL         "&WINDING",BF_WINDING,"Button",BS_AUTORADIOBUTTON,22,28,
+                    72,12
+    DEFPUSHBUTTON   "OK",1,14,50,36,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,60,50,36,14
+END
+
+ROP2DLG DIALOG DISCARDABLE  60, 24, 188, 152
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROP2"
+BEGIN
+    GROUPBOX        "&ROP2",-1,8,4,172,118
+    CONTROL         "R2_BLACK",BF_BLACK,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,14,16,72,12
+    CONTROL         "R2_NOTMERGEPEN",BF_NOTMERGEPEN,"Button",
+                    BS_AUTORADIOBUTTON,14,28,80,12
+    CONTROL         "R2_MASKNOTPEN",BF_MASKNOTPEN,"Button",
+                    BS_AUTORADIOBUTTON,14,40,72,12
+    CONTROL         "R2_NOTCOPYPEN",BF_NOTCOPYPEN,"Button",
+                    BS_AUTORADIOBUTTON,14,52,72,12
+    CONTROL         "R2_MASKPENNOT",BF_MASKPENNOT,"Button",
+                    BS_AUTORADIOBUTTON,14,64,72,12
+    CONTROL         "R2_NOT",BF_NOT,"Button",BS_AUTORADIOBUTTON,14,76,72,12
+    CONTROL         "R2_XORPEN",BF_XORPEN,"Button",BS_AUTORADIOBUTTON,14,88,
+                    72,12
+    CONTROL         "R2_NOTMASKPEN",BF_NOTMASKPEN,"Button",
+                    BS_AUTORADIOBUTTON,14,100,72,12
+    CONTROL         "R2_MASKPEN",BF_MASKPEN,"Button",BS_AUTORADIOBUTTON,100,
+                    16,72,12
+    CONTROL         "R2_NOTXORPEN",BF_NOTXORPEN,"Button",BS_AUTORADIOBUTTON,
+                    100,28,72,12
+    CONTROL         "R2_NOP",BF_NOP,"Button",BS_AUTORADIOBUTTON,100,40,72,12
+    CONTROL         "R2_MERGENOTPEN",BF_MERGENOTPEN,"Button",
+                    BS_AUTORADIOBUTTON,100,52,78,12
+    CONTROL         "R2_COPYPEN",BF_COPYPEN,"Button",BS_AUTORADIOBUTTON,100,
+                    64,72,12
+    CONTROL         "R2_MERGEPENNOT",BF_MERGEPENNOT,"Button",
+                    BS_AUTORADIOBUTTON,100,76,78,12
+    CONTROL         "R2_MERGEPEN",BF_MERGEPEN,"Button",BS_AUTORADIOBUTTON,
+                    100,88,72,12
+    CONTROL         "R2_WHITE",BF_WHITE,"Button",BS_AUTORADIOBUTTON,100,100,
+                    72,12
+    DEFPUSHBUTTON   "OK",1,48,130,36,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,104,130,36,14
+END
+
+SOLIDBRUSHDLG DIALOG DISCARDABLE  107, 75, 92, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Solid Brush"
+BEGIN
+    LTEXT           "&Color",-1,6,20,22,12,NOT WS_GROUP
+    EDITTEXT        IF_RGB_R,28,16,16,12
+    EDITTEXT        IF_RGB_G,46,16,16,12
+    EDITTEXT        IF_RGB_B,64,16,16,12
+    CTEXT           "R",-1,28,6,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,46,6,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,64,6,16,8,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,10,42,32,14
+    PUSHBUTTON      "Cancel",2,50,42,32,14
+END
+
+TEXTCOLORDLG DIALOG DISCARDABLE  107, 75, 92, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Text Color"
+BEGIN
+    LTEXT           "&Color",-1,6,20,22,12,NOT WS_GROUP
+    EDITTEXT        IF_RGB_R,28,16,16,12
+    EDITTEXT        IF_RGB_G,46,16,16,12
+    EDITTEXT        IF_RGB_B,64,16,16,12
+    CTEXT           "R",-1,28,6,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,46,6,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,64,6,16,8,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,10,42,32,14
+    PUSHBUTTON      "Cancel",2,50,42,32,14
+END
+
+RECTANGLEDLG DIALOG DISCARDABLE  85, 55, 124, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rectangle"
+BEGIN
+    RTEXT           "&Left",-1,2,10,22,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,28,8,26,12
+    RTEXT           "&Top",-1,62,10,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,88,8,26,12
+    RTEXT           "&Right",-1,2,24,22,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,28,22,26,12
+    RTEXT           "&Bottom",-1,62,24,24,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,88,22,26,12
+    DEFPUSHBUTTON   "OK",1,20,44,38,14
+    PUSHBUTTON      "Cancel",2,68,44,38,14
+END
+
+ELLIPSEDLG DIALOG DISCARDABLE  85, 55, 124, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ellipse"
+BEGIN
+    RTEXT           "&Left",-1,2,10,22,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,28,8,26,12
+    RTEXT           "&Top",-1,62,10,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,88,8,26,12
+    RTEXT           "&Right",-1,2,24,22,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,28,22,26,12
+    RTEXT           "&Bottom",-1,62,24,24,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,88,22,26,12
+    DEFPUSHBUTTON   "OK",1,20,44,38,14
+    PUSHBUTTON      "Cancel",2,68,44,38,14
+END
+
+LINEDLG DIALOG DISCARDABLE  94, 47, 110, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "MoveTo/LineTo"
+BEGIN
+    CTEXT           "X",-1,40,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,70,6,26,10,NOT WS_GROUP
+    LTEXT           "&MoveTo",-1,12,18,28,10,NOT WS_GROUP
+    EDITTEXT        IF_FROM_X,40,16,26,12
+    EDITTEXT        IF_FROM_Y,70,16,26,12
+    LTEXT           "&LineTo",-1,12,34,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TO_X,40,32,26,12
+    EDITTEXT        IF_TO_Y,70,32,26,12
+    DEFPUSHBUTTON   "OK",1,12,54,38,14
+    PUSHBUTTON      "Cancel",2,60,54,38,14
+END
+
+LINETODLG DIALOG DISCARDABLE  79, 38, 106, 60
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "LineTo"
+BEGIN
+    CTEXT           "X",-1,38,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,68,6,26,10,NOT WS_GROUP
+    LTEXT           "&LineTo",-1,12,18,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TO_X,38,16,26,12
+    EDITTEXT        IF_TO_Y,68,16,26,12
+    DEFPUSHBUTTON   "OK",1,10,38,38,14
+    PUSHBUTTON      "Cancel",2,58,38,38,14
+END
+
+ROUNDRECTDLG DIALOG DISCARDABLE  85, 37, 124, 98
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RoundRect"
+BEGIN
+    RTEXT           "&Left",-1,2,10,22,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,28,8,26,12
+    RTEXT           "&Top",-1,62,10,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,88,8,26,12
+    RTEXT           "&Right",-1,2,24,22,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,28,22,26,12
+    RTEXT           "&Bottom",-1,62,24,24,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,88,22,26,12
+    LTEXT           "&Diameter",-1,16,56,32,10,NOT WS_GROUP
+    CTEXT           "X",-1,48,44,26,10,NOT WS_GROUP
+    EDITTEXT        IF_DIAM_X,48,54,26,12
+    CTEXT           "Y",-1,78,44,26,10,NOT WS_GROUP
+    EDITTEXT        IF_DIAM_Y,78,54,26,12
+    DEFPUSHBUTTON   "OK",1,20,76,38,14
+    PUSHBUTTON      "Cancel",2,68,76,38,14
+END
+
+ARCDLG DIALOG DISCARDABLE  88, 39, 122, 118
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Arc"
+BEGIN
+    RTEXT           "&Left",-1,2,10,22,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,28,8,26,12
+    RTEXT           "&Top",-1,62,10,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,88,8,26,12
+    RTEXT           "&Right",-1,2,24,22,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,28,22,26,12
+    RTEXT           "&Bottom",-1,62,24,24,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,88,22,26,12
+    CTEXT           "X",-1,42,44,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,72,44,26,10,NOT WS_GROUP
+    LTEXT           "&Start",-1,22,56,20,10,NOT WS_GROUP
+    EDITTEXT        IF_START_X,42,54,26,12
+    EDITTEXT        IF_START_Y,72,54,26,12
+    LTEXT           "&End",-1,22,72,16,10,NOT WS_GROUP
+    EDITTEXT        IF_END_X,42,70,26,12
+    EDITTEXT        IF_END_Y,72,70,26,12
+    DEFPUSHBUTTON   "OK",1,20,94,38,14
+    PUSHBUTTON      "Cancel",2,68,94,38,14
+END
+
+PIEDLG DIALOG DISCARDABLE  88, 39, 122, 118
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Pie"
+BEGIN
+    RTEXT           "&Left",-1,2,10,22,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,28,8,26,12
+    RTEXT           "&Top",-1,62,10,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,88,8,26,12
+    RTEXT           "&Right",-1,2,24,22,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,28,22,26,12
+    RTEXT           "&Bottom",-1,62,24,24,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,88,22,26,12
+    CTEXT           "X",-1,42,44,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,72,44,26,10,NOT WS_GROUP
+    LTEXT           "&Start",-1,22,56,20,10,NOT WS_GROUP
+    EDITTEXT        IF_START_X,42,54,26,12
+    EDITTEXT        IF_START_Y,72,54,26,12
+    LTEXT           "&End",-1,22,72,16,10,NOT WS_GROUP
+    EDITTEXT        IF_END_X,42,70,26,12
+    EDITTEXT        IF_END_Y,72,70,26,12
+    DEFPUSHBUTTON   "OK",1,20,94,38,14
+    PUSHBUTTON      "Cancel",2,68,94,38,14
+END
+
+CHORDDLG DIALOG DISCARDABLE  88, 39, 122, 118
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Chord"
+BEGIN
+    RTEXT           "&Left",-1,2,10,22,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,28,8,26,12
+    RTEXT           "&Top",-1,62,10,24,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,88,8,26,12
+    RTEXT           "&Right",-1,2,24,22,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,28,22,26,12
+    RTEXT           "&Bottom",-1,62,24,24,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,88,22,26,12
+    CTEXT           "X",-1,42,44,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,72,44,26,10,NOT WS_GROUP
+    LTEXT           "&Start",-1,22,56,20,10,NOT WS_GROUP
+    EDITTEXT        IF_START_X,42,54,26,12
+    EDITTEXT        IF_START_Y,72,54,26,12
+    LTEXT           "&End",-1,22,72,16,10,NOT WS_GROUP
+    EDITTEXT        IF_END_X,42,70,26,12
+    EDITTEXT        IF_END_Y,72,70,26,12
+    DEFPUSHBUTTON   "OK",1,20,94,38,14
+    PUSHBUTTON      "Cancel",2,68,94,38,14
+END
+
+PENWIDTHDLG DIALOG DISCARDABLE  106, 67, 92, 51
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Pen Width"
+BEGIN
+    LTEXT           "&Width",-1,20,12,22,10,NOT WS_GROUP
+    EDITTEXT        IF_WIDTH,44,10,28,12
+    DEFPUSHBUTTON   "OK",1,8,32,34,14
+    PUSHBUTTON      "Cancel",2,48,32,33,14
+END
+
+SETSCALEDLG DIALOG DISCARDABLE  107, 67, 92, 51
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Scale"
+BEGIN
+    LTEXT           "&Scale",-1,24,12,22,10,NOT WS_GROUP
+    EDITTEXT        IF_SCALE,46,10,16,12
+    DEFPUSHBUTTON   "OK",1,8,32,34,14
+    PUSHBUTTON      "Cancel",2,48,32,33,14
+END
+
+DRAWINGSIZEDLG DIALOG DISCARDABLE  79, 38, 106, 60
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Drawing Size"
+BEGIN
+    CTEXT           "X",-1,36,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,64,6,26,10,NOT WS_GROUP
+    LTEXT           "&Pixels",-1,14,18,22,10,NOT WS_GROUP
+    EDITTEXT        IF_X,36,16,26,12
+    EDITTEXT        IF_Y,64,16,26,12
+    DEFPUSHBUTTON   "OK",1,10,38,38,14
+    PUSHBUTTON      "Cancel",2,58,38,38,14
+END
+
+HATCHBRUSHDLG DIALOG DISCARDABLE  98, 30, 107, 157
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Hatch Brush"
+BEGIN
+    GROUPBOX        "&Hatch",-1,12,4,86,92
+    CONTROL         "HS_HORIZONTAL",BF_HORIZONTAL,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,22,16,70,12
+    CONTROL         "HS_VERTICAL",BF_VERTICAL,"Button",BS_AUTORADIOBUTTON,22,
+                    28,72,12
+    CONTROL         "HS_CROSS",BF_CROSS,"Button",BS_AUTORADIOBUTTON,22,40,72,
+                    12
+    CONTROL         "HS_FDIAGONAL",BF_FDIAGONAL,"Button",BS_AUTORADIOBUTTON,
+                    22,52,72,12
+    CONTROL         "HS_BDIAGONAL",BF_BDIAGONAL,"Button",BS_AUTORADIOBUTTON,
+                    22,64,72,12
+    CONTROL         "HS_DIAGCROSS",BF_DIAGCROSS,"Button",BS_AUTORADIOBUTTON,
+                    22,76,72,12
+    LTEXT           "&Color",-1,16,116,24,10,NOT WS_GROUP
+    EDITTEXT        IF_RGB_R,40,114,16,12,WS_GROUP
+    EDITTEXT        IF_RGB_G,58,114,16,12
+    EDITTEXT        IF_RGB_B,76,114,16,12
+    CTEXT           "R",-1,40,104,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,58,104,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,76,104,16,8,NOT WS_GROUP
+    DEFPUSHBUTTON   "OK",1,14,136,36,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,58,136,36,14
+END
+
+PATBRUSHDLG DIALOG DISCARDABLE  107, 29, 96, 152
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Pattern Brush"
+BEGIN
+    DEFPUSHBUTTON   "OK",1,10,130,36,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,50,130,36,14
+    GROUPBOX        "Pattern",-1,6,6,84,116,WS_TABSTOP
+    CONTROL         "",BF_PATTERN_FIRST,"Button",BS_AUTOCHECKBOX,16,32,8,8
+    CONTROL         "",201,"Button",BS_AUTOCHECKBOX,24,32,8,8
+    CONTROL         "",202,"Button",BS_AUTOCHECKBOX,32,32,8,8
+    CONTROL         "",203,"Button",BS_AUTOCHECKBOX,40,32,8,8
+    CONTROL         "",204,"Button",BS_AUTOCHECKBOX,48,32,8,8
+    CONTROL         "",205,"Button",BS_AUTOCHECKBOX,56,32,8,8
+    CONTROL         "",206,"Button",BS_AUTOCHECKBOX,64,32,8,8
+    CONTROL         "",207,"Button",BS_AUTOCHECKBOX,72,32,8,8
+    CONTROL         "",208,"Button",BS_AUTOCHECKBOX,16,40,8,8
+    CONTROL         "",209,"Button",BS_AUTOCHECKBOX,24,40,8,8
+    CONTROL         "",210,"Button",BS_AUTOCHECKBOX,32,40,8,8
+    CONTROL         "",211,"Button",BS_AUTOCHECKBOX,40,40,8,8
+    CONTROL         "",212,"Button",BS_AUTOCHECKBOX,48,40,8,8
+    CONTROL         "",213,"Button",BS_AUTOCHECKBOX,56,40,8,8
+    CONTROL         "",214,"Button",BS_AUTOCHECKBOX,64,40,8,8
+    CONTROL         "",215,"Button",BS_AUTOCHECKBOX,72,40,8,8
+    CONTROL         "",216,"Button",BS_AUTOCHECKBOX,16,48,8,8
+    CONTROL         "",217,"Button",BS_AUTOCHECKBOX,24,48,8,8
+    CONTROL         "",218,"Button",BS_AUTOCHECKBOX,32,48,8,8
+    CONTROL         "",219,"Button",BS_AUTOCHECKBOX,40,48,8,8
+    CONTROL         "",220,"Button",BS_AUTOCHECKBOX,48,48,8,8
+    CONTROL         "",221,"Button",BS_AUTOCHECKBOX,56,48,8,8
+    CONTROL         "",222,"Button",BS_AUTOCHECKBOX,64,48,8,8
+    CONTROL         "",223,"Button",BS_AUTOCHECKBOX,72,48,8,8
+    CONTROL         "",224,"Button",BS_AUTOCHECKBOX,16,56,8,8
+    CONTROL         "",225,"Button",BS_AUTOCHECKBOX,24,56,8,8
+    CONTROL         "",226,"Button",BS_AUTOCHECKBOX,32,56,8,8
+    CONTROL         "",227,"Button",BS_AUTOCHECKBOX,40,56,8,8
+    CONTROL         "",228,"Button",BS_AUTOCHECKBOX,48,56,8,8
+    CONTROL         "",229,"Button",BS_AUTOCHECKBOX,56,56,8,8
+    CONTROL         "",230,"Button",BS_AUTOCHECKBOX,64,56,8,8
+    CONTROL         "",231,"Button",BS_AUTOCHECKBOX,72,56,8,8
+    CONTROL         "",232,"Button",BS_AUTOCHECKBOX,16,64,8,8
+    CONTROL         "",233,"Button",BS_AUTOCHECKBOX,24,64,8,8
+    CONTROL         "",234,"Button",BS_AUTOCHECKBOX,32,64,8,8
+    CONTROL         "",235,"Button",BS_AUTOCHECKBOX,40,64,8,8
+    CONTROL         "",236,"Button",BS_AUTOCHECKBOX,48,64,8,8
+    CONTROL         "",237,"Button",BS_AUTOCHECKBOX,56,64,8,8
+    CONTROL         "",238,"Button",BS_AUTOCHECKBOX,64,64,8,8
+    CONTROL         "",239,"Button",BS_AUTOCHECKBOX,72,64,8,8
+    CONTROL         "",240,"Button",BS_AUTOCHECKBOX,16,72,8,8
+    CONTROL         "",241,"Button",BS_AUTOCHECKBOX,24,72,8,8
+    CONTROL         "",242,"Button",BS_AUTOCHECKBOX,32,72,8,8
+    CONTROL         "",243,"Button",BS_AUTOCHECKBOX,40,72,8,8
+    CONTROL         "",244,"Button",BS_AUTOCHECKBOX,48,72,8,8
+    CONTROL         "",245,"Button",BS_AUTOCHECKBOX,56,72,8,8
+    CONTROL         "",246,"Button",BS_AUTOCHECKBOX,64,72,8,8
+    CONTROL         "",247,"Button",BS_AUTOCHECKBOX,72,72,8,8
+    CONTROL         "",248,"Button",BS_AUTOCHECKBOX,16,80,8,8
+    CONTROL         "",249,"Button",BS_AUTOCHECKBOX,24,80,8,8
+    CONTROL         "",250,"Button",BS_AUTOCHECKBOX,32,80,8,8
+    CONTROL         "",251,"Button",BS_AUTOCHECKBOX,40,80,8,8
+    CONTROL         "",252,"Button",BS_AUTOCHECKBOX,48,80,8,8
+    CONTROL         "",253,"Button",BS_AUTOCHECKBOX,56,80,8,8
+    CONTROL         "",254,"Button",BS_AUTOCHECKBOX,64,80,8,8
+    CONTROL         "",255,"Button",BS_AUTOCHECKBOX,72,80,8,8
+    CONTROL         "",256,"Button",BS_AUTOCHECKBOX,16,88,8,8
+    CONTROL         "",257,"Button",BS_AUTOCHECKBOX,24,88,8,8
+    CONTROL         "",258,"Button",BS_AUTOCHECKBOX,32,88,8,8
+    CONTROL         "",259,"Button",BS_AUTOCHECKBOX,40,88,8,8
+    CONTROL         "",260,"Button",BS_AUTOCHECKBOX,48,88,8,8
+    CONTROL         "",261,"Button",BS_AUTOCHECKBOX,56,88,8,8
+    CONTROL         "",262,"Button",BS_AUTOCHECKBOX,64,88,8,8
+    CONTROL         "",BF_PATTERN_LAST,"Button",BS_AUTOCHECKBOX,72,88,8,8
+    PUSHBUTTON      "&Clear",BF_CLEAR,32,102,32,14
+    LTEXT           "Check the 0 (black) bits",-1,10,20,76,8,NOT WS_GROUP
+END
+
+BRUSHORGDLG DIALOG DISCARDABLE  79, 38, 106, 60
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Brush Origin"
+BEGIN
+    CTEXT           "X",-1,40,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,68,6,26,10,NOT WS_GROUP
+    LTEXT           "&Origin",-1,16,18,22,10,NOT WS_GROUP
+    EDITTEXT        IF_X,40,16,26,12
+    EDITTEXT        IF_Y,68,16,26,12
+    DEFPUSHBUTTON   "OK",1,10,38,38,14
+    PUSHBUTTON      "Cancel",2,58,38,38,14
+END
+
+FLOODFILLDLG DIALOG DISCARDABLE  63, 38, 122, 88
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Flood Fill"
+BEGIN
+    CTEXT           "X",-1,56,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,84,6,26,10,NOT WS_GROUP
+    LTEXT           "&Start Point",-1,16,18,38,10,NOT WS_GROUP
+    EDITTEXT        IF_X,56,16,26,12
+    EDITTEXT        IF_Y,84,16,26,12
+    CTEXT           "R",-1,56,34,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,74,34,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,92,34,16,8,NOT WS_GROUP
+    LTEXT           "&Border Color",-1,10,44,44,10,NOT WS_GROUP
+    EDITTEXT        IF_RGB_R,56,42,16,12
+    EDITTEXT        IF_RGB_G,74,42,16,12
+    EDITTEXT        IF_RGB_B,92,42,16,12
+    DEFPUSHBUTTON   "OK",1,16,66,38,14
+    PUSHBUTTON      "Cancel",2,66,66,38,14
+END
+
+SETPIXELDLG DIALOG DISCARDABLE  79, 38, 106, 88
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Pixel"
+BEGIN
+    CTEXT           "X",-1,40,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,68,6,26,10,NOT WS_GROUP
+    LTEXT           "&Point",-1,16,18,22,10,NOT WS_GROUP
+    EDITTEXT        IF_X,40,16,26,12
+    EDITTEXT        IF_Y,68,16,26,12
+    CTEXT           "R",-1,40,34,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,58,34,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,76,34,16,8,NOT WS_GROUP
+    LTEXT           "&Color",-1,16,44,20,10,NOT WS_GROUP
+    EDITTEXT        IF_RGB_R,40,42,16,12
+    EDITTEXT        IF_RGB_G,58,42,16,12
+    EDITTEXT        IF_RGB_B,76,42,16,12
+    DEFPUSHBUTTON   "OK",1,10,64,38,14
+    PUSHBUTTON      "Cancel",2,58,64,38,14
+END
+
+FONTDLG DIALOG DISCARDABLE  9, 18, 264, 184
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Font"
+BEGIN
+    LTEXT           "Face &Name",-1,12,8,38,10,NOT WS_GROUP
+    EDITTEXT        SF_FACENAME,52,6,136,12
+    LTEXT           "&Height",-1,26,28,26,10,NOT WS_GROUP
+    EDITTEXT        IF_HEIGHT,52,26,26,12
+    LTEXT           "&Width",-1,28,44,24,10,NOT WS_GROUP
+    EDITTEXT        IF_WIDTH,52,42,26,12
+    LTEXT           "&Escapement",-1,8,60,42,10,NOT WS_GROUP
+    EDITTEXT        IF_ESCAPEMENT,52,58,26,12
+    LTEXT           "O&rientation",-1,12,76,38,10,NOT WS_GROUP
+    EDITTEXT        IF_ORIENTATION,52,74,26,12
+    LTEXT           "Wei&ght",-1,24,92,28,10,NOT WS_GROUP
+    LTEXT           "(Normal=400,",-1,26,104,44,10,NOT WS_GROUP
+    LTEXT           "Bold=700)",IF_INTERSECT_TOP,36,114,36,10,NOT WS_GROUP
+    EDITTEXT        IF_WEIGHT,52,90,26,12
+    GROUPBOX        "Style",-1,12,128,64,48
+    CONTROL         "&Italic",BF_ITALIC,"Button",BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP,18,140,46,12
+    CONTROL         "&Underline",BF_UNDERLINE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,18,150,46,12
+    CONTROL         "&Strikeout",BF_STRIKEOUT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,18,160,46,12
+    GROUPBOX        "&Character Set",-1,88,22,64,44
+    CONTROL         "ANSI",BF_CS_ANSI,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,92,32,28,12
+    CONTROL         "OEM",BF_CS_OEM,"Button",BS_AUTORADIOBUTTON,92,42,28,12
+    CONTROL         "Symbol",BF_CS_SYMBOL,"Button",BS_AUTORADIOBUTTON,92,52,
+                    42,12
+    GROUPBOX        "&Output Precision",-1,88,70,64,54
+    CONTROL         "Default",BF_OP_DEFAULT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,92,80,34,12
+    CONTROL         "String",BF_OP_STRING,"Button",BS_AUTORADIOBUTTON,92,90,
+                    34,12
+    CONTROL         "Character",BF_OP_CHAR,"Button",BS_AUTORADIOBUTTON,92,
+                    100,42,12
+    CONTROL         "Stroke",BF_OP_STROKE,"Button",BS_AUTORADIOBUTTON,92,110,
+                    34,12
+    GROUPBOX        "C&lip Precision",-1,88,128,64,48
+    CONTROL         "Default",BF_CP_DEFAULT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,92,140,34,12
+    CONTROL         "Character",BF_CP_CHAR,"Button",BS_AUTORADIOBUTTON,92,
+                    150,42,12
+    CONTROL         "Stroke",BF_CP_STROKE,"Button",BS_AUTORADIOBUTTON,92,160,
+                    34,12
+    GROUPBOX        "&Quality",-1,158,22,50,44
+    CONTROL         "Default",BF_Q_DEFAULT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,162,32,34,12
+    CONTROL         "Draft",BF_Q_DRAFT,"Button",BS_AUTORADIOBUTTON,162,42,34,
+                    12
+    CONTROL         "Proof",BF_Q_PROOF,"Button",BS_AUTORADIOBUTTON,162,52,34,
+                    12
+    GROUPBOX        "&Pitch",-1,158,76,70,48
+    CONTROL         "Default",BF_P_DEFAULT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,162,88,34,12
+    CONTROL         "Fixed",BF_P_FIXED,"Button",BS_AUTORADIOBUTTON,162,98,34,
+                    12
+    CONTROL         "Variable",BF_P_VARIABLE,"Button",BS_AUTORADIOBUTTON,162,
+                    108,38,12
+    GROUPBOX        "&Family",-1,158,128,94,48
+    CONTROL         "Roman",BF_F_ROMAN,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,162,140,34,12
+    CONTROL         "Swiss",BF_F_SWISS,"Button",BS_AUTORADIOBUTTON,162,150,
+                    34,12
+    CONTROL         "Modern",BF_F_MODERN,"Button",BS_AUTORADIOBUTTON,162,160,
+                    36,12
+    CONTROL         "Script",BF_F_SCRIPT,"Button",BS_AUTORADIOBUTTON,202,140,
+                    34,12
+    CONTROL         "Decorative",BF_F_DECORATIVE,"Button",BS_AUTORADIOBUTTON,
+                    202,150,44,12
+    CONTROL         "Don't Care",BF_F_DONTCARE,"Button",BS_AUTORADIOBUTTON,
+                    202,160,46,12
+    DEFPUSHBUTTON   "OK",1,220,10,32,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,220,30,32,14
+END
+
+POLYLINEDLG DIALOG DISCARDABLE  97, 18, 106, 182
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Polyline"
+BEGIN
+    LTEXT           "&Number of Points",-1,10,12,58,10,NOT WS_GROUP
+    EDITTEXT        IF_N,68,10,26,12
+    CTEXT           "X",-1,38,29,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,68,29,26,10,NOT WS_GROUP
+    LTEXT           "Point &0",-1,12,42,24,10,NOT WS_GROUP
+    EDITTEXT        IF_PTS_FIRST,38,40,26,12
+    EDITTEXT        501,68,40,26,12
+    LTEXT           "Point &1",-1,12,56,24,10,NOT WS_GROUP
+    EDITTEXT        502,38,54,26,12
+    EDITTEXT        503,68,54,26,12
+    LTEXT           "Point &2",-1,12,70,24,10,NOT WS_GROUP
+    EDITTEXT        504,38,68,26,12
+    EDITTEXT        505,68,68,26,12
+    LTEXT           "Point &3",-1,12,84,24,10,NOT WS_GROUP
+    EDITTEXT        506,38,82,26,12
+    EDITTEXT        507,68,82,26,12
+    LTEXT           "Point &4",-1,12,98,24,10,NOT WS_GROUP
+    EDITTEXT        508,38,96,26,12
+    EDITTEXT        509,68,96,26,12
+    LTEXT           "Point &5",-1,12,112,24,10,NOT WS_GROUP
+    EDITTEXT        510,38,110,26,12
+    EDITTEXT        511,68,110,26,12
+    LTEXT           "Point &6",-1,12,126,24,10,NOT WS_GROUP
+    EDITTEXT        512,38,124,26,12
+    EDITTEXT        513,68,124,26,12
+    LTEXT           "Point &7",-1,12,140,24,10,NOT WS_GROUP
+    EDITTEXT        514,38,138,26,12
+    EDITTEXT        IF_PTS_LAST,68,138,26,12
+    DEFPUSHBUTTON   "OK",1,10,160,38,14
+    PUSHBUTTON      "Cancel",2,56,160,38,14
+END
+
+BITBLTDLG DIALOG DISCARDABLE  59, 25, 218, 172
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "BitBlt (from drawing to drawing)"
+BEGIN
+    CTEXT           "X",-1,70,4,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,98,4,26,10,NOT WS_GROUP
+    CTEXT           "Width",-1,126,4,26,10,NOT WS_GROUP
+    CTEXT           "Height",-1,154,4,26,10,NOT WS_GROUP
+    LTEXT           "&Destination",-1,30,16,40,10,NOT WS_GROUP
+    EDITTEXT        IF_X,70,14,26,12
+    EDITTEXT        IF_Y,98,14,26,12
+    EDITTEXT        IF_WIDTH,126,14,26,12
+    EDITTEXT        IF_HEIGHT,154,14,26,12
+    LTEXT           "&Source",-1,42,30,26,10,NOT WS_GROUP
+    EDITTEXT        IF_SRC_X,70,28,26,12
+    EDITTEXT        IF_SRC_Y,98,28,26,12
+    GROUPBOX        "&ROP",-1,10,44,200,96
+    CONTROL         "SRCPAINT",BF_SRCPAINT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,14,56,62,12
+    CONTROL         "SRCCOPY",BF_SRCCOPY,"Button",BS_AUTORADIOBUTTON,14,68,
+                    62,12
+    CONTROL         "SRCAND",BF_SRCAND,"Button",BS_AUTORADIOBUTTON,14,80,62,
+                    12
+    CONTROL         "SRCINVERT",BF_SRCINVERT,"Button",BS_AUTORADIOBUTTON,14,
+                    92,62,12
+    CONTROL         "SRCERASE",BF_SRCERASE,"Button",BS_AUTORADIOBUTTON,14,
+                    104,62,12
+    CONTROL         "NOTSRCCOPY",BF_NOTSRCCOPY,"Button",BS_AUTORADIOBUTTON,
+                    80,56,62,12
+    CONTROL         "NOTSRCERASE",BF_NOTSRCERASE,"Button",BS_AUTORADIOBUTTON,
+                    80,68,62,12
+    CONTROL         "MERGECOPY",BF_MERGECOPY,"Button",BS_AUTORADIOBUTTON,80,
+                    80,62,12
+    CONTROL         "MERGEPAINT",BF_MERGEPAINT,"Button",BS_AUTORADIOBUTTON,
+                    80,92,62,12
+    CONTROL         "PATCOPY",BF_PATCOPY,"Button",BS_AUTORADIOBUTTON,80,104,
+                    62,12
+    CONTROL         "PATPAINT",BF_PATPAINT,"Button",BS_AUTORADIOBUTTON,146,
+                    56,62,12
+    CONTROL         "PATINVERT",BF_PATINVERT,"Button",BS_AUTORADIOBUTTON,146,
+                    68,62,12
+    CONTROL         "DSTINVERT",BF_DSTINVERT,"Button",BS_AUTORADIOBUTTON,146,
+                    80,62,12
+    CONTROL         "BLACKNESS",BF_BLACKNESS,"Button",BS_AUTORADIOBUTTON,146,
+                    92,62,12
+    CONTROL         "WHITENESS",BF_WHITENESS,"Button",BS_AUTORADIOBUTTON,146,
+                    104,62,12
+    CONTROL         "&Other (Hex)",BF_OTHER,"Button",BS_AUTORADIOBUTTON,56,
+                    122,48,12
+    EDITTEXT        SF_ROP,108,122,46,12,WS_GROUP
+    DEFPUSHBUTTON   "OK",1,62,150,38,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,120,150,38,14
+END
+
+PATBLTDLG DIALOG DISCARDABLE  90, 27, 134, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "PatBlt"
+BEGIN
+    CTEXT           "&X",-1,10,4,26,10,NOT WS_GROUP
+    EDITTEXT        IF_X,10,14,26,12
+    CTEXT           "&Y",-1,38,4,26,10,NOT WS_GROUP
+    EDITTEXT        IF_Y,38,14,26,12
+    CTEXT           "&Width",-1,70,4,26,10,NOT WS_GROUP
+    EDITTEXT        IF_WIDTH,70,14,26,12
+    CTEXT           "&Height",-1,98,4,26,10,NOT WS_GROUP
+    EDITTEXT        IF_HEIGHT,98,14,26,12
+    GROUPBOX        "&ROP",-1,12,36,110,98
+    CONTROL         "PATCOPY",BF_PATCOPY,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,18,50,62,12
+    CONTROL         "PATINVERT",BF_PATINVERT,"Button",BS_AUTORADIOBUTTON,18,
+                    62,62,12
+    CONTROL         "DSTINVERT",BF_DSTINVERT,"Button",BS_AUTORADIOBUTTON,18,
+                    74,62,12
+    CONTROL         "BLACKNESS",BF_BLACKNESS,"Button",BS_AUTORADIOBUTTON,18,
+                    86,62,12
+    CONTROL         "WHITENESS",BF_WHITENESS,"Button",BS_AUTORADIOBUTTON,18,
+                    98,62,12
+    CONTROL         "&Other (Hex)",BF_OTHER,"Button",BS_AUTORADIOBUTTON,18,
+                    112,48,12
+    EDITTEXT        SF_ROP,68,112,46,12,WS_GROUP
+    DEFPUSHBUTTON   "OK",1,22,142,38,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,74,142,38,14
+END
+
+TEXTALIGNDLG DIALOG DISCARDABLE  90, 46, 132, 114
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Text Alignment"
+BEGIN
+    GROUPBOX        "Horizontal",-1,8,6,54,52
+    CONTROL         "&Left",BF_LEFT,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,14,18,38,12
+    CONTROL         "&Center",BF_CENTER,"Button",BS_AUTORADIOBUTTON,14,30,36,
+                    12
+    CONTROL         "&Right",BF_RIGHT,"Button",BS_AUTORADIOBUTTON,14,42,38,
+                    12
+    GROUPBOX        "Vertical",-1,70,6,54,52
+    CONTROL         "&Top",BF_TOP,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,74,18,38,12
+    CONTROL         "Ba&seline",BF_BASELINE,"Button",BS_AUTORADIOBUTTON,74,
+                    30,38,12
+    CONTROL         "&Bottom",BF_BOTTOM,"Button",BS_AUTORADIOBUTTON,74,42,38,
+                    12
+    CONTROL         "&Update current position",BF_UPDATECP,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,22,66,90,14
+    DEFPUSHBUTTON   "OK",1,24,88,36,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,72,88,36,14
+END
+
+TEXTOUTDLG DIALOG DISCARDABLE  44, 58, 208, 58
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TextOut"
+BEGIN
+    LTEXT           "&Text",-1,8,12,18,10,NOT WS_GROUP
+    EDITTEXT        SF_TEXT,26,10,174,12,ES_AUTOHSCROLL
+    CTEXT           "X",-1,38,26,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,66,26,26,10,NOT WS_GROUP
+    LTEXT           "&Position",-1,8,38,27,10,NOT WS_GROUP
+    EDITTEXT        IF_X,38,36,26,12
+    EDITTEXT        IF_Y,66,36,26,12
+    DEFPUSHBUTTON   "OK",1,118,36,38,14
+    PUSHBUTTON      "Cancel",2,162,36,38,14
+END
+
+TEXTEXTRADLG DIALOG DISCARDABLE  102, 59, 100, 50
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Text Character Extra"
+BEGIN
+    LTEXT           "&Extra",-1,24,12,18,10,NOT WS_GROUP
+    EDITTEXT        IF_WIDTH,44,10,28,12
+    DEFPUSHBUTTON   "OK",1,14,30,34,14
+    PUSHBUTTON      "Cancel",2,56,30,33,14
+END
+
+TEXTJUSTDLG DIALOG DISCARDABLE  102, 48, 100, 72
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Text Justification"
+BEGIN
+    LTEXT           "Break &extra",-1,14,12,38,10,NOT WS_GROUP
+    EDITTEXT        IF_WIDTH,58,10,28,12
+    LTEXT           "Break &count",-1,14,28,40,10,NOT WS_GROUP
+    EDITTEXT        IF_N,58,26,28,12
+    DEFPUSHBUTTON   "OK",1,12,48,34,14
+    PUSHBUTTON      "Cancel",2,56,48,33,14
+END
+
+CLIPDLG DIALOG DISCARDABLE  82, 30, 130, 156
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Clipping"
+BEGIN
+    GROUPBOX        "   ",-1,6,8,118,54
+    CONTROL         "&IntersectClipRect",BF_INTERSECT_CLIP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,6,68,12
+    RTEXT           "&Left",-1,12,26,16,10,NOT WS_GROUP
+    EDITTEXT        IF_INTERSECT_LEFT,32,24,26,12
+    RTEXT           "&Top",-1,70,26,20,10,NOT WS_GROUP
+    EDITTEXT        IF_INTERSECT_TOP,92,24,26,12
+    RTEXT           "&Right",-1,10,40,18,10,NOT WS_GROUP
+    EDITTEXT        IF_INTERSECT_RIGHT,32,38,26,12
+    RTEXT           "&Bottom",-1,66,40,24,10,NOT WS_GROUP
+    EDITTEXT        IF_INTERSECT_BOTTOM,92,38,26,12
+    GROUPBOX        "   ",-1,6,72,118,54
+    CONTROL         "&ExcludeClipRect",BF_EXCLUDE_CLIP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,72,68,12
+    RTEXT           "Le&ft",-1,12,90,16,10,NOT WS_GROUP
+    EDITTEXT        IF_EXCLUDE_LEFT,32,88,26,12
+    RTEXT           "To&p",-1,70,90,20,10,NOT WS_GROUP
+    EDITTEXT        IF_EXCLUDE_TOP,92,88,26,12
+    RTEXT           "Ri&ght",-1,12,106,18,10,NOT WS_GROUP
+    EDITTEXT        IF_EXCLUDE_RIGHT,32,102,26,12
+    RTEXT           "Botto&m",-1,66,104,24,10,NOT WS_GROUP
+    EDITTEXT        IF_EXCLUDE_BOTTOM,92,102,26,12
+    DEFPUSHBUTTON   "OK",1,22,134,38,14
+    PUSHBUTTON      "Cancel",2,74,134,38,14
+END
+
+ABOUTDLG DIALOG DISCARDABLE  82, 66, 142, 72
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About ShowGDI"
+BEGIN
+    CTEXT           "ShowGDI for Windows 3.1",-1,28,6,90,8
+    CTEXT           "by Dave Parker",-1,44,16,58,8
+    CTEXT           "Version 1.3",-1,46,34,50,8
+    DEFPUSHBUTTON   "OK",1,54,54,32,14,WS_GROUP
+    ICON            "ShowGDIIcon",-1,16,22,16,20
+END
+
+EXTTEXTOUTDLG DIALOG DISCARDABLE  46, 21, 230, 160
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ExtTextOut"
+BEGIN
+    LTEXT           "Te&xt",-1,10,12,16,10,NOT WS_GROUP
+    EDITTEXT        SF_TEXT,28,10,146,12,ES_AUTOHSCROLL
+    CTEXT           "X",-1,46,28,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,74,28,26,10,NOT WS_GROUP
+    LTEXT           "&Position",-1,16,40,27,10,NOT WS_GROUP
+    EDITTEXT        IF_X,46,38,26,12
+    EDITTEXT        IF_Y,74,38,26,12
+    LTEXT           "Rectangle",-1,10,68,34,10,NOT WS_GROUP
+    CTEXT           "&Left",-1,46,56,26,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,46,66,26,12
+    CTEXT           "&Top",-1,74,56,26,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,74,66,26,12
+    CTEXT           "&Right",-1,102,56,26,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,102,66,26,12
+    CTEXT           "&Bottom",-1,130,56,26,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,130,66,26,12
+    GROUPBOX        "   ",-1,6,86,218,64
+    CONTROL         "&Clipped",BF_CLIPPED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,176,54,40,12
+    CONTROL         "&Opaque",BF_OPAQUE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,176,68,38,12
+    CONTROL         "&Manual Spacing",BF_USE_DX,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,84,64,12
+    EDITTEXT        IF_DX_FIRST,12,98,24,12
+    EDITTEXT        401,38,98,24,12
+    EDITTEXT        402,64,98,24,12
+    EDITTEXT        403,90,98,24,12
+    EDITTEXT        404,116,98,24,12
+    EDITTEXT        405,142,98,24,12
+    EDITTEXT        406,168,98,24,12
+    EDITTEXT        407,194,98,24,12
+    EDITTEXT        408,12,114,24,12
+    EDITTEXT        409,38,114,24,12
+    EDITTEXT        410,64,114,24,12
+    EDITTEXT        411,90,114,24,12
+    EDITTEXT        412,116,114,24,12
+    EDITTEXT        413,142,114,24,12
+    EDITTEXT        414,168,114,24,12
+    EDITTEXT        415,194,114,24,12
+    EDITTEXT        416,12,130,24,12
+    EDITTEXT        417,38,130,24,12
+    EDITTEXT        418,64,130,24,12
+    EDITTEXT        419,90,130,24,12
+    EDITTEXT        420,116,130,24,12
+    EDITTEXT        421,142,130,24,12
+    EDITTEXT        422,168,130,24,12
+    EDITTEXT        IF_DX_LAST,194,130,24,12
+    DEFPUSHBUTTON   "OK",1,184,10,38,14
+    PUSHBUTTON      "Cancel",2,184,30,38,14
+END
+
+POLYGONDLG DIALOG DISCARDABLE  100, 17, 106, 182
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Polygon"
+BEGIN
+    LTEXT           "&Number of Points",-1,10,12,58,10,NOT WS_GROUP
+    EDITTEXT        IF_N,68,10,26,12
+    CTEXT           "X",-1,38,29,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,68,29,26,10,NOT WS_GROUP
+    LTEXT           "Point &0",-1,12,42,24,10,NOT WS_GROUP
+    EDITTEXT        IF_PTS_FIRST,38,40,26,12
+    EDITTEXT        501,68,40,26,12
+    LTEXT           "Point &1",-1,12,56,24,10,NOT WS_GROUP
+    EDITTEXT        502,38,54,26,12
+    EDITTEXT        503,68,54,26,12
+    LTEXT           "Point &2",-1,12,70,24,10,NOT WS_GROUP
+    EDITTEXT        504,38,68,26,12
+    EDITTEXT        505,68,68,26,12
+    LTEXT           "Point &3",-1,12,84,24,10,NOT WS_GROUP
+    EDITTEXT        506,38,82,26,12
+    EDITTEXT        507,68,82,26,12
+    LTEXT           "Point &4",-1,12,98,24,10,NOT WS_GROUP
+    EDITTEXT        508,38,96,26,12
+    EDITTEXT        509,68,96,26,12
+    LTEXT           "Point &5",-1,12,112,24,10,NOT WS_GROUP
+    EDITTEXT        510,38,110,26,12
+    EDITTEXT        511,68,110,26,12
+    LTEXT           "Point &6",-1,12,126,24,10,NOT WS_GROUP
+    EDITTEXT        512,38,124,26,12
+    EDITTEXT        513,68,124,26,12
+    LTEXT           "Point &7",-1,12,140,24,10,NOT WS_GROUP
+    EDITTEXT        514,38,138,26,12
+    EDITTEXT        IF_PTS_LAST,68,138,26,12
+    DEFPUSHBUTTON   "OK",1,10,160,38,14
+    PUSHBUTTON      "Cancel",2,56,160,38,14
+END
+
+POLYPOLYGONDLG DIALOG DISCARDABLE  53, 17, 168, 186
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "PolyPolygon"
+BEGIN
+    LTEXT           "# &Polys",-1,10,18,26,10,NOT WS_GROUP
+    EDITTEXT        IF_N,38,16,26,12
+    CTEXT           "&Count 0",-1,8,46,28,10,NOT WS_GROUP
+    CTEXT           "Count 1",-1,8,60,28,10,NOT WS_GROUP
+    CTEXT           "Count 2",-1,8,74,28,10,NOT WS_GROUP
+    CTEXT           "Count 3",-1,8,88,28,10,NOT WS_GROUP
+    CTEXT           "Count 4",-1,8,102,28,10,NOT WS_GROUP
+    EDITTEXT        IF_COUNT0,38,44,26,12
+    EDITTEXT        IF_COUNT1,38,58,26,12
+    EDITTEXT        IF_COUNT2,38,72,26,12
+    EDITTEXT        IF_COUNT3,38,86,26,12
+    EDITTEXT        IF_COUNT4,38,100,26,12
+    CTEXT           "X",-1,100,5,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,130,5,26,10,NOT WS_GROUP
+    LTEXT           "Point &0",-1,74,17,24,10,NOT WS_GROUP
+    EDITTEXT        IF_PTS_FIRST,100,15,26,12
+    EDITTEXT        501,130,15,26,12
+    LTEXT           "Point &1",-1,74,31,24,10,NOT WS_GROUP
+    EDITTEXT        502,100,29,26,12
+    EDITTEXT        503,130,29,26,12
+    LTEXT           "Point &2",-1,74,45,24,10,NOT WS_GROUP
+    EDITTEXT        504,100,43,26,12
+    EDITTEXT        505,130,43,26,12
+    LTEXT           "Point &3",-1,74,59,24,10,NOT WS_GROUP
+    EDITTEXT        506,100,57,26,12
+    EDITTEXT        507,130,57,26,12
+    LTEXT           "Point &4",-1,74,73,24,10,NOT WS_GROUP
+    EDITTEXT        508,100,71,26,12
+    EDITTEXT        509,130,71,26,12
+    LTEXT           "Point &5",-1,74,87,24,10,NOT WS_GROUP
+    EDITTEXT        510,100,85,26,12
+    EDITTEXT        511,130,85,26,12
+    LTEXT           "Point &6",-1,74,101,24,10,NOT WS_GROUP
+    EDITTEXT        512,100,99,26,12
+    EDITTEXT        513,130,99,26,12
+    LTEXT           "Point &7",-1,74,115,24,10,NOT WS_GROUP
+    EDITTEXT        514,100,113,26,12
+    EDITTEXT        515,130,113,26,12
+    LTEXT           "Point &8",-1,74,129,24,10,NOT WS_GROUP
+    EDITTEXT        516,100,127,26,12
+    EDITTEXT        517,130,127,26,12
+    LTEXT           "Point &9",-1,74,143,24,10,NOT WS_GROUP
+    EDITTEXT        518,100,141,26,12
+    EDITTEXT        519,130,141,26,12
+    LTEXT           "Point 10",-1,71,158,28,10,NOT WS_GROUP
+    EDITTEXT        520,100,155,26,12
+    EDITTEXT        521,130,155,26,12
+    LTEXT           "Point 11",-1,71,171,28,10,NOT WS_GROUP
+    EDITTEXT        522,100,169,26,12
+    EDITTEXT        IF_PTS_POLYPOLY_LAST,130,169,26,12
+    DEFPUSHBUTTON   "OK",1,18,142,38,14
+    PUSHBUTTON      "Cancel",2,18,162,38,14
+END
+
+EXTFLOODFILLDLG DIALOG DISCARDABLE  94, 35, 116, 152
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ExtFloodFill"
+BEGIN
+    CTEXT           "X",-1,52,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,80,6,26,10,NOT WS_GROUP
+    LTEXT           "&Start Point",-1,12,18,38,10,NOT WS_GROUP
+    EDITTEXT        IF_X,52,16,26,12
+    EDITTEXT        IF_Y,80,16,26,12
+    CTEXT           "R",-1,32,54,16,8,NOT WS_GROUP
+    CTEXT           "G",-1,50,54,16,8,NOT WS_GROUP
+    CTEXT           "B",-1,68,54,16,8,NOT WS_GROUP
+    GROUPBOX        "&Color",-1,12,40,94,76
+    EDITTEXT        IF_RGB_R,32,62,16,12
+    EDITTEXT        IF_RGB_G,50,62,16,12
+    EDITTEXT        IF_RGB_B,68,62,16,12
+    CONTROL         "FLOODFILL&BORDER",BF_BORDER,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,18,82,80,12
+    CONTROL         "FLOODFILLSU&RFACE",BF_SURFACE,"Button",
+                    BS_AUTORADIOBUTTON,18,96,80,12
+    DEFPUSHBUTTON   "OK",1,16,128,38,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,64,128,38,14
+END
+
+DRAWTEXTDLG DIALOG DISCARDABLE  43, 21, 233, 183
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "DrawText"
+BEGIN
+    LTEXT           "Te&xt",-1,10,11,16,10,NOT WS_GROUP
+    EDITTEXT        SF_TEXT,30,10,130,54,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    WS_VSCROLL
+    LTEXT           "Rectangle",-1,10,84,34,10,NOT WS_GROUP
+    CTEXT           "&Left",-1,46,72,26,10,NOT WS_GROUP
+    EDITTEXT        IF_LEFT,46,82,26,12
+    CTEXT           "&Top",-1,74,72,26,10,NOT WS_GROUP
+    EDITTEXT        IF_TOP,74,82,26,12
+    CTEXT           "&Right",-1,102,72,26,10,NOT WS_GROUP
+    EDITTEXT        IF_RIGHT,102,82,26,12
+    CTEXT           "&Bottom",-1,130,72,26,10,NOT WS_GROUP
+    EDITTEXT        IF_BOTTOM,130,82,26,12
+    GROUPBOX        "&Horz. Align",-1,10,104,50,52
+    CONTROL         "Left",BF_LEFT,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,14,116,40,12
+    CONTROL         "Center",BF_CENTER,"Button",BS_AUTORADIOBUTTON,14,128,40,
+                    12
+    CONTROL         "Right",BF_RIGHT,"Button",BS_AUTORADIOBUTTON,14,140,40,
+                    12
+    GROUPBOX        "&Vert. Align",-1,64,104,50,52,WS_GROUP
+    CONTROL         "Top",BF_TOP,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,68,116,40,12
+    CONTROL         "Center",BF_VCENTER,"Button",BS_AUTORADIOBUTTON,68,128,
+                    40,12
+    CONTROL         "Bottom",BF_BOTTOM,"Button",BS_AUTORADIOBUTTON,68,140,40,
+                    12
+    CONTROL         "&Single Line",BF_SINGLELINE,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,174,52,50,12
+    CONTROL         "&Word Break",BF_WORDBREAK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,174,64,50,12
+    CONTROL         "No &Clip",BF_NOCLIP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,174,76,50,12
+    CONTROL         "No &Prefix",BF_NOPREFIX,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,174,88,50,12
+    CONTROL         "&External Leading",BF_EXTERNAL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,128,106,66,12
+    CONTROL         "DT_INTERNAL",BF_INTERNAL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,128,118,66,12
+    CONTROL         "Expa&nd Tabs",BF_EXPANDTABS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,128,130,66,12
+    CONTROL         "Set T&abs to",BF_TABSTOP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,128,142,46,12
+    EDITTEXT        IF_TABSTOP,176,143,16,13
+    LTEXT           "Chars",-1,194,145,22,8,NOT WS_GROUP
+    CONTROL         "&Draw Rectangle from result of DT_CALCRECT instead of text",
+                    BF_CALCRECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,164,
+                    208,12
+    PUSHBUTTON      "OK",1,180,10,38,14
+    PUSHBUTTON      "Cancel",2,180,30,38,14
+END
+
+PENPOSDLG DIALOG DISCARDABLE  104, 61, 106, 60
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Pen Position"
+BEGIN
+    CTEXT           "X",-1,40,6,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,68,6,26,10,NOT WS_GROUP
+    LTEXT           "&Position",-1,12,18,28,10,NOT WS_GROUP
+    EDITTEXT        IF_TO_X,40,16,26,12
+    EDITTEXT        IF_TO_Y,68,16,26,12
+    DEFPUSHBUTTON   "OK",1,10,38,38,14
+    PUSHBUTTON      "Cancel",2,58,38,38,14
+END
+
+DIBPATBRUSHDLG DIALOG DISCARDABLE  75, 61, 150, 62
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "DIB Pattern Brush"
+BEGIN
+    GROUPBOX        "DIB",-1,8,4,136,26
+    LTEXT           "WWWWWWWW.WWW",SF_DIB,16,16,82,10,NOT WS_GROUP
+    PUSHBUTTON      "&Open...",BF_OPEN,102,12,38,14
+    DEFPUSHBUTTON   "OK",1,28,40,38,14
+    PUSHBUTTON      "Cancel",2,82,40,38,14
+END
+
+STRETCHBLTDLG DIALOG DISCARDABLE  40, 21, 220, 172
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "StretchBlt (from drawing to drawing)"
+BEGIN
+    CTEXT           "X",-1,70,4,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,98,4,26,10,NOT WS_GROUP
+    CTEXT           "Width",-1,126,4,26,10,NOT WS_GROUP
+    CTEXT           "Height",-1,154,4,26,10,NOT WS_GROUP
+    LTEXT           "&Destination",-1,30,16,40,10,NOT WS_GROUP
+    EDITTEXT        IF_X,70,14,26,12
+    EDITTEXT        IF_Y,98,14,26,12
+    EDITTEXT        IF_WIDTH,126,14,26,12
+    EDITTEXT        IF_HEIGHT,154,14,26,12
+    LTEXT           "&Source",-1,42,30,26,10,NOT WS_GROUP
+    EDITTEXT        IF_SRC_X,70,28,26,12
+    EDITTEXT        IF_SRC_Y,98,28,26,12
+    EDITTEXT        IF_SRC_WIDTH,126,28,26,12
+    EDITTEXT        IF_SRC_HEIGHT,154,28,26,12
+    GROUPBOX        "&ROP",-1,10,44,200,96
+    CONTROL         "SRCPAINT",BF_SRCPAINT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,14,56,62,12
+    CONTROL         "SRCCOPY",BF_SRCCOPY,"Button",BS_AUTORADIOBUTTON,14,68,
+                    62,12
+    CONTROL         "SRCAND",BF_SRCAND,"Button",BS_AUTORADIOBUTTON,14,80,62,
+                    12
+    CONTROL         "SRCINVERT",BF_SRCINVERT,"Button",BS_AUTORADIOBUTTON,14,
+                    92,62,12
+    CONTROL         "SRCERASE",BF_SRCERASE,"Button",BS_AUTORADIOBUTTON,14,
+                    104,62,12
+    CONTROL         "NOTSRCCOPY",BF_NOTSRCCOPY,"Button",BS_AUTORADIOBUTTON,
+                    80,56,62,12
+    CONTROL         "NOTSRCERASE",BF_NOTSRCERASE,"Button",BS_AUTORADIOBUTTON,
+                    80,68,62,12
+    CONTROL         "MERGECOPY",BF_MERGECOPY,"Button",BS_AUTORADIOBUTTON,80,
+                    80,62,12
+    CONTROL         "MERGEPAINT",BF_MERGEPAINT,"Button",BS_AUTORADIOBUTTON,
+                    80,92,62,12
+    CONTROL         "PATCOPY",BF_PATCOPY,"Button",BS_AUTORADIOBUTTON,80,104,
+                    62,12
+    CONTROL         "PATPAINT",BF_PATPAINT,"Button",BS_AUTORADIOBUTTON,146,
+                    56,62,12
+    CONTROL         "PATINVERT",BF_PATINVERT,"Button",BS_AUTORADIOBUTTON,146,
+                    68,62,12
+    CONTROL         "DSTINVERT",BF_DSTINVERT,"Button",BS_AUTORADIOBUTTON,146,
+                    80,62,12
+    CONTROL         "BLACKNESS",BF_BLACKNESS,"Button",BS_AUTORADIOBUTTON,146,
+                    92,62,12
+    CONTROL         "WHITENESS",BF_WHITENESS,"Button",BS_AUTORADIOBUTTON,146,
+                    104,62,12
+    CONTROL         "&Other (Hex)",BF_OTHER,"Button",BS_AUTORADIOBUTTON,56,
+                    122,48,12
+    EDITTEXT        SF_ROP,108,122,46,12,WS_GROUP
+    DEFPUSHBUTTON   "OK",1,62,150,38,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,120,150,38,14
+END
+
+STRETCHDIBDLG DIALOG DISCARDABLE  48, 17, 216, 188
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "StretchDIBits"
+BEGIN
+    GROUPBOX        "DIB",-1,26,4,164,26
+    LTEXT           "WWWWWWWW.WWW",SF_DIB,34,16,108,10,NOT WS_GROUP
+    PUSHBUTTON      "&Open...",BF_OPEN,146,12,38,14
+    CTEXT           "X",-1,52,34,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,80,34,26,10,NOT WS_GROUP
+    CTEXT           "Width",-1,108,34,26,10,NOT WS_GROUP
+    CTEXT           "Height",-1,136,34,26,10,NOT WS_GROUP
+    LTEXT           "&Destination",-1,10,46,40,10,NOT WS_GROUP
+    EDITTEXT        IF_X,52,44,26,12
+    EDITTEXT        IF_Y,80,44,26,12
+    EDITTEXT        IF_WIDTH,108,44,26,12
+    EDITTEXT        IF_HEIGHT,136,44,26,12
+    LTEXT           "&Source (DIB)",-1,8,60,42,10,NOT WS_GROUP
+    EDITTEXT        IF_SRC_X,52,58,26,12
+    EDITTEXT        IF_SRC_Y,80,58,26,12
+    EDITTEXT        IF_SRC_WIDTH,108,58,26,12
+    EDITTEXT        IF_SRC_HEIGHT,136,58,26,12
+    GROUPBOX        "&ROP",-1,8,74,200,92
+    CONTROL         "SRCPAINT",BF_SRCPAINT,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,12,86,62,12
+    CONTROL         "SRCCOPY",BF_SRCCOPY,"Button",BS_AUTORADIOBUTTON,12,98,
+                    62,12
+    CONTROL         "SRCAND",BF_SRCAND,"Button",BS_AUTORADIOBUTTON,12,110,62,
+                    12
+    CONTROL         "SRCINVERT",BF_SRCINVERT,"Button",BS_AUTORADIOBUTTON,12,
+                    122,62,12
+    CONTROL         "SRCERASE",BF_SRCERASE,"Button",BS_AUTORADIOBUTTON,12,
+                    134,62,12
+    CONTROL         "NOTSRCCOPY",BF_NOTSRCCOPY,"Button",BS_AUTORADIOBUTTON,
+                    78,86,62,12
+    CONTROL         "NOTSRCERASE",BF_NOTSRCERASE,"Button",BS_AUTORADIOBUTTON,
+                    78,98,62,12
+    CONTROL         "MERGECOPY",BF_MERGECOPY,"Button",BS_AUTORADIOBUTTON,78,
+                    110,62,12
+    CONTROL         "MERGEPAINT",BF_MERGEPAINT,"Button",BS_AUTORADIOBUTTON,
+                    78,122,62,12
+    CONTROL         "PATCOPY",BF_PATCOPY,"Button",BS_AUTORADIOBUTTON,78,134,
+                    62,12
+    CONTROL         "PATPAINT",BF_PATPAINT,"Button",BS_AUTORADIOBUTTON,144,
+                    86,62,12
+    CONTROL         "PATINVERT",BF_PATINVERT,"Button",BS_AUTORADIOBUTTON,144,
+                    98,62,12
+    CONTROL         "DSTINVERT",BF_DSTINVERT,"Button",BS_AUTORADIOBUTTON,144,
+                    110,62,12
+    CONTROL         "BLACKNESS",BF_BLACKNESS,"Button",BS_AUTORADIOBUTTON,144,
+                    122,62,12
+    CONTROL         "WHITENESS",BF_WHITENESS,"Button",BS_AUTORADIOBUTTON,144,
+                    134,62,12
+    CONTROL         "O&ther (Hex)",BF_OTHER,"Button",BS_AUTORADIOBUTTON,54,
+                    148,48,12
+    EDITTEXT        SF_ROP,106,148,46,12,WS_GROUP
+    DEFPUSHBUTTON   "OK",1,56,170,38,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,114,170,38,14
+    PUSHBUTTON      "DIB Si&ze",BF_DIBSIZE,170,56,38,14
+END
+
+DIBTODEVICEDLG DIALOG DISCARDABLE  46, 14, 218, 180
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SetDIBitsToDevice"
+BEGIN
+    GROUPBOX        "DIB",-1,28,4,164,26
+    LTEXT           "WWWWWWWW.WWW",SF_DIB,36,16,108,10,NOT WS_GROUP
+    PUSHBUTTON      "&Open...",BF_OPEN,148,12,38,14
+    CTEXT           "X",-1,54,34,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,82,34,26,10,NOT WS_GROUP
+    LTEXT           "&Destination",-1,12,46,40,10,NOT WS_GROUP
+    EDITTEXT        IF_X,54,44,26,12
+    EDITTEXT        IF_Y,82,44,26,12
+    CTEXT           "X",-1,54,64,26,10,NOT WS_GROUP
+    CTEXT           "Y",-1,82,64,26,10,NOT WS_GROUP
+    CTEXT           "Width",-1,110,64,26,10,NOT WS_GROUP
+    CTEXT           "Height",-1,138,64,26,10,NOT WS_GROUP
+    LTEXT           "&Source (DIB)",-1,8,76,42,10,NOT WS_GROUP
+    EDITTEXT        IF_SRC_X,54,74,26,12
+    EDITTEXT        IF_SRC_Y,82,74,26,12
+    EDITTEXT        IF_SRC_WIDTH,110,74,26,12
+    EDITTEXT        IF_SRC_HEIGHT,138,74,26,12
+    PUSHBUTTON      "DIB Si&ze",BF_DIBSIZE,172,72,38,14
+    GROUPBOX        "Band",-1,36,98,148,50
+    LTEXT           "S&tart Scan",-1,46,114,36,10,NOT WS_GROUP
+    EDITTEXT        IF_STARTSCAN,86,112,26,12
+    LTEXT           "&Num Scans",-1,46,130,40,10,NOT WS_GROUP
+    EDITTEXT        IF_NUMSCANS,86,128,26,12
+    PUSHBUTTON      "&Entire DIB",BF_ONEBAND,124,118,48,14
+    DEFPUSHBUTTON   "OK",1,60,158,38,14
+    PUSHBUTTON      "Cancel",2,116,158,38,14
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

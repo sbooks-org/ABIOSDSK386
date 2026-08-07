@@ -1,0 +1,19 @@
+NAME        BOUNCER
+
+DESCRIPTION 'SCRNSAVE :Bounce a bitmap'
+
+EXETYPE     WINDOWS
+
+CODE        MOVEABLE DISCARDABLE PRELOAD
+DATA        MOVEABLE MULTIPLE PRELOAD
+
+HEAPSIZE    4000
+
+EXPORTS
+            SCREENSAVERPROC                  @1
+            SCREENSAVERCONFIGUREDIALOG       @2
+            ARROWCONTROLPROC                 @3
+            DLGCHANGEPASSWORD                @4
+            DLGGETPASSWORD                   @5
+            DLGINVALIDPASSWORD               @6
+            HELPMESSAGEFILTERHOOKFUNCTION    @7

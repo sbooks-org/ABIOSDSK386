@@ -1,0 +1,156 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_READONLY_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDR_ABOUTDLG DIALOG DISCARDABLE  22, 18, 144, 75
+STYLE WS_POPUP | WS_DLGFRAME
+BEGIN
+    CTEXT           "MakeApp application",-1,38,5,64,26
+    CTEXT           "Version 1.00",-1,38,35,64,8
+    CTEXT           "Copyright \251 1992, Microsoft Corp.",-1,5,47,132,9
+    ICON            IDR_MAINICON,-1,9,9,16,16
+    DEFPUSHBUTTON   "Ok",IDOK,53,59,32,14,WS_GROUP
+END
+
+IDR_SAMPLEDLG DIALOG DISCARDABLE  54, 27, 203, 91
+STYLE WS_POPUP | WS_DLGFRAME | WS_SYSMENU
+FONT 8, "Arial"
+BEGIN
+    PUSHBUTTON      "OK",IDOK,53,71,40,14,WS_GROUP
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,109,71,40,14
+    RTEXT           "Label 1:",-1,8,36,36,8
+    RTEXT           "Label 2:",-1,8,52,36,8,NOT WS_GROUP
+    EDITTEXT        CTL_EDIT1,48,34,72,12,WS_GROUP
+    EDITTEXT        CTL_EDIT2,48,51,72,12
+    GROUPBOX        "Group One",-1,10,3,110,26,WS_GROUP
+    RADIOBUTTON     "Red",CTL_RED,16,13,28,12,WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "Blue",CTL_BLUE,47,13,30,12,WS_TABSTOP
+    RADIOBUTTON     "Green",CTL_GREEN,79,15,37,10,WS_TABSTOP
+    GROUPBOX        "Group Two",-1,126,3,73,60,WS_GROUP
+    CHECKBOX        "Purple",CTL_PURPLE,131,19,61,10,WS_GROUP
+    CHECKBOX        "Mauve",CTL_MAUVE,131,29,61,10
+    CHECKBOX        "Ecru",CTL_ECRU,131,39,61,10
+    CHECKBOX        "Burnt Sienna",CTL_SIENNA,131,49,61,10
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+IDR_MAINICON            ICON    DISCARDABLE     "makeapp.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New...",                     CMD_FILENEW
+        MENUITEM "&Open...",                    CMD_FILEOPEN
+        MENUITEM "&Save",                       CMD_FILESAVE
+        MENUITEM "Save &As...",                 CMD_FILESAVEAS
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...",                   CMD_FILEPRINT
+        MENUITEM "Print Pre&view",              CMD_FILEPRINTPREVIEW
+        MENUITEM "P&rinter Setup...",           CMD_FILEPRINTERSETUP
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       CMD_FILEEXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               CMD_EDITUNDO
+        MENUITEM "&Repeat",                     CMD_EDITREPEAT
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                CMD_EDITCUT
+        MENUITEM "&Copy\tCtrl+C",               CMD_EDITCOPY
+        MENUITEM "&Paste\tCtrl+V",              CMD_EDITPASTE
+        MENUITEM "Cl&ear",                      CMD_EDITCLEAR
+        MENUITEM "Paste &Link...",              CMD_EDITPASTELINK
+    END
+    POPUP "&Sample"
+    BEGIN
+        MENUITEM "&Dialog",                     CMD_SAMPLEDLG
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Index",                      CMD_HELPINDEX
+        MENUITEM "&Keyboard",                   CMD_HELPKEYBOARD
+        MENUITEM "&Commands",                   CMD_HELPCOMMANDS
+        MENUITEM "&Procedures",                 CMD_HELPPROCEDURES
+        MENUITEM "&Using Help",                 CMD_HELPUSINGHELP
+        MENUITEM SEPARATOR
+        MENUITEM "&About MakeApp...",           CMD_HELPABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINACCEL ACCELERATORS PRELOAD DISCARDABLE 
+BEGIN
+    "^Z",           CMD_EDITUNDO,           ASCII   
+    "^X",           CMD_EDITCUT,            ASCII   
+    "^C",           CMD_EDITCOPY,           ASCII   
+    "^V",           CMD_EDITPASTE,          ASCII   
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_READONLY_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_READONLY_SYMBOLS\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""makeapp.ver""\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+#include "makeapp.ver"
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

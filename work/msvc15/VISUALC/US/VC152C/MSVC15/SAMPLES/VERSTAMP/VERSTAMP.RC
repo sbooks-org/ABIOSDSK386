@@ -1,0 +1,205 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "ver.h"
+#include "verstamp.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+VERSTAMPICON            ICON    DISCARDABLE     "VERSTAMP.ICO"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+VERSTAMPMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open",                       IDM_FILEOPEN
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit",                       IDM_EXIT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About VerStamp...",          IDM_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION 1,0,0,65
+PRODUCTVERSION 3,1,0,65
+FILEFLAGSMASK 0x3L
+FILEFLAGS 0x2L
+FILEOS 0x10001L
+FILETYPE 0x1L
+FILESUBTYPE 0x65L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName", "Microsoft Corporation\0"
+            VALUE "FileDescription", "Version Info Sample\0"
+            VALUE "FileVersion", "1.00\0"
+            VALUE "InternalName", "Version stamp sample\0"
+            VALUE "LegalCopyright", "Copyright Microsoft Corp. 1991\0"
+            VALUE "ProductName", "Microsoft Windows SDK\0"
+            VALUE "ProductVersion", "3.10.0.65\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252 
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUTBOX DIALOG DISCARDABLE  22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About Verstamp"
+BEGIN
+    CTEXT           "Microsoft Windows",-1,0,5,144,8
+    CTEXT           "Version Info Sample",-1,0,14,144,8
+    CTEXT           "Version 3.1",-1,0,23,144,8
+    ICON            "VerStampIcon",-1,65,37,0,0
+    DEFPUSHBUTTON   "OK",IDOK,55,59,32,14,WS_GROUP
+END
+
+VERSTAMP DIALOG DISCARDABLE  13, 23, 265, 188
+STYLE WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
+CAPTION "Version Stamp Sample"
+CLASS "VerStamp"
+BEGIN
+    CONTROL         "",-1,"Static",SS_BLACKFRAME,4,41,95,107
+    CONTROL         "",-1,"Static",SS_BLACKFRAME,165,41,95,107
+    LTEXT           "Windows directory:",-1,14,3,68,8
+    LTEXT           "System directory:",-1,17,15,63,8
+    CTEXT           "Source file:",-1,7,30,86,8
+    CTEXT           "File name",-1,100,42,65,8
+    CTEXT           "Directory",-1,100,54,65,8
+    CTEXT           "File Version",-1,100,66,65,8
+    CTEXT           "Product Version",-1,100,78,65,8
+    CTEXT           "File Flags Mask",-1,100,90,65,8
+    CTEXT           "File OS",-1,100,102,65,8
+    CTEXT           "File type",-1,100,114,65,8
+    CTEXT           "File sub-type",-1,100,126,65,8
+    CTEXT           "Version language",-1,100,138,65,8
+    CTEXT           "Target file:",-1,175,30,70,8
+    LTEXT           ".",DLG_WINDIR,80,3,160,8
+    LTEXT           ".",DLG_SYSDIR,80,15,160,8
+    CTEXT           ".",DLG_SRCFILENAME,6,42,91,8
+    CTEXT           ".",DLG_SRCDIRNAME,6,54,91,8
+    CTEXT           ".",DLG_SRCFILEVER,6,66,91,8
+    CTEXT           ".",DLG_SRCPRODVER,6,78,91,8
+    CTEXT           ".",DLG_SRCFILEFLAG,6,90,91,8
+    CTEXT           ".",DLG_SRCOS,6,102,91,8
+    CTEXT           ".",DLG_SRCFILETYPE,6,114,91,8
+    CTEXT           ".",DLG_SRCSUB,6,126,91,8
+    CTEXT           ".",DLG_SRCLANGUAGE,6,138,91,8
+    CTEXT           ".",DLG_DSTFILENAME,167,42,91,8
+    CTEXT           ".",DLG_DSTDIRNAME,167,54,91,8
+    CTEXT           ".",DLG_DSTFILEVER,167,66,91,8
+    CTEXT           ".",DLG_DSTPRODVER,167,78,91,8
+    CTEXT           ".",DLG_DSTFILEFLAG,167,90,91,8
+    CTEXT           ".",DLG_DSTFILEOS,167,102,91,8
+    CTEXT           ".",DLG_DSTFILETYPE,167,114,91,8
+    CTEXT           ".",DLG_DSTSUB,167,126,91,8
+    CTEXT           ".",DLG_DSTLANGUAGE,167,138,91,8
+    PUSHBUTTON      "More info...",IDD_MOREINFO,75,153,53,14,WS_DISABLED
+    PUSHBUTTON      "Install file",IDD_VERINSTALL,141,153,53,14,WS_DISABLED
+END
+
+MOREVERINFO DIALOG DISCARDABLE  13, 23, 256, 170
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "More Version Info"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Company name",-1,8,16,58,8
+    LTEXT           "File description",-1,8,32,58,8
+    LTEXT           "File version",-1,8,48,58,8
+    LTEXT           "Internal name",-1,8,64,58,8
+    LTEXT           "Copyright",-1,8,80,58,8
+    LTEXT           "Trademarks",-1,8,96,58,8
+    LTEXT           "Product name",-1,8,112,58,8
+    LTEXT           "Product version",-1,8,128,58,8
+    CTEXT           ".",DLG_COMPANYNAME,71,14,177,12
+    CTEXT           ".",DLG_FILEDESCRIPTION,71,30,177,12
+    CTEXT           ".",DLG_FILEVERSION,71,46,177,12
+    CTEXT           ".",DLG_INTERNALNAME,71,62,177,12
+    CTEXT           ".",DLG_COPYRIGHT,71,78,177,12
+    CTEXT           ".",DLG_TRADEMARKS,71,94,177,12
+    CTEXT           ".",DLG_PRODUCTNAME,71,110,177,12
+    CTEXT           ".",DLG_PRODUCTVERSION,71,126,177,12
+    CONTROL         "",-1,"Static",SS_BLACKFRAME,71,12,177,128
+    PUSHBUTTON      "OK",IDOK,107,150,40,14
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""ver.h""\r\n"
+    "#include ""verstamp.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,109 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "expres.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+iconExpense             ICON    DISCARDABLE     "expense.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+menuMain MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&About Expense ...",          miAbout
+        MENUITEM "&Clear All",                  miClearAll
+        MENUITEM "Clear &Signature",            miClearSig
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       miExit
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUTBOX DIALOG DISCARDABLE  20, 20, 160, 80
+STYLE WS_POPUP | WS_DLGFRAME
+BEGIN
+    CTEXT           "Expense",-1,0,12,160,8
+    ICON            iconExpense,-1,8,8,0,0
+    CTEXT           "Dictionary Sample Application",-1,0,28,160,8
+    CTEXT           "Version 1.0",-1,0,44,160,8
+    DEFPUSHBUTTON   "OK",IDOK,64,60,32,14,WS_GROUP
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDEXPENSE ACCELERATORS MOVEABLE PURE 
+BEGIN
+    VK_TAB,         miNextField,            VIRTKEY 
+    VK_TAB,         miPrecField,            VIRTKEY,SHIFT
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""expres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,102 @@
+# ============================================================================
+# File: M A K E F I L E
+#
+# NMAKE description file for the SIMPCNTR (in-place container) sample
+#
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) Microsoft Corporation, 1992-1993.  All Rights Reserved.
+# ============================================================================
+#
+# Usage:    NMAKE           (build DEBUG exe)
+#           NMAKE DEBUG=0   (build RELEASE exe)
+#
+# ============================================================================
+
+DEBUG=1
+APPNAME=simpcntr
+LANG=USA
+GOAL: $(APPNAME).exe
+
+PCH=pre
+
+SRCS=$(PCH).cpp $(APPNAME).cpp app.cpp ias.cpp ioipf.cpp doc.cpp iocs.cpp \
+		 ioips.cpp site.cpp
+
+INCS=$(PCH).h $(APPNAME).h iocs.h ias.h ioipf.h ioips.h app.h site.h doc.h
+
+OBJS=$(SRCS:cpp=obj)
+
+#############################################################################
+
+#
+# Set the resource directories.  These are the directories where we pull our
+# resources from.  You may need to change these to point to the proper location
+# of the OLE2UI resources, or just copy all the .DLG and .BMP files into your
+# project's directory.
+#
+
+OLE2UI_DIR=..\ole2ui
+
+!if "$(RES_DIRS)"==""
+RES_DIRS = $(OLE2UI_DIR)\RES\STATIC;$(OLE2UI_DIR)\RES\$(LANG)
+!endif
+
+G_LIBS=ole2 compobj storage libw shell
+
+G_CPPFLAGS=/AM /G2 /W3 /Zp /Yu$(PCH).h /GA /GEs
+D_CPPFLAGS=/Zi /Od /f /D_DEBUG
+R_CPPFLAGS=/O1 /Gs
+G_LINKFLAGS=/NOD /ONERROR:NOEXE /NOE /BATCH /STACK:16384
+D_LINKFLAGS=/COD
+R_LINKFLAGS=/FAR /PACKC
+D_LIBS=mafxcwd mlibcew ..\lib\moleuicd
+R_LIBS=mafxcw mlibcew ..\lib\moleuic
+
+!if "$(DEBUG)"=="0"
+CPPFLAGS=$(G_CPPFLAGS) $(R_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(R_LINKFLAGS)
+LIBS=$(R_LIBS) $(G_LIBS)
+!else
+CPPFLAGS=$(G_CPPFLAGS) $(D_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(D_LINKFLAGS)
+LIBS=$(D_LIBS) $(G_LIBS)
+!endif #//DEBUG
+
+#############################################################################
+
+$(APPNAME).exe: $(OBJS) $(APPNAME).def $(APPNAME).res
+	link $(LINKFLAGS)  @<<
+$(OBJS: = +^
+),
+$(APPNAME),
+$(APPNAME),
+$(LIBS: = +^
+),
+$(APPNAME);
+<<
+	rc /k /t $(APPNAME).res
+
+$(PCH).obj: $(INCS) $(PCH).cpp
+	nmake clean
+	$(CPP) $(CPPFLAGS) /Yc$(PCH).h /c $(PCH).cpp
+
+.cpp.obj:
+	$(CPP) @<<
+$(CPPFLAGS) /c $<
+<<
+
+$(APPNAME).res: resource.h $(APPNAME).h
+	rc /r /I$(RES_DIRS) $(APPNAME).rc
+
+clean:
+	if exist $(APPNAME).exe erase $(APPNAME).exe
+	if exist *.pch erase *.pch
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.res erase *.res
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw

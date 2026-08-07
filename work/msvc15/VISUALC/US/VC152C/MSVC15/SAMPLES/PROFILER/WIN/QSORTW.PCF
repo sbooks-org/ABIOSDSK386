@@ -1,0 +1,5 @@
+FPROFILE TIME		    # Choose timing by function
+PROGRAM QSORTW.EXE	    # Select entire program
+
+MAKEPBI QSORTW.PBI	    # Specify output PBI name
+MAKEPBT QSORTW.PBT	    # Specify output PBT name

@@ -1,0 +1,88 @@
+#
+# MAKEFILE
+# GizmoBar Test Version 1.00, March 1993
+#
+# Copyright (c)1992 Microsoft Corporation, All Rights Reserved
+#
+# Copyright (c)1992-1993 Microsoft Corporation, All Rights Reserved,
+# as applied to redistribution of this source code in source form
+# License is granted to use of compiled code in shipped binaries.
+#
+#Add '#' to following line for 'noisy' operation
+!CMDSWITCHES +s
+
+#
+#Compiler flags
+#Use "SET RETAIL=1" from MS-DOS to compile non-debug version.
+#
+!ifndef RETAIL
+CFLAGS  = -c -Od -AS -Zipe -G2sw -W3
+LINK    = /al:16/ONERROR:NOEXE/CO/STACK:10240
+DEFS    = -DDEBUG
+LIBS    = libw slibcew ..\..\lib\bttncur ..\gizmobar commdlg
+!else
+CFLAGS  = -c -Oas -AS -Zpe -G2sw -W3
+LINK    = /al:16/ONERROR:NOEXE/STACK:10240
+DEFS    =
+LIBS    = libw slibcew ..\..\lib\bttncur ..\gizmobar commdlg
+!endif
+
+
+#Files on which every C file depends.  Add others as appropriate
+INCLS=gbdemo.h
+
+.SUFFIXES: .h .c .asm .obj .exe .res .rc
+
+goal:  gbdemo.exe
+
+
+OBJS   =gbdemo.obj init.obj
+RCFILES=gbdemo.ico image72.bmp image96.bmp image120.bmp
+
+
+
+clean:
+	if exist gbdemo.exe erase gbdemo.exe
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw
+
+#####
+.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+	cl $(CFLAGS) $(DEFS) $*.c
+
+.rc.res:
+	echo +++++++++
+	echo Compiling Resources
+	rc -r $*.rc
+
+
+#This rule builds a linker response file on the fly depending on debug flags
+gbdemo.exe : $(OBJS) gbdemo.res gbdemo.def
+	echo ++++++++++
+	echo Linking $@
+	echo gbdemo init                     > gbdemo.lrf
+
+	echo gbdemo $(LINK)                 >> gbdemo.lrf
+	echo nul/li                         >> gbdemo.lrf
+	echo $(LIBS)/NOD/NOE                >> gbdemo.lrf
+	echo gbdemo.def                     >> gbdemo.lrf
+
+	link /BATCH @gbdemo.lrf
+	rc -v gbdemo.res
+	del gbdemo.lrf
+
+
+
+##### Dependencies #####
+
+gbdemo.obj    : gbdemo.c    $(INCLS)
+init.obj      : init.c      $(INCLS)
+gbdemo.res    : gbdemo.rc   $(INCLS) $(RCFILES)

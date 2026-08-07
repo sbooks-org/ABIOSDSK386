@@ -1,0 +1,171 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+1                       BITMAP  MOVEABLE PURE   "dlgbrush.bmp"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+2                       ICON    DISCARDABLE     "cddemo.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+COMMONDLGMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&Common Dialogs"
+    BEGIN
+        MENUITEM "File &Open...",               IDM_FILEOPEN
+        MENUITEM "File &Save...",               IDM_FILESAVE
+        MENUITEM "&Find...",                    IDM_FIND
+        MENUITEM "Find and &Replace...",        IDM_FINDANDREPLACE
+        MENUITEM "&Colors...",                  IDM_COLORS
+        MENUITEM "Fo&nts...",                   IDM_FONTS
+        MENUITEM "&Print...",                   IDM_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       IDM_EXIT
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About...",                   IDM_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDS_DIALOGFAILURE DIALOG DISCARDABLE  95, 32, 144, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Common Dialogs"
+BEGIN
+    CTEXT           "Microsoft Windows",-1,0,5,144,8
+    CTEXT           "Common Dialogs Sample",-1,0,14,144,8
+    CTEXT           "Version 3.1",-1,0,34,144,8
+    DEFPUSHBUTTON   "OK",IDOK,56,51,32,14,WS_GROUP
+    ICON            2,IDD_ICON,12,43,13,13
+END
+
+PRINTING DIALOG DISCARDABLE  68, 87, 120, 74
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Common Dialogs Print Sample"
+BEGIN
+    DEFPUSHBUTTON   "Cancel",2,42,38,36,14
+    CTEXT           "Printing...",-1,0,17,120,8,NOT WS_GROUP
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_DIALOGFAILURE       "Creation of CD failed on call to DialogBox()"
+    IDS_STRUCTSIZE          "Invalid structure size passed to CD"
+    IDS_INITIALIZATION      "Failure initializing CD.  Possibly\n\r do to insufficient memory."
+    IDS_NOTEMPLATE          "Failure finding custom template for CD"
+    IDS_NOHINSTANCE         "Instance handle not passed to CD"
+    IDS_LOADSTRFAILURE      "Failure loading specified string"
+    IDS_FINDRESFAILURE      "Failure finding specified resource"
+    IDS_LOADRESFAILURE      "Failure loading specified resource"
+    IDS_LOCKRESFAILURE      "Failure locking specified resource"
+    IDS_MEMALLOCFAILURE     "Failure allocating memory for internal CD structure"
+    IDS_MEMLOCKFAILURE      "Failure locking memory for internal CD structure"
+    IDS_NOHOOK              "No hook function passed to CD but ENABLEHOOK\n\r was passed as a flag"
+    IDS_SETUPFAILURE        "Failure setting up resources for CD"
+    IDS_PARSEFAILURE        "Failure parsing strings in [devices]\n\rsection of WIN.INI"
+    IDS_RETDEFFAILURE       "PD_RETURNDEFAULT flag was set but either the \n\rhDevMode or hDevNames field was nonzero"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_LOADDRVFAILURE      "Failure loading the printers device driver"
+    IDS_GETDEVMODEFAIL      "The printer driver failed to initialize a DEVMODE data structure"
+    IDS_INITFAILURE         "Print CD failed during initialization"
+    IDS_NODEVICES           "No printer device drivers were found"
+    IDS_NODEFAULTPRN        "No default printer was found"
+    IDS_DNDMMISMATCH        "Data in DEVMODE contradicts data in DEVNAMES"
+    IDS_CREATEICFAILURE     "Failure creating an IC"
+    IDS_PRINTERNOTFOUND     "Printer not found"
+    IDS_NOFONTS             "No fonts exist"
+    IDS_SUBCLASSFAILURE     "Failure subclassing during initialization of CD"
+    IDS_INVALIDFILENAME     "Invalide filename passed to FileOpen or FileSave"
+    IDS_BUFFERTOOSMALL      "Buffer passed to CD too small to accomodate string"
+    IDS_SEARCHUP            "Search up"
+    IDS_SEARCHDOWN          "Search down"
+    IDS_CASESENSITIVE       "Case sensitive."
+    IDS_IGNORECASE          "Ignore case."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_WHOLEWORD           "Whole word only"
+    IDS_WHOLEANDSUB         "Whole word and substrings"
+    IDS_FILTERSTRING        "Write Files(*.WRI)|*.WRI|Word  Files(*.DOC; *.TXT)|*.doc;*.txt|"
+END
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

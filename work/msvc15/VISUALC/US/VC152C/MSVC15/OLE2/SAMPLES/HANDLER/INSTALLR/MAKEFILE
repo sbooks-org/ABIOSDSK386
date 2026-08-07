@@ -1,0 +1,74 @@
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) 1993 Microsoft Corporation
+# All rights reserved.
+#
+
+DEBUG=1
+GOAL: installr.exe
+
+PCH=stdafx.h
+
+SRCS=stdafx.cpp installd.cpp
+INCS=stdafx.h resource.h installd.h
+OBJS=$(SRCS:cpp=obj)
+
+#############################################################################
+
+G_LIBS=ole2 compobj storage libw commdlg shell
+
+G_CPPFLAGS=/AM /G2 /W3 /Zp /Yu$(PCH) /GA /GEs
+D_CPPFLAGS=/Zi /Od /f /D_DEBUG 
+R_CPPFLAGS=/O1 /Gs
+G_LINKFLAGS=/NOD /ONERROR:NOEXE /NOE /ST:8192 /BATCH
+D_LINKFLAGS=/COD
+R_LINKFLAGS=/NOFAR /PACKC
+D_LIBS=mafxcwd mlibcew 
+R_LIBS=mafxcw mlibcew
+
+!if "$(DEBUG)"=="0"
+CPPFLAGS=$(G_CPPFLAGS) $(R_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(R_LINKFLAGS)
+LIBS=$(R_LIBS) $(G_LIBS)
+!else
+CPPFLAGS=$(G_CPPFLAGS) $(D_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(D_LINKFLAGS)
+LIBS=$(D_LIBS) $(G_LIBS)
+!endif #//DEBUG
+
+#############################################################################
+
+installr.exe: $(OBJS) installr.def installr.res 
+	link $(LINKFLAGS)  @<<
+$(OBJS: = +^
+),
+installr, 
+installr, 
+$(LIBS: = +^
+),
+installr;
+<<
+	rc /k /t installr.res
+  
+stdafx.obj: $(INCS) stdafx.cpp
+	nmake clean
+	$(CPP) $(CPPFLAGS) /Yc$(PCH) /c stdafx.cpp
+
+.cpp.obj:
+	$(CPP) @<<
+$(CPPFLAGS) /c $<
+<<
+
+installr.res: resource.h dbghndlr.ico
+
+clean:
+	if exist installr.exe erase installr.exe
+	if exist *.pch erase *.pch
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.res erase *.res
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw

@@ -1,0 +1,105 @@
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) 1993 Microsoft Corporation
+# All rights reserved.
+#
+#
+# Options to NMAKE:
+#     "DEBUG=0" => use retail (default debug)
+#     "OPT" => use to set custom compile options
+#     "BROWSE=1" => build Visual C++ compatible browse file (.BSC file)
+#
+#############################################################################
+
+EXENAME=DVLAUNCH
+
+GOAL: $(EXENAME).EXE
+
+PROJ=LAUNCHER
+OBJS=launcher.obj classfct.obj
+
+DEBUG=1
+OPT=
+EXTRA_LIBS=ole2 compobj storage
+BROWSE=0
+
+# static link library variant [medium model] - the default
+CPPMAIN_FLAGS=/AM /Zp /GA /G2
+STDAFX=stdafx
+AFXLIB=mafxcw
+LIBS=mlibcew
+
+STACK=/STACK:10240
+
+!if "$(DEBUG)"!="0"
+# debug variant - the default
+CPPMAIN_FLAGS=/D_DEBUG $(CPPMAIN_FLAGS) /Od /Z7
+LINKFLAGS=/NOD /ONERROR:NOEXE $(STACK) /CODEVIEW /BATCH
+AFXLIB=$(AFXLIB)D
+STDAFX=$(STDAFX)d
+!else
+# retail variant
+CPPMAIN_FLAGS=$(CPPMAIN_FLAGS) /O1
+LINKFLAGS=/NOD /ONERROR:NOEXE $(STACK) /BATCH
+!endif #//DEBUG
+
+!if "$(OPT)"!=""
+CPPMAIN_FLAGS=$(CPPMAIN_FLAGS) $(OPT)
+!endif
+
+LIBS=$(AFXLIB) $(LIBS) libw commdlg shell $(EXTRA_LIBS)
+CPPFLAGS=$(CPPMAIN_FLAGS) /W4 /Yustdafx.h /Fp$(STDAFX).pch
+
+!if "$(BROWSE)"=="1"
+CPPFLAGS=$(CPPFLAGS) /FR
+SBRS=$(OBJS:.obj=.sbr)
+all: $(EXENAME).exe $(PROJ).bsc
+!endif
+
+#############################################################################
+
+$(EXENAME).exe: $(STDAFX).obj $(EXENAME).res $(PROJ).def $(OBJS)
+	link $(LINKFLAGS) @<<
+$(OBJS) $(STDAFX).obj,
+$(EXENAME),,$(LIBS),$(PROJ).def;
+<<
+	rc /31 /k /t $(EXENAME).res
+
+$(OBJS): $(STDAFX).pch
+
+$(EXENAME).res:  resource.h
+	rc /r /z $(RCFLAGS) /fo $(EXENAME).res $(PROJ).rc
+
+$(PROJ).bsc: $(SBRS) $(STDAFX).sbr
+	bscmake @<<
+/o$@ $(SBRS) $(STDAFX).sbr
+<<
+
+clean::
+	if exist $(STDAFX).pch erase $(STDAFX).pch
+	if exist $(STDAFX).obj erase $(STDAFX).obj
+	if exist $(STDAFX).sbr erase $(STDAFX).sbr
+	if exist $(EXENAME).exe erase $(EXENAME).exe
+	if exist $(EXENAME).res erase $(EXENAME).res
+	if exist $(PROJ).bsc erase $(PROJ).bsc
+	if exist *.aps erase *.aps
+	if exist *.pdb erase *.pdb
+	if exist *.pch erase *.pch
+	if exist *.map erase *.map
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+
+#############################################################################
+# Shared PCH and PCT files
+
+$(STDAFX).obj $(STDAFX).pch $(STDAFX).sbr:: stdafx.h stdafx.cpp
+!if "$(BROWSE)"=="1"
+	$(CPP) @<<
+$(CPPMAIN_FLAGS) /W4 /Ycstdafx.h /FR$(STDAFX).sbr /Fp$(STDAFX).pch /Fo$(STDAFX).obj /c stdafx.cpp
+<<
+!else
+	$(CPP) @<<
+$(CPPMAIN_FLAGS) /W4 /Ycstdafx.h /Fp$(STDAFX).pch /Fo$(STDAFX).obj /c stdafx.cpp
+<<
+!endif
+
+#############################################################################

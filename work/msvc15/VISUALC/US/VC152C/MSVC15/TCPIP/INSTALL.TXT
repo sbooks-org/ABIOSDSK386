@@ -1,0 +1,258 @@
+---------------------------------------------------------------------------
+                 Microsoft TCP/IP-32 version 3.11a Update
+---------------------------------------------------------------------------
+
+1.0  Introduction.
+2.0  Installation Instructions for TCP/IP-32 version 3.11a.
+2.1  List of Bugs Fixed in TCP/IP-32 3.11a.
+2.2  Descriptions of Bugs Fixed in TCP/IP-32 3.11a.
+2.3  Support Options for Microsoft TCP/IP-32
+
+1.0  Introduction
+-----------------
+
+TCP/IP-32 version 3.11a is an update to Microsoft's TCP/IP-32, a 32-bit
+TCP/IP network protocol stack for Windows for Workgroups version 3.11. This
+update is a complete refresh of TCP/IP-32 and contains all components of
+the product.
+
+2.0  Installation Instructions for TCP/IP-32 3.11a
+--------------------------------------------------
+
+If you are running a 3rd party TCP/IP product on your system, you must
+remove it before installing Microsoft TCP/IP-32 version 3.11a. If you
+experience difficulties with another vendor's product, remove the existing
+TCP/IP stack, exit Network Setup completely, reboot your system, and then
+proceed to add the Microsoft TCP/IP-32 version 3.11a drivers by following
+the instructions below.
+
+There are two ways you can install the TCP/IP-32 version 3.11a upgrade on
+your computer. You can completely reinstall your TCP/IP-32 network protocol
+stack with TCP/IP-32 3.11a, which will overwrite your previous TCP/IP
+settings with default settings. Alternatively, advanced users can manually
+copy just the updated binary files to the proper directories. This will
+retain your TCP/IP-32 settings, but will not update the TCP/IP-32 version
+number.
+
+Complete Reinstall:
+
+1. From the Network group, choose the Network Setup icon.
+
+2. Choose the Drivers button (Under Network Drivers, you will see your
+   Network Interface Card (NIC) and the network protocols used on that
+   NIC).
+
+3. Select TCP/IP-32 3.11.
+
+4. Choose the Setup button, review and write down all of your TCP/IP-32
+   configuration information.
+
+5. Choose the Cancel button to return to the Network Drivers dialog box.
+
+6. If TCP/IP-32 3.11 is your only network protocol, then temporarily add
+   the NetBEUI network protocol by following these steps:
+
+      A. Choose the Add Protocol button.
+
+      B. Select Microsoft NetBEUI.
+
+      C. Choose the OK button (Microsoft NetBEUI will appear under Network
+         Drivers).
+
+7. Select TCP/IP-32 3.11.
+
+8. Choose the Remove button and then the Yes button to confirm.
+
+9. Choose the Add Protocol button.
+
+10.Select Unlisted or Updated Protocol and Choose the OK button.
+
+11.In the Install Driver dialog box, enter the path to the updated TCP/IP-
+   32 3.11a files (You should then see Microsoft TCP/IP-32 3.11a in the
+   Unlisted or Updated Protocol dialog).
+
+12.Choose the OK button (You should then see Microsoft TCP/IP-32 3.11a in
+   the Network Drivers dialog box).
+
+13.Choose the Setup button and configure TCP/IP-32 3.11a based on the
+   information you wrote down in step 4.
+
+14.If you added Microsoft NetBEUI as a network protocol in step 6 and do
+   not want to keep it, select Microsoft NetBEUI, choose the Remove button
+   and then the Yes button to confirm.
+
+15.Choose the Close button to exit the Network Divers dialog box.
+
+16.Choose the OK button to exit the Network Setup dialog box (Setup will
+   modify system files).
+
+17.Choose the OK button (Network Setup prompts you to reboot).
+
+18.Choose the Restart Computer button (The TCP/IP-32 3.11a upgrade is now
+   complete).
+
+Manual Installation for Advanced Users:
+
+1. Copy the following files to the C:\<win_root> directory:
+
+   NOTE: By default, the Windows root directory referred to above is
+   C:\WINDOWS. If you installed Windows into a directory other than
+   C:\WINDOWS, copy these files to that directory.
+
+   11/21/94  12:00a                39,771 WINSOCK.DLL
+   11/21/94  12:00a                57,152 TELNET.EXE
+   11/21/94  12:00a                 9,604 WSOCK.386
+   11/21/94  12:00a                53,935 TRACERT.EXE
+   11/21/94  12:00a                67,595 NETSTAT.EXE
+   11/21/94  12:00a                33,227 NBTSTAT.EXE
+
+2. Copy the following files into the C:\<win_root>\SYSTEM directory:
+
+   11/21/94  12:00a                89,545 VNBT.386
+   11/21/94  12:00a                18,295 WSTCP.386
+   11/21/94  12:00a                 9,604 WSOCK.386
+
+2.1  List of Bugs Fixed TCP/IP-32 3.11a
+---------------------------------------
+
+NOTE: Use the Qxxxxxx number that precedes the title of the bug fix to
+query the Microsoft Knowledge Base to find an article about that bug.
+
+Q121317: TCP/IP-32 version 3.11 Does Not Include Terminal Font
+Q120051: DNS Reverse Name Resolution Requests Are Incorrect
+Q120052: NBT Query Can Hang Computer or Drop Back To MS-DOS
+Q122293: LMHOSTS Lookup Can Cause Intermittent System Pauses
+Q119575: TCP/IP-32 Winsock Stops FD_READ Notification
+Q119918: Winsock: Accept() Sockets Are Unexpectedly Aborted
+
+2.2  Description of Bugs Fixed in TCP/IP-32 3.11a
+-------------------------------------------------
+
+TCP/IP-32 version 3.11 Does Not Include Terminal Font:
+
+   Beta versions of Microsoft TCP/IP-32 included a font named "Terminal"
+   in the Telnet application. This font is not included in the released
+   version of the TCP/IP-32 Telnet application.
+
+DNS Reverse Name Resolution Requests Are Incorrect:
+
+   TCP/IP-32 does not return the correct IP name when it queries the Domain
+   Name Service (DNS) because it sends an improperly formatted query to the
+   DNS.
+
+NBT Query Can Hang Computer or Drop Back To MS-DOS:
+
+   Your computer running Windows for Workgroups version 3.11 with TCP/IP-32
+   network protocol stops responding (hangs) or drops back to MS-DOS when
+   the 32-bit NetBIOS over TCP/IP (NBT) makes a query to the Domain Name
+   Service (DNS).
+
+LMHOSTS Lookup Can Cause Intermittent System Pauses:
+
+   Your computer running Windows for Workgroups version 3.11 with TCP/IP-32
+   intermittently stops responding (hangs) for about 20 seconds at a time.
+   This occurs if TCP/IP-32 is installed as a non-default network protocol
+   and the Enable LMHOSTS Lookup option in Network Setup is checked.
+
+TCP/IP-32 Winsock Stops FD_READ Notification:
+
+   FD_READ notification in a Winsock application may stop while the
+   application is running.  This may cause data to be left in the input
+   buffer, or, it may cause the application to hang. This occurs when the
+   application disables and then re-enables FD_READ notification during a
+   period of time while the Windows message queue is full.
+
+Winsock: Accept() Sockets Are Unexpectedly Aborted:
+
+   Occasionally, when you execute a PUT command from an FTP client, your
+   session to the FTP server is aborted.
+
+2.3  Support Options for Microsoft TCP/IP-32
+--------------------------------------------
+
+TCP/IP-32 version 3.11a is compatible with and supported exclusively on
+Microsoft Windows For Workgroups 3.11.
+
+Microsoft Support: Network Business Systems Products Support Options
+
+The following support services are available from Microsoft for Microsoft
+Business Systems products, including Microsoft Mail Server and its
+gateways, SQL Server, LAN Manager, Windows NT, and SNA Server.
+
+Electronic Services:
+
+   CompuServe Information Service
+
+   Microsoft forums are provided through CompuServe, (800) 848-8199,
+   representative 230 (sales information only). Access is available 24
+   hours a day, 7 days a week, including holidays.
+
+   These forums enable an interactive technical dialog between users as
+   well as remote access to the Microsoft KnowledgeBase of product
+   information, which is updated daily. These forums are monitored by
+   Microsoft support engineers for technical accuracy. If you are already a
+   subscriber, type "GO <forum name>" at any !  prompt.
+
+      MSCLIENT    Microsoft Network Client support
+      WINNT       Microsoft Windows NT support
+      MSSQL       Microsoft SQL Server support
+      MSWRKGRP    Microsoft Windows for Workgroups support
+      MSNETWORKS  Microsoft LAN Manager support
+      MSAPP       Microsoft applications support
+      MSWIN32     Information on Win32
+      MSDR        Development-related discussion forum
+      WINEXT      Support for extensions and drivers for Windows
+      WINSDK      Support for Microsoft Windows Software Development Kit
+
+
+   Microsoft Download Service
+
+   Use the Microsoft Download Service (MSDL) to access the latest technical
+   notes on common business system products support issues via modem. MSDL
+   is at (206) 936-6735, available 24 hours a day, 7 days a week, including
+   holidays (1200, 2400, or 9600 baud; no parity, 8 data bits, 1 stop bit).
+
+   Internet
+
+   Use the Internet to access the Microsoft Driver Library and Microsoft
+   KnowledgeBase. The Microsoft Internet FTP archive host FTP.MICROSOFT.COM
+   (ip address 198.105.232.1) supports anonymous login. When logging in as
+   anonymous, please offer your complete e-mail name as your password.
+
+Telephone Support:
+
+   Microsoft FastTips
+
+   An interactive, automated system providing support at no charge through
+   toll lines and accessed by touch-tone phone. FastTips provides fast
+   access to answers to common questions and a library of technical notes
+   delivered by phone recording or fax. FastTips is available 24 hours
+   a day, 7 days a week, including holidays. Microsoft's Business Systems
+   Products FastTips telephone number is (800) 936-4400.
+
+   Priority Telephone Support
+
+   Get technical support from a Microsoft engineer. Microsoft offers pay-
+   as-you-go telephone support from a Microsoft engineer, available 24
+   hours a day, 7 days a week, except holidays. Choose from the following
+   options:
+
+      Per Incident: Dial  (900) 555-2100.  $150.00 per incident.
+      (Charges appear on your telephone bill.)
+
+      Per Incident: Dial  (800) 936-5900.  $150.00 per incident.
+      (Charges billed to your Visa, Master Card, or American Express.)
+
+      10-pack:  Ten incidents for $995 prepaid.
+
+Additional Information:
+
+For additional information about Microsoft support options or for a list
+of Microsoft Solution Providers, call Microsoft Support Network Sales and
+Information Group at (800) 936-3500, Monday through Friday, 6:00 A.M. to
+6:00 P.M., Pacific time, excluding holidays.
+
+This list includes only domestic support programs.
+
+Microsoft's customer support services are subject to Microsoft's then-
+current price, terms, and conditions.

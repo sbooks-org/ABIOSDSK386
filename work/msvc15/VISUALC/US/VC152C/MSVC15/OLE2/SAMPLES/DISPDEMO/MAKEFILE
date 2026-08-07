@@ -1,0 +1,143 @@
+##############################################################################
+#
+#  (c) Copyright Microsoft Corp. 1992-1993 All Rights Reserved
+#
+#  File:
+#
+#    makefile - makefile for dispdemo.exe
+#
+#  Purpose:
+#
+#    Builds the OLE 2.0 IDispatch sample client application, dispdemo.exe.
+#
+#
+#  Usage:
+#
+#     NMAKE                     ; build with defaults
+#     or: NMAKE option      ; build with the given option(s)
+#     or: NMAKE clean       ; erase all compiled files
+#
+#     option:
+#       DEBUG=[0|1]           ; DEBUG=1 is the default
+#
+#
+#  Notes:
+#
+#    This makefile assumes that the PATH, INCLUDE and LIB environment
+#    variables are setup properly.
+#
+##############################################################################
+
+
+##########################################################################
+#
+# Default Settings
+#
+
+!if "$(DEBUG)" == ""
+DEBUG = 1
+!endif
+
+##########################################################################
+#
+# WIN16 Settings
+#
+
+CC   = cl
+LINK = link
+
+RCFLAGS = /DWIN16
+CFLAGS = /W3 /AM /GA /GEs /DWIN16
+LINKFLAGS = /NOD /NOI /BATCH /ONERROR:NOEXE /STACK:10240
+
+LIBS = libw.lib mlibcew.lib
+
+!if "$(DEBUG)" == "1"
+CFLAGS = $(CFLAGS) /Od /Zi /D_DEBUG
+LINKFLAGS = $(LINKFLAGS) /COD
+!else
+CFLAGS = $(CFLAGS) /Ox
+LINKFLAGS = $(LINKFLAGS) /FAR /PACKC
+!endif
+
+##########################################################################
+#
+# Build rules
+#
+
+.cpp.obj:
+	$(CC) $(CFLAGS) /c $<
+
+.c.obj:
+	$(CC) $(CFLAGS) /c $<
+
+
+##########################################################################
+#
+# Application Settings
+#
+
+APPS = dispdemo
+
+LIBS = ole2.lib compobj.lib ole2disp.lib $(LIBS)
+
+OBJS = \
+	 winmain.obj \
+	 misc.obj \
+	 crempoly.obj \
+	 clsid.obj
+
+
+##########################################################################
+#
+# Default Goal
+#
+
+goal : $(APPS).exe
+
+##########################################################################
+#
+# Clean (erase) generated files
+#
+clean :
+	if exist $(APPS).exe del $(APPS).exe
+	if exist $(APPS).map del $(APPS).map
+	if exist $(APPS).res del $(APPS).res
+	if exist $(APPS).rs  del $(APPS).rs
+	if exist *.pdb       del *.pdb
+	if exist *.obj       del *.obj
+
+##########################################################################
+#
+# Application Build (WIN16 Specific)
+#
+
+$(APPS).exe : $(OBJS) $(APPS).def $(APPS).res $(APPS).ico
+	link $(LINKFLAGS) @<<
+$(OBJS),
+$@,,
+$(LIBS),
+$(APPS).def
+<<
+	rc /k /t $(APPS).res $@
+
+##########################################################################
+#
+# Application Build (Common)
+#
+
+$(APPS).res : $(APPS).rc
+	rc $(RCFLAGS) /r /fo$@ $?
+
+##########################################################################
+#
+# Dependencies
+#
+
+winmain.obj: winmain.cpp dispdemo.h
+
+misc.obj: misc.cpp dispdemo.h
+
+crempoly.obj: crempoly.cpp crempoly.h
+
+clsid.obj: clsid.c clsid.h

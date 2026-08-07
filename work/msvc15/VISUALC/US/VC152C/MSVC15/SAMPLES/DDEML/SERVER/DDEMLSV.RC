@@ -1,0 +1,163 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+SERVER                  ICON    DISCARDABLE     "ddemlsv.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+SERVERMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Change Data",                IDM_CHANGEDATA
+        MENUITEM "Data Render &Delay...",       IDM_RENDERDELAY
+        MENUITEM "Set &Topic...",               IDM_SETTOPIC
+        MENUITEM "Set &Server...",              IDM_SETSERVER
+        MENUITEM "Set Context &Filter...",      IDM_CONTEXT
+        MENUITEM "&Use Appowned handles",       IDM_APPOWNED
+        MENUITEM SEPARATOR
+        MENUITEM "&Runaway Active",             IDM_RUNAWAY
+        MENUITEM "&Block all callbacks",        IDM_BLOCKALLCBS
+        MENUITEM "&Enable all callbacks",       IDM_UNBLOCKALLCBS
+        MENUITEM "Enable &one callback",        IDM_ENABLEONECB
+        MENUITEM "Block all after &next callback",IDM_BLOCKNEXTCB
+        MENUITEM "&Terminate service on next callback",IDM_TERMNEXTCB
+    END
+    MENUITEM "&About...",                   IDM_ABOUT
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUT DIALOG DISCARDABLE  25, 23, 184, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About DDEMLSV"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Microsoft Windows",-1,0,5,184,8
+    CTEXT           "DDEMLSV",-1,0,15,184,8
+    CTEXT           "Version 3.1",-1,0,34,184,8
+    CTEXT           "Copyright \251 1992 Microsoft Corp.",-1,0,47,184,9
+    DEFPUSHBUTTON   "OK",IDOK,76,60,32,14,WS_GROUP
+    ICON            "SERVER",-1,25,14,16,21
+END
+
+TEXTDATAENTRY DIALOG DISCARDABLE  8, 26, 184, 90
+STYLE WS_POPUP | WS_CAPTION
+CAPTION "Text Data Entry"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDEF_DATA,8,22,170,43,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Ok",IDOK,8,70,38,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,140,70,38,14
+    PUSHBUTTON      "&Generate Huge",IDBN_GENHUGE,53,70,80,14
+    CTEXT           "Enter text data to send or size of huge data to generate",
+                    -1,8,2,169,18,NOT WS_GROUP
+END
+
+VALUEENTRY DIALOG DISCARDABLE  13, 69, 137, 46
+STYLE WS_POPUP | WS_CAPTION
+CAPTION "Value Entry Dialog"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDEF_VALUE,92,6,38,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Ok",IDOK,22,26,38,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,76,26,38,14
+    RTEXT           "Value:",IDTX_VALUE,6,8,85,8,NOT WS_GROUP
+END
+
+CONTEXT DIALOG DISCARDABLE  6, 28, 122, 99
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Conversation Context Filter"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDEF_FLAGS,77,8,26,12,ES_AUTOHSCROLL
+    EDITTEXT        IDEF_COUNTRY,77,21,26,12,ES_AUTOHSCROLL
+    EDITTEXT        IDEF_CODEPAGE,77,34,26,12,ES_AUTOHSCROLL
+    EDITTEXT        IDEF_LANG,77,47,26,12,ES_AUTOHSCROLL
+    EDITTEXT        IDEF_SECURITY,77,60,26,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok",IDOK,14,79,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,68,79,40,14
+    LTEXT           "flags",105,19,10,55,8
+    LTEXT           "Country ID",106,19,23,55,8
+    LTEXT           "CodePage",107,19,36,55,8
+    LTEXT           "Language ID",108,19,49,55,8
+    LTEXT           "Security Code",109,19,62,55,8
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_BADLENGTH           "Invalid length value string.  Reenter or cancel."
+END
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
+

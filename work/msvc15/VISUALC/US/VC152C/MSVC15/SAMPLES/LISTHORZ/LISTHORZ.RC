@@ -1,0 +1,82 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 2
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+LISTHSCROLLICON         ICON    DISCARDABLE     "listhorz.ico"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+LISTHSCROLL DIALOG DISCARDABLE  9, 26, 171, 91
+STYLE DS_LOCALEDIT | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Horizontal Scrolling Listbox"
+CLASS "ListHScroll"
+BEGIN
+    LTEXT           "&String:",-1,8,10,25,10,NOT WS_GROUP
+    EDITTEXT        ID_STRINGEDIT,37,8,126,12,ES_MULTILINE | ES_AUTOHSCROLL
+    LISTBOX         ID_LISTBOX,53,29,111,57,LBS_HASSTRINGS | WS_VSCROLL | 
+                    WS_TABSTOP
+    DEFPUSHBUTTON   "&Add",ID_ADD,10,37,32,14
+    PUSHBUTTON      "&Delete",ID_DELETE,10,60,32,14
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""listhorz.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// From TEXTINCLUDE 3
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
+

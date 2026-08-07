@@ -1,0 +1,24 @@
+*crt0.obj &
+*growscan.obj &
+*growseg.obj &
+*newseg.obj &
+*patch.obj &
+*stdargv.obj &
+*unlinksg.obj &
+*emoem.obj &
+*mint86.obj &
+*mint86x.obj &
+*cenvarg.obj &
+*doexec.obj &
+*dospawn.obj &
+*spawnve.obj &
+*execve.obj &
+*os2ret.obj &
+*hdiff.obj &
+*halloc.obj &
+*plgraph.obj &
+*fakegraf.obj &
+*plfinit.obj &
+*getcvfp.obj &
+*signal.obj &
+*wait.obj;

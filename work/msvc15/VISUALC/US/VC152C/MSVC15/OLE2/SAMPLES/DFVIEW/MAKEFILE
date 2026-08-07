@@ -1,0 +1,116 @@
+# ============================================================================
+# File: M A K E F I L E
+#
+# NMAKE description file for the DFVIEW Docfile viewer sample
+#
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) Microsoft Corporation, 1992-1993.  All Rights Reserved.
+# ============================================================================
+#
+# Usage:    NMAKE           (build DEBUG exe)
+#           NMAKE DEBUG=0   (build RELEASE exe)
+#
+# This makefile uses the following environment variables:
+#
+# ============================================================================
+
+APPNAME   = DFVIEW
+LANG      = USA
+DEBUG     = 1
+
+PCHFLAGS  = -Yuprecomp.h -Fpprecomp.pch
+
+!ifndef OLE2UI_DIR
+OLE2UI_DIR=..\ole2ui
+!endif
+
+
+!if "$(DEBUG)" == "1"
+CPPFLAGS  = /f /D_DEBUG /W3 /G2 /nologo /Zp /AM /GA /Od /Zi
+LINKFLAGS = /NOD /NOE /BATCH /ONERROR:NOEXE /COD /STACK:10240
+OLE2UI_LIB= ..\lib\moleuicd.lib
+!else
+CPPFLAGS  = /W3 /G2 /nologo /Zp /AM /GA /Ot
+LINKFLAGS = /NOD /NOE /BATCH /ONERROR:NOEXE /STACK:10240
+OLE2UI_LIB= ..\lib\moleuic.lib
+!endif
+
+#
+# Set the resource directories.  These are the directories where we pull our
+# resources from.  You may need to change these to point to the proper location
+# of the OLE2UI resources, or just copy all the .DLG and .BMP files into your
+# project's directory.
+#
+
+!if "$(RES_DIRS)"==""
+RES_DIRS = $(OLE2UI_DIR)\RES\STATIC;$(OLE2UI_DIR)\RES\$(LANG)
+!endif
+
+LIBS = oldnames libw mlibcew ole2 storage commdlg shell \
+	..\lib\ctl3d $(OLE2UI_LIB)
+OBJS = precomp.obj foldlist.obj dfview.obj dflistb.obj dialogs.obj
+
+# ----------------------------------------------------------------------------
+#                          O V E R A L L    G O A L
+# ----------------------------------------------------------------------------
+
+goal: $(APPNAME).exe
+
+clean:
+	if exist $(APPNAME).exe erase $(APPNAME).exe
+	if exist *.pch erase *.pch
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.res erase *.res
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw
+
+# ----------------------------------------------------------------------------
+#                C R E A T E   P R E C O M P I L E D   H E A D E R
+# ----------------------------------------------------------------------------
+
+precomp.pch precomp.obj : precomp.c
+	cl -c $(CPPFLAGS) -Ycprecomp.h -Fpprecomp.pch -Foprecomp precomp.c
+
+# ----------------------------------------------------------------------------
+#                      L I N K / R E S   C O M M A N D S
+# ----------------------------------------------------------------------------
+
+$(APPNAME).exe: $(OBJS) $(APPNAME).def $(APPNAME).res
+	link $(LINKFLAGS) @<<
+$(OBJS)
+$(APPNAME).exe
+$(APPNAME).map /map,
+$(LIBS),
+$(APPNAME).def
+<<
+	@echo Adding resources to dfview.exe...
+	rc -v $*.res $@
+
+# ----------------------------------------------------------------------------
+#                           B U I L D   R U L E S
+# ----------------------------------------------------------------------------
+
+.c.obj:
+	$(CPP) $(CPPFLAGS) $(PCHFLAGS) /c $<
+
+.rc.res:
+	rc /r /I$(RES_DIRS) $(APPNAME).rc
+
+# ----------------------------------------------------------------------------
+#                       D E P E N D E N C Y   R U L E S
+# ----------------------------------------------------------------------------
+
+foldlist.obj: foldlist.c precomp.h foldlist.h
+
+dfview.obj: dfview.c dfview.h precomp.h foldlist.h
+
+dfview.res: dfview.h dfview.rc bmp_docu.bmp bmp_blan.bmp dfview.ico dfvopen.ico
+
+dflistb.obj: dflistb.c precomp.h dfview.h foldlist.h
+
+dialogs.obj: dialogs.c precomp.h dfview.h

@@ -1,0 +1,20 @@
+// MAKEHELP.BAT generated Help Map file.  Used by SCRIBBLE.HPJ. 
+ 
+// Commands (ID_* and IDM_*) 
+HID_PEN_THICK_OR_THIN                   0x18000
+HID_PEN_WIDTHS                          0x18001
+HID_HELP_USING2                         0x1E146
+HID_HELP_INDEX2                         0x1E147
+ 
+// Prompts (IDP_*) 
+ 
+// Resources (IDR_*) 
+HIDR_MAINFRAME                          0x20002
+HIDR_SCRIBTYPE                          0x20003
+ 
+// Dialogs (IDD_*) 
+HIDD_ABOUTBOX                           0x20064
+HIDD_PEN_WIDTHS                         0x20065
+ 
+// Frame Controls (IDW_*) 
+

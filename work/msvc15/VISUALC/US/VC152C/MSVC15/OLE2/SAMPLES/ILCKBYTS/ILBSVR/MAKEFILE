@@ -1,0 +1,86 @@
+# ============================================================================
+# File: M A K E F I L E
+#
+# NMAKE description file for the ILBSVR (ILockBytes test server) sample
+#
+# This is a part of the Microsoft OLE 2.0 sample library.
+# Copyright (C) Microsoft Corporation, 1992-1993.  All Rights Reserved.
+# ============================================================================
+#
+# Usage:    NMAKE           (build DEBUG exe)
+#           NMAKE DEBUG=0   (build RELEASE exe)
+#
+# ============================================================================
+
+DEBUG=1
+APPNAME=ilbsvr
+GOAL: $(APPNAME).exe
+
+PCH=stdafx
+
+SRCS=$(PCH).cpp $(APPNAME).cpp ilbsvdoc.cpp ilbsvvw.cpp mainfrm.cpp test.cpp
+
+INCS=$(PCH).h $(APPNAME).h ilbsvdoc.h ilbsvvw.h mainfrm.h resource.h test.h
+
+OBJS=$(SRCS:cpp=obj)
+
+#############################################################################
+
+G_LIBS=ole2 compobj storage libw oldnames commdlg olecli olesvr shell ..\ilbdll
+
+G_CPPFLAGS=/AL /G2 /W3 /Zp /Yu$(PCH).h /GA /GEs
+D_CPPFLAGS=/Zi /Od /f /D_DEBUG
+R_CPPFLAGS=/O1 /Gs
+G_LINKFLAGS=/NOD /ONERROR:NOEXE /NOE /STACK:10240 /ALIGN:16 /BATCH
+D_LINKFLAGS=/COD
+R_LINKFLAGS=/NOFAR /PACKC
+D_LIBS=lafxcwd llibcew
+R_LIBS=lafxcw llibcew
+
+!if "$(DEBUG)"=="0"
+CPPFLAGS=$(G_CPPFLAGS) $(R_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(R_LINKFLAGS)
+LIBS=$(R_LIBS) $(G_LIBS)
+!else
+CPPFLAGS=$(G_CPPFLAGS) $(D_CPPFLAGS)
+LINKFLAGS=$(G_LINKFLAGS) $(D_LINKFLAGS)
+LIBS=$(D_LIBS) $(G_LIBS)
+!endif #//DEBUG
+
+#############################################################################
+
+$(APPNAME).exe: $(OBJS) $(APPNAME).def $(APPNAME).res
+	link $(LINKFLAGS)  @<<
+$(OBJS: = +^
+),
+$(APPNAME),
+$(APPNAME),
+$(LIBS: = +^
+),
+$(APPNAME);
+<<
+	rc /k /t $(APPNAME).res
+
+$(PCH).obj: $(INCS) $(PCH).cpp
+	nmake clean
+	$(CPP) $(CPPFLAGS) /Yc$(PCH).h /c $(PCH).cpp
+
+.cpp.obj:
+	$(CPP) @<<
+$(CPPFLAGS) /c $<
+<<
+
+$(APPNAME).res: resource.h $(APPNAME).h
+
+clean:
+	if exist $(APPNAME).exe erase $(APPNAME).exe
+	if exist *.pch erase *.pch
+	if exist *.obj erase *.obj
+	if exist *.sbr erase *.sbr
+	if exist *.pdb erase *.pdb
+	if exist *.map erase *.map
+	if exist *.res erase *.res
+	if exist *.aps erase *.aps
+	if exist *.bsc erase *.bsc
+	if exist *.wsp erase *.wsp
+	if exist *.vcw erase *.vcw

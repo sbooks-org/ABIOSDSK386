@@ -1,0 +1,133 @@
+#
+# MAKEFILE
+# GizmoBar Version 1.00, March 1993
+#
+# Copyright (c)1992-1993 Microsoft Corporation, All Rights Reserved,
+# as applied to redistribution of this source code in source form
+# License is granted to use of compiled code in shipped binaries.
+#
+# Environment Variables:
+#   SAMPBIN_DIR             --  Directory to install built .DLL file
+#                               (Default: \ole2\samp\bin)
+#   SAMPLIB_DIR             --  Directory to install built .LIB file
+#                               (Default: \ole2\samp\bin)
+#   SAMPINC_DIR             --  Directory to install public header files
+#                               (Default: \ole2\samp\include)
+
+ROOT_DRIVE = c:
+
+#Add '#' to next line for "noisy" operation
+!CMDSWITCHES +s
+
+!ifndef SAMPBIN_DIR
+SAMPBIN_DIR=..\bin
+!endif
+
+!ifndef SAMPINC_DIR
+SAMPINC_DIR=..\include
+!endif
+
+!ifndef SAMPLIB_DIR
+SAMPLIB_DIR=..\lib
+!endif
+
+#
+#Compiler and assembler flags
+#Use "SET RETAIL=1" from MS-DOS to compile non-debug version.
+#
+
+CPP     = cl
+!ifndef RETAIL
+CFLAGS  = -c -Od -AS -Zipe -G2sw -W3
+LINK    = /al:16/ONERROR:NOEXE/CO
+DEFS    = -DDEBUG
+LIBS    = libw sdllcew ..\lib\bttncur
+!else
+CFLAGS  = -c -Oat -AS -Zpe -G2sw -W3
+LINK    = /al:16/ONERROR:NOEXE
+DEFS    =
+LIBS    = libw sdllcew ..\lib\bttncur
+!endif
+
+TARGET=gizmobar
+
+.SUFFIXES: .h .c .obj .exe .dll .cpp .res .rc
+
+goal:  $(TARGET).lib
+
+INCLS    = $(TARGET).h gizmoint.h gizmo.h win1632.h
+
+OBJS1    = $(TARGET).obj init.obj
+OBJS2    = api.obj paint.obj gizmo.obj
+OBJS     = $(OBJS1) $(OBJS2)
+
+
+RCFILES1 = $(TARGET).rcv
+RCFILES2 =
+RCFILES  = $(RCFILES1) $(RCFILES2)
+
+
+#
+# Tool Directives
+#
+.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+	$(CPP) $(CFLAGS) $(DEFS) $*.c
+
+
+.rc.res:
+	echo +++++++++
+	echo Compiling Resources
+	rc -r $(DEFS) $*.rc
+
+
+#This rule builds a linker response file on the fly depending on debug flags
+$(TARGET).dll : $(OBJS) $(TARGET).res $(TARGET).def
+	echo ++++++++++
+	echo Linking $@
+	echo $(OBJS)                                > $(TARGET).lrf
+
+	echo $(TARGET).dll $(LINK)                  >> $(TARGET).lrf
+	echo nul/li/                                >> $(TARGET).lrf
+	echo $(LIBS)/NOD/NOE                        >> $(TARGET).lrf
+	echo $(TARGET).def                          >> $(TARGET).lrf
+
+	link /BATCH @$(TARGET).lrf
+	rc -v $(TARGET).res $(TARGET).dll
+	del $(TARGET).lrf
+
+
+
+$(TARGET).lib: $(TARGET).dll
+	implib $(TARGET).lib $(TARGET).def
+
+
+clean:
+	if exist gizmobar.dll erase gizmobar.dll
+	if exist gizmobar.lib erase gizmobar.lib
+	if exist  *.obj erase *.obj
+	if exist  *.sbr erase *.sbr
+	if exist  *.pdb erase *.pdb
+	if exist  *.map erase *.map
+	if exist  *.aps erase *.aps
+	if exist  *.bsc erase *.bsc
+	if exist  *.wsp erase *.wsp
+	if exist  *.vcw erase *.vcw
+
+# install built library and public header files to release directories
+install:
+	copy gizmobar.dll $(SAMPBIN_DIR)
+	copy gizmobar.lib $(SAMPLIB_DIR)
+	copy gizmobar.h $(SAMPINC_DIR)
+	copy win1632.h $(SAMPINC_DIR)
+
+##### Dependencies #####
+$(TARGET).obj  : $(TARGET).c    $(INCLS)
+paint.obj      : paint.c        $(INCLS)
+init.obj       : init.c         $(INCLS)
+api.obj        : api.c          $(INCLS)
+gizmo.obj      : gizmo.c        $(INCLS)
+
+
+$(TARGET).res  : $(TARGET).rc   $(INCLS) $(RCFILES)

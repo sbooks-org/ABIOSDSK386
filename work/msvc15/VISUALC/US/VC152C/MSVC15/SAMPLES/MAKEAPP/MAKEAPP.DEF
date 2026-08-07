@@ -1,0 +1,18 @@
+NAME    makeapp     WINDOWAPI
+EXETYPE WINDOWS
+PROTMODE
+
+DESCRIPTION 'MakeApp Application'
+
+STUB    'WINSTUB.EXE'
+
+CODE    PRELOAD MOVEABLE
+DATA    PRELOAD MOVEABLE MULTIPLE
+
+HEAPSIZE    1024
+                  
+EXPORTS     App_msgFilterHook
+            Client_WndProc
+            SampleDlg_OldDlgProc
+            Frame_WndProc
+            AboutDlg_DlgProc
