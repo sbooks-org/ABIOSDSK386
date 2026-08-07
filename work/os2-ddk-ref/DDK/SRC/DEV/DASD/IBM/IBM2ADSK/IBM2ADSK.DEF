@@ -1,0 +1,50 @@
+;/***********************************************************************/
+;/*                                                                     */
+;/* Driver Name: IBM2ADSK.ADD - Adapter Driver for ABIOS DASD Devices   */
+;/*              ----------------------------------------------------   */
+;/*                                                                     */
+;/* Source File Name: IBM2ADSK.DEF                                      */
+;/*                                                                     */
+;/* Descriptive Name: Linker DEF file for IBM2ADSK.ADD                  */
+;/*                                                                     */
+;/* Function:                                                           */
+;/*                                                                     */
+;/*                                                                     */
+;/*---------------------------------------------------------------------*/
+;/*                                                                     */
+;/* Copyright (C) 1992 IBM Corporation                                  */
+;/*                                                                     */
+;/* DISCLAIMER OF WARRANTIES.  The following [enclosed] code is         */
+;/* provided to you solely for the purpose of assisting you in          */
+;/* the development of your applications. The code is provided          */
+;/* "AS IS", without warranty of any kind. IBM shall not be liable      */
+;/* for any damages arising out of your use of this code, even if       */
+;/* they have been advised of the possibility of such damages.          */
+;/*                                                                     */
+;/*---------------------------------------------------------------------*/
+;/*                                                                     */
+;/* Change Log                                                          */
+;/*                                                                     */
+;/* Mark    Date      Programmer  Comment                               */
+;/* ----    ----      ----------  -------                               */
+;/* @nnnn   mm/dd/yy  NNN                                               */
+;/*                                                                     */
+;/*                                                                     */
+;/***********************************************************************/
+;
+LIBRARY IBM2ADSK
+
+DESCRIPTION "IBM ABIOS DASD Device Driver"
+
+PROTMODE
+
+SEGMENTS
+ DDHeader       CLASS 'DATA'
+ CONST          CLASS 'CONST'
+ _BSS           CLASS 'BSS'
+ LIBDATA        CLASS 'DATA'
+ _DATA          CLASS 'DATA'
+ LIBCODE        CLASS 'CODE' IOPL
+ 'CODE'         CLASS 'CODE' IOPL
+ _TEXT          CLASS 'CODE' IOPL
+

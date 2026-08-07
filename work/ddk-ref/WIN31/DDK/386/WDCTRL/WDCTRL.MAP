@@ -1,0 +1,145 @@
+
+ WDCTRL
+
+ Start         Length     Name                   Class
+ 0001:00000000 000000430H _LTEXT                 CODE 32-bit
+ 0001:00000430 0000003FDH _LDATA                 CODE 32-bit
+ 0002:00000000 000000140H _ITEXT                 ICODE 32-bit
+ 0002:00000140 000000084H _IDATA                 ICODE 32-bit
+ 0003:00000000 000000000H _TEXT                  PCODE 32-bit
+ 0003:00000000 000000000H _DATA                  PCODE 32-bit
+ 0003:00000000 0000011C1H _RCODE                 RCODE 16-bit
+
+ Origin   Group
+ 0002:0   _IGROUP
+ 0001:0   _LGROUP
+ 0003:0   _PGROUP
+ 0000:0   FLAT
+
+ Address       Export                  Alias
+
+ 0001:00000430 WDCTRL_DDB              WDCTRL_DDB
+
+  Address         Publics by Name
+
+ 0003:00001159       ES_Debug
+ 0003:00001165       ES_Debug_Len
+ 0003:00001166       ES_Disable
+ 0003:00001174       ES_Disable_Len
+ 0003:00000C3E       Invalid_Controller_String
+ 0003:00000E9D       Invalid_DOS_Ver_String
+ 0003:00000CFC       Invalid_Int13_Chain
+ 0003:00000BC8       Invalid_IRQ_String
+ 0003:00000B6D       Invalid_Win386_Ver_String
+ 0003:00000AF4       No_Fixed_Disk_String
+ 0003:00001103       Pause_String
+ 0003:00001175       PS_Enable_Wdctrl
+ 0003:0000119F       PS_Force_Alt_Status0
+ 0003:000011B0       PS_Force_Alt_Status1
+ 0003:00001185       PS_Force_Enable_80
+ 0003:00001192       PS_Force_Enable_81
+ 0003:00000CAD       Validation_Failed_String
+ 0001:0000001D       WDCtrl_Command
+ 0001:00000000       WDCtrl_Control
+ 0001:00000379       WDCtrl_Cur_Cmd_Cplt
+ 0001:00000430       WDCTRL_DDB
+ 0001:0000023F       WDCtrl_Hw_Int
+ 0002:0000009F       WDCtrl_Init_BDD
+ 0001:00000402       WDCtrl_IO_Port_Trap
+ 0001:0000053C       WDCtrl_Name_0
+ 0001:00000544       WDCtrl_Name_1
+ 0001:000003C3       WDCtrl_Periodic_Time_Out
+ 0001:000000E2       WDCtrl_Send_Cmd_To_Ctrl
+ 0001:0000000C       WDCtrl_Sync_Command
+ 0002:00000000       WDCtrl_Sys_Crit_Init
+ 0001:000001F3       WDCtrl_Write_Sector
+ 0001:00000579       WD_Accum_Status
+ 0001:00000550       WD_Current_BDD
+ 0001:0000054C       WD_Current_Command
+ 0001:0000056C       WD_Cur_Region_Count
+ 0001:00000570       WD_Cur_Region_Ptr
+ 0001:00000564       WD_Cur_Xfer_Ptr
+ 0001:00000468       WD_Drive_80h_BDD
+ 0001:000004D2       WD_Drive_81h_BDD
+ 0003:00001030       WD_Env_String_Bail
+ 0003:00000F04       WD_Fatal_Error_Code
+ 0003:00000EF7       WD_Fatal_Error_Msg
+ 0001:0000023D       WD_Hw_Int_Not_Mine
+ 0003:00000F89       WD_Incompatible_Sw_Msg
+ 0002:00000140       WD_Init_Error_String
+ 0001:0000077E       WD_IO_Access_Error
+ 0001:0000057B       WD_IO_Warn_Msg_Disp
+ 0001:0000055C       WD_Last_Cmd_Time
+ 0001:00000560       WD_Max_Cmd_Time
+ 0001:00000574       WD_Next_Start_Sector
+ 0001:0000057A       WD_Num_Retries
+ 0001:00000558       WD_Pending_BDD
+ 0001:00000554       WD_Pending_Command
+ 0001:00000568       WD_Remaining_Sec_Count
+ 0001:00000578       WD_Rem_Sec_This_Xfer
+ 0001:00000590       WD_Time_Out_Error_Message
+ 0001:0000057C       WD_Time_Out_Error_Title
+ 0002:000001B6       WD_Time_Out_Ini_String
+
+  Address         Publics by Value
+
+ 0001:00000000       WDCtrl_Control
+ 0001:0000000C       WDCtrl_Sync_Command
+ 0001:0000001D       WDCtrl_Command
+ 0001:000000E2       WDCtrl_Send_Cmd_To_Ctrl
+ 0001:000001F3       WDCtrl_Write_Sector
+ 0001:0000023D       WD_Hw_Int_Not_Mine
+ 0001:0000023F       WDCtrl_Hw_Int
+ 0001:00000379       WDCtrl_Cur_Cmd_Cplt
+ 0001:000003C3       WDCtrl_Periodic_Time_Out
+ 0001:00000402       WDCtrl_IO_Port_Trap
+ 0001:00000430       WDCTRL_DDB
+ 0001:00000468       WD_Drive_80h_BDD
+ 0001:000004D2       WD_Drive_81h_BDD
+ 0001:0000053C       WDCtrl_Name_0
+ 0001:00000544       WDCtrl_Name_1
+ 0001:0000054C       WD_Current_Command
+ 0001:00000550       WD_Current_BDD
+ 0001:00000554       WD_Pending_Command
+ 0001:00000558       WD_Pending_BDD
+ 0001:0000055C       WD_Last_Cmd_Time
+ 0001:00000560       WD_Max_Cmd_Time
+ 0001:00000564       WD_Cur_Xfer_Ptr
+ 0001:00000568       WD_Remaining_Sec_Count
+ 0001:0000056C       WD_Cur_Region_Count
+ 0001:00000570       WD_Cur_Region_Ptr
+ 0001:00000574       WD_Next_Start_Sector
+ 0001:00000578       WD_Rem_Sec_This_Xfer
+ 0001:00000579       WD_Accum_Status
+ 0001:0000057A       WD_Num_Retries
+ 0001:0000057B       WD_IO_Warn_Msg_Disp
+ 0001:0000057C       WD_Time_Out_Error_Title
+ 0001:00000590       WD_Time_Out_Error_Message
+ 0001:0000077E       WD_IO_Access_Error
+ 0002:00000000       WDCtrl_Sys_Crit_Init
+ 0002:0000009F       WDCtrl_Init_BDD
+ 0002:00000140       WD_Init_Error_String
+ 0002:000001B6       WD_Time_Out_Ini_String
+ 0003:00000AF4       No_Fixed_Disk_String
+ 0003:00000B6D       Invalid_Win386_Ver_String
+ 0003:00000BC8       Invalid_IRQ_String
+ 0003:00000C3E       Invalid_Controller_String
+ 0003:00000CAD       Validation_Failed_String
+ 0003:00000CFC       Invalid_Int13_Chain
+ 0003:00000E9D       Invalid_DOS_Ver_String
+ 0003:00000EF7       WD_Fatal_Error_Msg
+ 0003:00000F04       WD_Fatal_Error_Code
+ 0003:00000F89       WD_Incompatible_Sw_Msg
+ 0003:00001030       WD_Env_String_Bail
+ 0003:00001103       Pause_String
+ 0003:00001159       ES_Debug
+ 0003:00001165       ES_Debug_Len
+ 0003:00001166       ES_Disable
+ 0003:00001174       ES_Disable_Len
+ 0003:00001175       PS_Enable_Wdctrl
+ 0003:00001185       PS_Force_Enable_80
+ 0003:00001192       PS_Force_Enable_81
+ 0003:0000119F       PS_Force_Alt_Status0
+ 0003:000011B0       PS_Force_Alt_Status1
+
+Program entry point at 0003:0420
