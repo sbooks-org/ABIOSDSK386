@@ -6,3 +6,6 @@
 *.MAP
 *.OBJ
 *.png
+*.EXE
+DSMOKE.DAT
+DSMOKE.OK
