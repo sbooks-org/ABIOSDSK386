@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+mkdir -p "$ROOT/build"
+cat >"$ROOT/build/dosbox.conf" <<'EOF'
+[sdl]
+fullscreen=false
+[dosbox]
+memsize=32
+[cpu]
+core=normal
+cputype=pentium
+cycles=max
+[autoexec]
+mount c .
+mount d work/ddk-ref/WIN31/DDK/386
+c:
+d:\TOOLS\MASM5.EXE -p -w2 -Mx -Isrc -Id:\INCLUDE src\abiosdsk.asm,build\abiosdsk.obj,build\abiosdsk.lst; >build\abiosdsk.log
+if errorlevel 1 exit
+d:\TOOLS\MASM5.EXE -p -w2 -Mx -Isrc -Id:\INCLUDE src\abiosrm.asm,build\abiosrm.obj,build\abiosrm.lst; >build\abiosrm.log
+if errorlevel 1 exit
+d:\TOOLS\LINK386.EXE build\abiosdsk.obj+build\abiosrm.obj,build\abiosdsk.386 /BATCH /NOLOGO /NOI /NOD /NOP,build\abiosdsk.map,,src\abiosdsk.def; >build\link.log
+if errorlevel 1 exit
+d:\TOOLS\ADDHDR.EXE build\abiosdsk.386
+if errorlevel 1 exit
+exit
+EOF
+cd "$ROOT"
+exec dosbox-x -fastlaunch -defaultconf -conf build/dosbox.conf
