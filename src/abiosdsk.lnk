@@ -1,0 +1,4 @@
+build\abiosdsk.obj+build\abiosrm.obj
+build\abiosdsk.386 /BATCH /NOLOGO /NOI /NOD /NOP
+build\abiosdsk.map
+src\abiosdsk.def
