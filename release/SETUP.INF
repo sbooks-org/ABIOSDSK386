@@ -1,0 +1,62 @@
+; ABIOSDSK Version 0.90 prerelease
+; Copyright (C) 2026 Simplebooks Foundation
+; Copyright (C) 2026 Josh Rodd
+;
+; ABIOSDSK.386 -- Windows 3.1 ABIOS fixed-disk BlockDev VxD
+; ----------------------------------------------------------------
+; Installation information file, formatted per the Windows 3.1
+; SETUP.INF specification (the file Windows Setup reads when it
+; installs and configures drivers).
+;
+; What this file does, if processed by Windows 3.1 Setup:
+;   1. [windows.system.386]  copies ABIOSDSK.386 into the Windows
+;                            SYSTEM directory.
+;   2. [ini.upd.31]          adds the line
+;                                device=ABIOSDSK.386
+;                            to the [386Enh] section of SYSTEM.INI,
+;                            which is exactly how Windows loads a
+;                            new VxD-style block device driver
+;                            (the same mechanism that installs
+;                            device=*wdctrl and its kin).
+;
+; How to use it:
+;   The retail SETUP.INF lives in the Windows SYSTEM directory.
+;   Back up that file, then merge the three sections below into it
+;   (or append them to a copy you hand to a Setup-based installer).
+;   ABIOSDSK.386 must sit next to this file when Setup runs.
+;
+;   Manual installation is equally valid and is described in
+;   HELP.TXT; no registry or .INF knowledge is required for it.
+;
+; ABIOSDSK.386 takes no switches and needs no driver-specific
+; settings -- see HELP.TXT for the one standard [386Enh] value
+; that affects it (32BITDISKACCESS, which must stay ON).
+
+; VERSION INFO
+; ---------------------------------------------------------------
+; Package version 0.90 prerelease.  The 3.1 value below identifies
+; Windows 3.1 Setup compatibility; it is not the package version.
+[data]
+    Version   = "3.1"
+
+; DRIVER DISK
+; ---------------------------------------------------------------
+; The disk Setup can prompt for when copying files.
+[disks]
+    a =., "ABIOSDSK 0.90 prerelease driver disk", diska
+
+; FILES TO COPY INTO THE WINDOWS SYSTEM DIRECTORY
+; ---------------------------------------------------------------
+; Setup places 386 enhanced-mode system files listed here in the
+; SYSTEM subdirectory of the Windows directory.
+[windows.system.386]
+    a:ABIOSDSK.386
+
+; SYSTEM.INI UPDATES
+; ---------------------------------------------------------------
+; .ini file, section, old line, new line.  An empty "old line"
+; field tells Setup to add the new line.  This appends the
+; device= entry that makes Windows load ABIOSDSK in 386 enhanced
+; mode, alongside the other virtual block device drivers.
+[ini.upd.31]
+    system.ini, 386Enh, , "device=ABIOSDSK.386"

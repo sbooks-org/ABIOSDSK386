@@ -1,0 +1,149 @@
+IBM PS/2 Fixed Disk Windows 3.1 Driver - Help
+=============================================
+August 7, 2026
+Version 0.90 prerelease
+Copyright (C) 2026 Simplebooks Foundation
+Copyright (C) 2026 Josh Rodd
+
+ABIOSDSK.386 is a Windows 3.1 virtual device driver (VxD) that
+provides 32-bit disk access to fixed disks attached through the
+IBM Personal System/2 Advanced BIOS (ABIOS) interface.  It is a
+block device driver in the style of the built-in *wdctrl driver:
+it registers the fixed disks it finds with the Windows 3.1 BlockDev
+service so that disk I/O bypasses DOS and the BIOS in 386 enhanced
+mode.
+
+ABIOSDSK is intended for ABIOS-based machines (IBM PS/2 and
+compatibles) whose fixed disks cannot be driven as plain WD1003
+controllers.  It enumerates the ABIOS logical IDs, reads each
+candidate drive with ABIOS, reads the same sectors through INT 13h,
+and only claims drives whose contents agree, so it never touches a
+drive it cannot handle.  WDCTRL, if present, simply finds nothing
+on such machines; there is no conflict.
+
+PRERELEASE STATUS
+-----------------
+
+Version 0.90 is a prerelease and needs further testing.  It has
+been tested only with DOS 3.30 on partitions smaller than 32 MB.
+Back up all affected disks before testing it on other DOS versions,
+partition sizes, machines, controllers, or drive configurations.
+
+This driver supports only system-supported MFM and ESDI fixed-disk
+drive types.  The drive must already work through the machine's ABIOS
+and INT 13h configuration.  ABIOSDSK does not add drive types or
+geometry support.  SCSI and controller-specific extensions are not
+supported by this release.
+
+
+REQUIREMENTS
+------------
+
+  - Microsoft Windows 3.1 or later, 386 enhanced mode only
+    (Windows 3.0 or Windows/386 will not load this driver).
+  - An IBM PS/2 or ABIOS-compatible system with a system-supported
+    MFM or ESDI fixed disk.
+  - 32-bit disk access enabled.  The [386Enh] setting
+        32BITDISKACCESS=ON
+    (the Windows default) must be in effect; see CONFIGURATION.
+
+
+INSTALLATION
+------------
+
+With Windows Setup (recommended):
+
+  SETUP.INF on this diskette contains the three sections of the
+  Windows 3.1 SETUP.INF format that install this driver: the file
+  copy into the Windows SYSTEM directory and the [386Enh]
+  device= line.  Merge it into the SETUP.INF in your SYSTEM
+  directory (back it up first) or hand it to a Setup-based driver
+  installer.  See the comments in SETUP.INF.
+
+Manual installation:
+
+  1. Copy ABIOSDSK.386 to the SYSTEM subdirectory of your Windows
+     directory, for example C:\WINDOWS\SYSTEM.
+  2. Using SYSEDIT or Notepad, open SYSTEM.INI and find the
+     [386Enh] section.
+  3. Add the line:   device=ABIOSDSK.386
+  4. Save the file and restart Windows.
+
+With INSTALL.BAT (from a DOS prompt):
+
+  A:\INSTALL C:\WINDOWS
+
+  replaces C:\WINDOWS with the path to your Windows directory.
+  INSTALL.BAT copies ABIOSDSK.386 into SYSTEM and then adds the
+  appropriate entry to SYSTEM.INI.
+
+
+CONFIGURATION
+-------------
+
+ABIOSDSK reads no driver-specific settings from SYSTEM.INI.  It is
+affected by exactly two standard settings, both in [386Enh]:
+
+  32BITDISKACCESS=ON|OFF
+      If this is OFF, ABIOSDSK refuses to load: 32-bit disk access
+      is the entire point of the driver.  The Windows default is
+      ON; leave it alone.  (You can verify the current value in
+      Control Panel, 386 Enhanced, Virtual Memory.)
+
+  WDCTRLDISABLE=Y
+      A WDCTRL-specific switch, mentioned only for completeness.
+      It is not needed with ABIOSDSK: ABIOSDSK claims only drives
+      that validate as ABIOS disks, and WDCTRL leaves those alone.
+
+On machines with no usable ABIOS the driver declines to load and
+prints one of the messages described in README.TXT.  Windows then
+continues booting without it; your disks still work through the
+BIOS, just without 32-bit disk access.
+
+
+VERIFYING THAT IT LOADED
+------------------------
+
+  - Watch the DOS startup screen while Windows boots.  The driver
+    prints nothing on success; on failure it prints one of the
+    "ABIOSDSK:" messages listed in README.TXT.
+  - With the driver loaded, Control Panel, 386 Enhanced, Virtual
+    Memory reports that 32-bit disk access is active, and ABIOS
+    drives are served directly instead of through INT 13h.
+  - ABIOSCHK.COM, the standalone diagnostic companion built from
+    the same source, reports whether your fixed disk passes the
+    ABIOS/INT 13h comparison validation the driver performs.
+
+
+REMOVAL
+-------
+
+  1. Delete the "device=ABIOSDSK.386" line from [386Enh] in
+     SYSTEM.INI.
+  2. Delete ABIOSDSK.386 from the Windows SYSTEM directory.
+  3. Restart Windows.
+
+
+ERROR MESSAGES
+--------------
+
+See README.TXT, which enumerates every message ABIOSDSK.386 (and
+its ABIOSCHK.COM companion) can print and explains what each one
+means.
+
+
+FILES ON THIS DISK
+------------------
+
+  ABIOSDSK.386   The driver (VxD).
+  ABIOSCHK.COM   Standalone ABIOS validation diagnostic.
+  ADDINI.COM     Tool to add a line below an INI section header.
+  SETUP.INF      Windows 3.1 Setup-format installation file.
+  HELP.TXT       This file.
+  README.TXT     Error message reference.
+  INSTALL.BAT    DOS installation helper.
+  TEST.BAT       Test harness for ADDINI and INSTALL.BAT.
+  LICENSE.TXT    MIT 1-clause license and copyright notices.
+
+ABIOSDSK is free software under the MIT 1-clause license.  See
+LICENSE.TXT.  This package is provided as-is, with no warranty.
