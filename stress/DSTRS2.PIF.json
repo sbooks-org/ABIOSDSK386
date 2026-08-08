@@ -1,0 +1,128 @@
+{
+  "base": {
+    "checksum": {
+      "calculated": 116,
+      "stored": 116,
+      "valid": true
+    },
+    "default_drive": 0,
+    "execution_flags": {
+      "close_on_exit": true,
+      "raw": 18
+    },
+    "first_interrupt": 0,
+    "initial_screen_mode": 0,
+    "last_interrupt": 255,
+    "maximum_memory_kb": 384,
+    "minimum_memory_kb": 192,
+    "parameters": "D2.DAT 222 0 D2.OK",
+    "program": "C:\\STRSSTST\\DSTRS2.EXE",
+    "program_flags": 24800,
+    "reserved": 0,
+    "screen_columns": 80,
+    "screen_rows": 25,
+    "shared_data_file": "",
+    "shared_program": "",
+    "startup_directory": "C:\\STRSSTST",
+    "system_memory": 23,
+    "text_pages": 1,
+    "title": "ABIOSDSK DOS stress 2",
+    "window_column": 0,
+    "window_row": 0
+  },
+  "extensions": [
+    {
+      "layout": {
+        "data_offset": 0,
+        "data_size": 369,
+        "header_offset": 369,
+        "name": "MICROSOFT PIFEX",
+        "next_offset": 391
+      },
+      "raw_data_base64": "AHRBQklPU0RTSyBET1Mgc3RyZXNzIDIAAAAAAAAAAACAAcAAQzpcU1RSU1NUU1RcRFNUUlMyLkVYRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgBDOlxTVFJTU1RTVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARDIuREFUIDIyMiAwIEQyLk9LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAP8ZUAAAFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOBg"
+    },
+    {
+      "layout": {
+        "data_offset": 413,
+        "data_size": 104,
+        "header_offset": 391,
+        "name": "WINDOWS 386 3.0",
+        "next_offset": 517
+      },
+      "raw_data_base64": "gAHAAGQAMgAAAAAAAAAAAAMAAgATAAAAAAAAAAAAAAAAAAAAAAAAAEQyLkRBVCAyMjIgMCBEMi5PSwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "windows_386": {
+        "background_priority": 50,
+        "behavior": {
+          "allow_close": true,
+          "background": true,
+          "detect_idle": false,
+          "ems_locked": false,
+          "exclusive": false,
+          "full_screen": false,
+          "raw": 3,
+          "reserve_alt_enter": false,
+          "reserve_alt_escape": false,
+          "reserve_alt_print_screen": false,
+          "reserve_alt_space": false,
+          "reserve_alt_tab": false,
+          "reserve_ctrl_escape": false,
+          "reserve_print_screen": false,
+          "use_hma": false
+        },
+        "foreground_priority": 100,
+        "hotkey_enabled": 0,
+        "hotkey_modifiers": {
+          "alt": false,
+          "control": false,
+          "raw": 0,
+          "shift": false
+        },
+        "hotkey_scan_code": 0,
+        "maximum_ems_kb": 0,
+        "maximum_xms_kb": 0,
+        "memory_limit_kb": 384,
+        "memory_required_kb": 192,
+        "minimum_ems_kb": 0,
+        "minimum_xms_kb": 0,
+        "parameters": "D2.DAT 222 0 D2.OK",
+        "reserved_word": 0,
+        "video": {
+          "emulate_text_mode": true,
+          "initialize_high_graphics": false,
+          "initialize_low_graphics": false,
+          "initialize_text": true,
+          "monitor_high_graphics": false,
+          "monitor_low_graphics": false,
+          "monitor_text": true,
+          "raw": 19,
+          "retain_video": false
+        },
+        "xms_flags": {
+          "fast_paste": true,
+          "locked_application": false,
+          "raw": 2,
+          "xms_locked": false
+        }
+      }
+    },
+    {
+      "layout": {
+        "data_offset": 539,
+        "data_size": 6,
+        "header_offset": 517,
+        "name": "WINDOWS 286 3.0",
+        "next_offset": 65535
+      },
+      "raw_data_base64": "AAAAAAAA",
+      "windows_286": {
+        "com_ports_raw": 0,
+        "flags_raw": 0,
+        "xms_limit_kb": 0,
+        "xms_required_kb": 0
+      }
+    }
+  ],
+  "file_size": 545,
+  "raw_file_base64": "AHRBQklPU0RTSyBET1Mgc3RyZXNzIDIAAAAAAAAAAACAAcAAQzpcU1RSU1NUU1RcRFNUUlMyLkVYRQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgBDOlxTVFJTU1RTVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARDIuREFUIDIyMiAwIEQyLk9LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAP8ZUAAAFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOBgTUlDUk9TT0ZUIFBJRkVYAIcBAABxAVdJTkRPV1MgMzg2IDMuMAAFAp0BaACAAcAAZAAyAAAAAAAAAAAAAwACABMAAAAAAAAAAAAAAAAAAAAAAAAARDIuREFUIDIyMiAwIEQyLk9LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFdJTkRPV1MgMjg2IDMuMAD//xsCBgAAAAAAAAA=",
+  "schema": "pifjson/v1"
+}
