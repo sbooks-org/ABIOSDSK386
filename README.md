@@ -2,7 +2,7 @@ ABIOSDSK.386
 ============
 v0.90
 
-![Latest Release downloads](https://github.com/sbooks-org/ABIOSDSK386/releases/tag/v0.90)](https://github.com/sbooks-org/ABIOSDSK386/releases/tag/v0.90)
+[![Latest Release downloads](https://github.com/sbooks-org/ABIOSDSK386/releases/tag/v0.90)](https://github.com/sbooks-org/ABIOSDSK386/releases/tag/v0.90)
 
 7 August 2026
 
