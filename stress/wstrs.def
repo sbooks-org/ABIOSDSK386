@@ -1,5 +1,8 @@
+; ABIOSDSK Version 0.90 prerelease
+; Copyright (C) 2026 Simplebooks Foundation
+; Copyright (C) 2026 Josh Rodd
 NAME WSTRS
-DESCRIPTION 'ABIOSDSK 130K protected-mode disk stressor'
+DESCRIPTION 'ABIOSDSK 0.90 prerelease protected-mode disk stressor'
 EXETYPE WINDOWS 3.1
 CODE PRELOAD MOVEABLE DISCARDABLE
 DATA PRELOAD MOVEABLE MULTIPLE
