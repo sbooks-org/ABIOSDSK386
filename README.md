@@ -26,3 +26,6 @@ An installer utility is included in release/ along with a floppy image / zip
 file to make installing it a little easier. You can also install it by going to
 Control Panel, Drivers, Add, Unlisted or Updated Driver, choose A:\, and then
 choose the PS/2 driver.
+
+Files in work/ are covered under their own licence (the Windows DDK) which
+permits use for developing device drivers.
