@@ -1,5 +1,7 @@
 PAGE 58,132
-TITLE ABIOSDSK.ASM -- Windows 3.1 ABIOS fixed-disk BlockDev VxD
+TITLE ABIOSDSK.ASM -- ABIOSDSK.386 Version 0.90 prerelease
+; Copyright (C) 2026 Simplebooks Foundation
+; Copyright (C) 2026 Josh Rodd
 
 .386p
 
@@ -13,8 +15,8 @@ INCLUDE VPICD.Inc
 INCLUDE ABIOS.Inc
 .LIST
 
-ABIOSDSK_Major_Ver EQU 1
-ABIOSDSK_Minor_Ver EQU 0
+ABIOSDSK_Major_Ver EQU 0
+ABIOSDSK_Minor_Ver EQU 90
 
 Declare_Virtual_Device ABIOSDSK, ABIOSDSK_Major_Ver, ABIOSDSK_Minor_Ver, ABIOSDSK_Control, Undefined_Device_ID, Undef_Touch_Mem_Init_Order
 

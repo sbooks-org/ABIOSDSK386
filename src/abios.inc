@@ -1,5 +1,7 @@
 ; ABIOS fixed-disk interface definitions used by ABIOSDSK.
 ; Layouts follow IBM Personal System/2 ABIOS, September 1991.
+; Copyright (C) 2026 Simplebooks Foundation
+; Copyright (C) 2026 Josh Rodd
 
 ABIOS_EP_START                 EQU 0
 ABIOS_EP_INTERRUPT             EQU 1

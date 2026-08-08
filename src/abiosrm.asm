@@ -1,17 +1,21 @@
 PAGE 58,132
-TITLE ABIOSRM.ASM -- Real-mode initialization and validation for ABIOSDSK
+TITLE ABIOSRM.ASM -- ABIOSDSK.386 Version 0.90 prerelease
+; Copyright (C) 2026 Simplebooks Foundation
+; Copyright (C) 2026 Josh Rodd
 
 .386p
 
 .XLIST
 IFDEF ABIOS_DIAGNOSTIC
+IFDEF ABIOS_UASM
+OPTION OLDSTRUCTS
+ENDIF
 BeginProc MACRO Name
 Name PROC NEAR
 ENDM
 EndProc MACRO Name
 Name ENDP
 ENDM
-OPTION OLDSTRUCTS
 ELSE
 INCLUDE VMM.Inc
 ENDIF
@@ -65,6 +69,13 @@ RM_Message_No_Disk       db 'ABIOSDSK: no non-SCSI ABIOS fixed disk passed INT 1
 RM_Message_Too_Large     db 'ABIOSDSK: ABIOS tables exceed the driver limits.',13,10,'$'
 RM_Profile_Enable        db '32BITDISKACCESS',0
 RM_Message_Passed        db 'ABIOSCHK: ABIOS fixed disk passed INT 13h comparison reads.',13,10,'$'
+IFDEF ABIOSDSK_DEBUG
+RM_Version_String        db 'ABIOSDSK.386 Version 0.90 prerelease debug',0
+ELSE
+RM_Version_String        db 'ABIOSDSK.386 Version 0.90 prerelease',0
+ENDIF
+RM_Copyright_1           db 'Copyright (C) 2026 Simplebooks Foundation',0
+RM_Copyright_2           db 'Copyright (C) 2026 Josh Rodd',0
 
 IFNDEF ABIOS_DIAGNOSTIC
 RM_Build_Entry LABEL NEAR

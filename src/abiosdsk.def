@@ -1,5 +1,8 @@
+; ABIOSDSK.386 Version 0.90 prerelease
+; Copyright (C) 2026 Simplebooks Foundation
+; Copyright (C) 2026 Josh Rodd
 LIBRARY ABIOSDSK
-DESCRIPTION 'Windows 3.1 ABIOS fixed-disk BlockDev'
+DESCRIPTION 'ABIOSDSK 0.90 prerelease Windows 3.1 ABIOS BlockDev'
 EXETYPE DEV386
 SEGMENTS
     _LTEXT PRELOAD NONDISCARDABLE
