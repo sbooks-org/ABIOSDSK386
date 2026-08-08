@@ -1,4 +1,4 @@
-# MIT 1-Clause License
+# MIT 0-Clause License
 
 Copyright (C) 2026 Simplebooks Foundation
 Copyright (C) 2026 Josh Rodd
