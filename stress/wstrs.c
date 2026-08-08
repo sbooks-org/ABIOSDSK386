@@ -1,3 +1,9 @@
+/*
+ * ABIOSDSK Version 0.90 prerelease Windows stressor
+ * Copyright (C) 2026 Simplebooks Foundation
+ * Copyright (C) 2026 Josh Rodd
+ */
+
 #define STRICT
 #define WINVER 0x030A
 #include <windows.h>
@@ -215,14 +221,25 @@ static void parse_command_line(LPSTR command_line)
     }
 }
 
+static void yield_for_dos_startup(void)
+{
+    DWORD started = GetTickCount();
+
+    do {
+        Yield();
+    } while (GetTickCount() - started < 3000UL);
+}
+
+
 static int launch_dos_stressors(void)
 {
     UINT result;
 
-    result = WinExec("C:\\WINDOWS\\DSTRS1.PIF", SW_SHOWMINNOACTIVE);
+    result = WinExec("C:\\STRSSTST\\DSTRS1.PIF", SW_SHOWNOACTIVATE);
     if (result < 32)
         return 0;
-    result = WinExec("C:\\WINDOWS\\DSTRS2.PIF", SW_SHOWMINNOACTIVE);
+    yield_for_dos_startup();
+    result = WinExec("C:\\STRSSTST\\DSTRS2.PIF", SW_SHOWNOACTIVATE);
     return result >= 32;
 }
 
@@ -302,7 +319,7 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE previous_instance,
 
     main_window = CreateWindow("ABIOSDSK_WSTRS", "ABIOSDSK WSTRS",
                                WS_OVERLAPPEDWINDOW,
-                               CW_USEDEFAULT, CW_USEDEFAULT, 580, 150,
+                               20, 270, 580, 150,
                                NULL, NULL, instance, NULL);
     if (main_window == NULL) {
         MessageBox(NULL, "Cannot create window", "WSTRS", MB_OK | MB_ICONHAND);
