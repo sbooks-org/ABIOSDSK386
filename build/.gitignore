@@ -17,3 +17,7 @@
 DSMOKE.DAT
 DSMOKE.OK
 window_ids.swift
+debug/addinix.conf
+debug/dosbox.conf
+release/addinix.conf
+release/dosbox.conf
