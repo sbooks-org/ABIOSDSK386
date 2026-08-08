@@ -1,5 +1,12 @@
+/*
+ * ABIOSDSK Version 0.90 prerelease DOS stressor
+ * Copyright (C) 2026 Simplebooks Foundation
+ * Copyright (C) 2026 Josh Rodd
+ */
+
 #include <dos.h>
 #include <fcntl.h>
+#include <conio.h>
 #include <io.h>
 #include <malloc.h>
 #include <share.h>
@@ -17,6 +24,42 @@ static unsigned long generations[BLOCK_COUNT];
 static unsigned long seed;
 static unsigned long random_state;
 static const char *file_name;
+static unsigned long keyboard_count;
+static unsigned last_key;
+
+
+static void service_keyboard(void)
+{
+    int key;
+    int scan;
+
+    while (kbhit()) {
+        key = getch();
+        ++keyboard_count;
+        fputs("\r\nDSTRS: keyboard echo: ", stdout);
+        if (key == 0 || key == 0xE0) {
+            scan = getch();
+            last_key = 0x100U | (unsigned char)scan;
+            printf("<EXT-%02X>", (unsigned char)scan);
+        } else {
+            last_key = (unsigned char)key;
+            if (key >= 0x20 && key <= 0x7E)
+                putchar(key);
+            else if (key == '\r')
+                fputs("<ENTER>", stdout);
+            else if (key == '\t')
+                fputs("<TAB>", stdout);
+            else if (key == '\b')
+                fputs("<BACKSPACE>", stdout);
+            else
+                printf("<%02X>", (unsigned char)key);
+        }
+        printf(" (key %lu)\n", keyboard_count);
+        fflush(stdout);
+    }
+}
+
+
 
 static unsigned long pattern_base(unsigned block, unsigned long generation)
 {
@@ -34,8 +77,11 @@ static void fill_pattern(unsigned block, unsigned long generation)
     unsigned long i;
     unsigned long base = pattern_base(block, generation);
 
-    for (i = 0; i < BLOCK_BYTES; ++i)
+    for (i = 0; i < BLOCK_BYTES; ++i) {
         buffer[i] = pattern_byte(base, i);
+        if ((i & 0x0FFFUL) == 0)
+            service_keyboard();
+    }
 }
 
 static int check_pattern(unsigned block, unsigned long generation,
@@ -48,6 +94,8 @@ static int check_pattern(unsigned block, unsigned long generation,
 
     for (i = 0; i < BLOCK_BYTES; ++i) {
         wanted = pattern_byte(base, i);
+        if ((i & 0x0FFFUL) == 0)
+            service_keyboard();
         if (buffer[i] != wanted) {
             *bad_position = i;
             *expected = wanted;
@@ -75,6 +123,7 @@ static int transfer(int handle, int writing)
             return 0;
         position += chunk;
         remaining -= chunk;
+        service_keyboard();
     }
     return 1;
 }
@@ -195,6 +244,7 @@ int main(int argc, char **argv)
     }
 
     while (limit == 0 || operation < limit) {
+        service_keyboard();
         ++operation;
         block = next_random() % BLOCK_COUNT;
         writing = (next_random() & 1) != 0;
@@ -227,10 +277,11 @@ int main(int argc, char **argv)
             _hfree(buffer);
             return 1;
         }
+        service_keyboard();
 
-        printf("\rDSTRS: %lu operations, last=%s block=%u generation=%lu   ",
+        printf("\rDSTRS: op=%lu %s b=%u gen=%lu keys=%lu last=%03X   ",
                operation, writing ? "write/read" : "read", block,
-               generations[block]);
+               generations[block], keyboard_count, last_key);
         fflush(stdout);
     }
 
