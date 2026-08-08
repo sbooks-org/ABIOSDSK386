@@ -1,4 +1,7 @@
 #!/bin/sh
+# ABIOSDSK Version 0.90 prerelease stress harness
+# Copyright (C) 2026 Simplebooks Foundation
+# Copyright (C) 2026 Josh Rodd
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
@@ -11,7 +14,8 @@ if [ ! -f "$TOOLCHAIN/BIN/CL.EXE" ]; then
 fi
 
 mkdir -p "$ROOT/build"
-python3 "$ROOT/stress/mkpif.py" "$ROOT/build"
+python3 "$ROOT/stress/pifjson.py" from-json "$ROOT/stress/DSTRS1.PIF.json" "$ROOT/build/DSTRS1.PIF"
+python3 "$ROOT/stress/pifjson.py" from-json "$ROOT/stress/DSTRS2.PIF.json" "$ROOT/build/DSTRS2.PIF"
 cat >"$ROOT/build/stressbox.conf" <<'EOF'
 [sdl]
 fullscreen=false
