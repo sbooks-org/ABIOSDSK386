@@ -2,6 +2,8 @@ ABIOSDSK.386
 ============
 v0.90
 
+[![Latest Release](https://github.com/sbooks-org/ABIOSDSK386/releases/tag/v0.90)](https://github.com/sbooks-org/ABIOSDSK386/releases/tag/v0.90)
+
 7 August 2026
 
 This is an implementation of a 32-bit Disk Access driver for Windows 3.1 or
