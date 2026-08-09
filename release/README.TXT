@@ -100,10 +100,17 @@ MESSAGES THE DRIVER CAN GENERATE
    ABIOSDSK.386 at all: it comes from ABIOSCHK.COM, the
    standalone diagnostic built from the same source.  Run
    ABIOSCHK.COM from a DOS prompt to test whether a machine's
-   fixed disk will be accepted by the driver; exit code 0 with
-   this message means it will.  On failure, ABIOSCHK.COM prints
-   one of the three "ABIOSDSK:" messages above and exits with
-   code 1.
+   fixed disks will be accepted by the driver.  Run
+   ABIOSCHK.COM /DETAIL to show each drive and C/H/S location as
+   it is checked; the progress display returns to the beginning
+   of one line instead of scrolling for every comparison read.
+   Use /HELP for command help and /VERSION for version
+   information.  The short forms are /D, /H, /?, and /V; Unix
+   -d, -h, -?, -v, --detail, --help, and --version forms are also
+   accepted.  Options are case-insensitive.
+   Exit code 0 with the success message means every BIOS fixed
+   disk passed.  On failure, ABIOSCHK.COM prints one of the three
+   "ABIOSDSK:" messages above and exits with code 1.
 
 
 SILENT CONDITIONS (NO MESSAGE)
@@ -114,9 +121,10 @@ The driver can decline to load without printing anything:
   - Windows earlier than 3.10 in 386 enhanced mode (for example
     Windows 3.0).  The driver requires the enhanced-mode Windows
     version to be at least 3.10 and otherwise vanishes silently.
-  - 32BITDISKACCESS=OFF in the [386Enh] section of SYSTEM.INI.
-    Without 32-bit disk access the driver has no reason to load,
-    so it aborts quietly.  The Windows default is ON.
+  - 32BITDISKACCESS is missing or OFF in the [386Enh] section of
+    SYSTEM.INI.  Windows for Workgroups 3.11 commonly omits this
+    setting.  Add 32BITDISKACCESS=ON to enable the Windows BlockDev
+    stack and allow ABIOSDSK to load.
 
 
 RUNTIME (PROTECTED-MODE) ERROR REPORTING
@@ -140,7 +148,7 @@ FILE LIST
   ABIOSDSK.386   The driver (VxD).
   ABIOSCHK.COM   Utility to check if ABIOS disk access is stable.
   SETUP.INF      Windows 3.1 Setup-format installation file.
-  HELP.TXT       Installation and usage help (no switches exist).
+  HELP.TXT       Installation and usage help.
   README.TXT     This file.
   INSTALL.BAT    DOS installation helper.
   ADDINI.COM     Utility to add device= entry to SYSTEM.INI.

@@ -1,0 +1,5 @@
+# Packed release artifact
+/ABIOSCHK.COM
+
+# Raw and debug build artifacts
+/build/

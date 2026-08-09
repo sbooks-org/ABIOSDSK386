@@ -18,9 +18,12 @@ Name ENDP
 ENDM
 ELSE
 INCLUDE VMM.Inc
+INCLUDE BLOCKDEV.Inc
+INCLUDE Int2FAPI.Inc
 ENDIF
 INCLUDE ABIOS.Inc
 .LIST
+ABIOS_COM1_DIVISOR_57600 EQU 2
 
 IFDEF ABIOS_DIAGNOSTIC
 RM_DIAGNOSTIC_SEG SEGMENT PARA PUBLIC USE16 'CODE'
@@ -35,6 +38,10 @@ RM_Service_Address       dd 0
 RM_RAM_Extension         dw 0
 RM_Allocation_Segment    dw 0
 RM_Allocation_Paras      dw 0
+RM_Owner_PSP              dw 0
+RM_Owner_End              dw 0
+RM_Owner_Shrunk           db 0
+                            db 0
 RM_CDA_Size              dw 0
 RM_Current_FTT           dw 0
 RM_Total_LIDs            dw 0
@@ -57,6 +64,28 @@ RM_Test_Count            db 0
                         db 0
 RM_Test_LBA              dd 0
 RM_Test_Limit            dd 0
+RM_Candidate_Count       db 0
+                        db 0,0,0
+RM_Candidates            dd 9 dup (0)
+IFDEF ABIOS_DIAGNOSTIC
+RM_Detail                db 0
+RM_Diagnostic_Action     db 0
+RM_Option_Buffer         db 12 dup (0)
+RM_Option_Help_Slash     db '/HELP',0
+RM_Option_H_Slash        db '/H',0
+RM_Option_Query_Slash    db '/?',0
+RM_Option_Version_Slash  db '/VERSION',0
+RM_Option_V_Slash        db '/V',0
+RM_Option_Detail_Slash   db '/DETAIL',0
+RM_Option_D_Slash        db '/D',0
+RM_Option_H_Dash         db '-H',0
+RM_Option_Query_Dash     db '-?',0
+RM_Option_V_Dash         db '-V',0
+RM_Option_D_Dash         db '-D',0
+RM_Option_Help_Long      db '--HELP',0
+RM_Option_Version_Long   db '--VERSION',0
+RM_Option_Detail_Long    db '--DETAIL',0
+ENDIF
 
 RM_System_Parameters     db ABIOS_SYSTEM_SIZE dup (0)
 RM_Initialization_Table db (ABIOS_MAX_INIT_ENTRIES*ABIOS_INIT_ENTRY_SIZE) dup (0)
@@ -69,6 +98,58 @@ RM_Message_No_Disk       db 'ABIOSDSK: no non-SCSI ABIOS fixed disk passed INT 1
 RM_Message_Too_Large     db 'ABIOSDSK: ABIOS tables exceed the driver limits.',13,10,'$'
 RM_Profile_Enable        db '32BITDISKACCESS',0
 RM_Message_Passed        db 'ABIOSCHK: ABIOS fixed disk passed INT 13h comparison reads.',13,10,'$'
+RM_Message_Incomplete    db 'ABIOSCHK: not every BIOS fixed disk passed ABIOS comparison reads.',13,10,'$'
+RM_Drive_Prefix         db 'ABIOSCHK: INT 13h drive $'
+RM_Drive_LID            db ', ABIOS LID $'
+RM_Drive_Unit           db ' unit $'
+RM_Drive_Reads          db ', comparison reads $'
+RM_Drive_End            db '.',13,10,'$'
+RM_Summary_Prefix       db 'ABIOSCHK: accepted $'
+RM_Summary_Middle       db ' of $'
+RM_Summary_End          db ' BIOS fixed disks.',13,10,'$'
+IFDEF ABIOS_DIAGNOSTIC
+RM_Message_Usage         db 'Usage: ABIOSCHK [/DETAIL]',13,10,'$'
+RM_Message_Help          db 'ABIOSCHK - ABIOS fixed-disk validation utility',13,10
+                        db 'Usage: ABIOSCHK [option]',13,10
+                        db '  /DETAIL  show each drive and C/H/S location checked',13,10
+                        db '  /HELP    show this help',13,10
+                        db '  /VERSION show version and copyright information',13,10
+                        db 'Also accepts /D, /H, /?, /V, -d, -h, -?, -v,',13,10
+                        db '--detail, --help, and --version.',13,10,'$'
+IFDEF ABIOSDSK_DEBUG
+RM_Message_Version       db 'ABIOSCHK Version 0.90 prerelease debug',13,10
+ELSE
+RM_Message_Version       db 'ABIOSCHK Version 0.90 prerelease',13,10
+ENDIF
+                        db 'Copyright (C) 2026 Simplebooks Foundation',13,10
+                        db 'Copyright (C) 2026 Josh Rodd',13,10,'$'
+RM_Detail_Start          db 'ABIOSCHK: starting real-mode ABIOS disk checks.',13,10,'$'
+RM_Detail_Check_Prefix   db 'ABIOSCHK: checking INT 13h drive $'
+RM_Detail_Check_CHS      db ', C/H/S $'
+RM_Detail_Check_End      db 13,'$'
+RM_Detail_Check_Fail     db 'ABIOSCHK: comparison failed for the preceding C/H/S check.',13,10,'$'
+RM_Detail_Complete       db 'ABIOSCHK: real-mode checks complete.',13,10,'$'
+ENDIF
+IFDEF ABIOSDSK_RM_DEBUG
+RM_Debug_Load_Start      db 'ABIOSDSK: driver load starting.',13,10,'$'
+RM_Debug_Check_Prefix    db 'ABIOSDSK: checking INT 13h drive $'
+RM_Debug_Check_LBA       db ', LBA $'
+RM_Debug_Check_Pass      db ': PASS',13,10,'$'
+RM_Debug_Check_Fail      db ': FAIL',13,10,'$'
+IFDEF ABIOS_DIAGNOSTIC
+RM_Debug_Disk_Prefix     db 'ABIOSCHK: accepted INT 13h drive $'
+ELSE
+RM_Debug_Disk_Prefix     db 'ABIOSDSK: controlling INT 13h drive $'
+ENDIF
+RM_Debug_Disk_LID        db ', ABIOS LID $'
+RM_Debug_Disk_Unit       db ', unit $'
+RM_Debug_Disk_Geometry   db ', geometry C/H/S $'
+RM_Debug_Slash           db '/$'
+RM_Debug_Disk_Sectors    db ', sectors $'
+RM_Debug_Disk_Checks     db ', checks passed $'
+RM_Debug_Line_End        db 13,10,'$'
+RM_Debug_Load_Good       db 'ABIOSDSK: real-mode checks complete.',13,10,'$'
+ENDIF
 IFDEF ABIOSDSK_DEBUG
 RM_Version_String        db 'ABIOSDSK.386 Version 0.90 prerelease debug',0
 ELSE
@@ -77,9 +158,155 @@ ENDIF
 RM_Copyright_1           db 'Copyright (C) 2026 Simplebooks Foundation',0
 RM_Copyright_2           db 'Copyright (C) 2026 Josh Rodd',0
 
+IFDEF ABIOSDSK_RM_DEBUG
+BeginProc RM_Debug_Init_Output
+        push    ax
+        push    dx
+        mov     dx, 3F9h
+        xor     al, al
+        out     dx, al
+        mov     dx, 3FBh
+        mov     al, 80h
+        out     dx, al
+        mov     dx, 3F8h
+        mov     al, ABIOS_COM1_DIVISOR_57600
+        out     dx, al
+        inc     dx
+        xor     al, al
+        out     dx, al
+        mov     dx, 3FBh
+        mov     al, 3
+        out     dx, al
+        mov     dx, 3FCh
+        mov     al, 0Bh
+        out     dx, al
+        pop     dx
+        pop     ax
+        ret
+EndProc RM_Debug_Init_Output
+
+BeginProc RM_Debug_Put_Char
+        push    ax
+        push    bx
+        push    cx
+        push    dx
+        mov     bl, al
+        mov     dl, al
+        mov     ah, 2
+        int     21h
+        mov     dx, 3FDh
+        mov     cx, 0FFFFh
+RMDPC_Wait:
+        in      al, dx
+        test    al, 20h
+        jnz     SHORT RMDPC_Send
+        loop    RMDPC_Wait
+        jmp     SHORT RMDPC_Done
+RMDPC_Send:
+        mov     dx, 3F8h
+        mov     al, bl
+        out     dx, al
+RMDPC_Done:
+        pop     dx
+        pop     cx
+        pop     bx
+        pop     ax
+        ret
+EndProc RM_Debug_Put_Char
+
+BeginProc RM_Debug_Print_String
+        pushad
+        push    ds
+        push    cs
+        pop     ds
+        mov     si, dx
+        cld
+RMDPS_Next:
+        lodsb
+        cmp     al, '$'
+        je      SHORT RMDPS_Done
+        call    RM_Debug_Put_Char
+        jmp     SHORT RMDPS_Next
+RMDPS_Done:
+        pop     ds
+        popad
+        ret
+EndProc RM_Debug_Print_String
+
+BeginProc RM_Debug_Print_Nibble
+        and     al, 0Fh
+        add     al, '0'
+        cmp     al, '9'
+        jbe     SHORT RMDPN_Send
+        add     al, 'A'-'9'-1
+RMDPN_Send:
+        call    RM_Debug_Put_Char
+        ret
+EndProc RM_Debug_Print_Nibble
+
+BeginProc RM_Debug_Print_Byte
+        push    ax
+        mov     ah, al
+        shr     al, 4
+        call    RM_Debug_Print_Nibble
+        mov     al, ah
+        call    RM_Debug_Print_Nibble
+        pop     ax
+        ret
+EndProc RM_Debug_Print_Byte
+
+BeginProc RM_Debug_Print_Word
+        push    ax
+        xchg    al, ah
+        call    RM_Debug_Print_Byte
+        xchg    al, ah
+        call    RM_Debug_Print_Byte
+        pop     ax
+        ret
+EndProc RM_Debug_Print_Word
+
+BeginProc RM_Debug_Print_Dword
+        pushad
+        mov     cx, 8
+RMDPD_Next:
+        rol     eax, 4
+        push    ax
+        call    RM_Debug_Print_Nibble
+        pop     ax
+        loop    RMDPD_Next
+        popad
+        ret
+EndProc RM_Debug_Print_Dword
+BeginProc RM_Debug_Print_Decimal
+        pushad
+        xor     ecx, ecx
+        mov     ebx, 10
+RMDPDec_Divide:
+        xor     edx, edx
+        div     ebx
+        push    dx
+        inc     cx
+        test    eax, eax
+        jnz     SHORT RMDPDec_Divide
+RMDPDec_Digit:
+        pop     ax
+        add     al, '0'
+        call    RM_Debug_Put_Char
+        loop    RMDPDec_Digit
+        popad
+        ret
+EndProc RM_Debug_Print_Decimal
+ENDIF
 IFNDEF ABIOS_DIAGNOSTIC
+
+
 RM_Build_Entry LABEL NEAR
 BeginProc ABIOSDSK_Real_Mode_Init
+IFDEF ABIOSDSK_RM_DEBUG
+        call    RM_Debug_Init_Output
+        mov     dx, OFFSET RM_Debug_Load_Start
+        call    RM_Debug_Print_String
+ENDIF
         cmp     ax, 30Ah
         jb      RMRI_Abort_Silent
         mov     DWORD PTR cs:[RM_Service_Address], ecx
@@ -98,9 +325,36 @@ BeginProc ABIOSDSK_Real_Mode_Init
         jc      RMRI_Too_Large
         call    RM_Initialize_ABIOS
         jc      RMRI_No_ABIOS_Free
+        mov     ax, (W386_Int_Multiplex SHL 8) + W386_Device_Broadcast
+        mov     bx, BlockDev_Device_ID
+        mov     cx, BlockDev_API_Hw_Detect_Start
+        int     2Fh
         call    RM_Find_And_Validate_Disks
+        pushf
+        mov     ax, (W386_Int_Multiplex SHL 8) + W386_Device_Broadcast
+        mov     bx, BlockDev_Device_ID
+        mov     cx, BlockDev_API_Hw_Detect_End
+        int     2Fh
+        popf
         jc      RMRI_No_Disk_Free
 
+IFDEF ABIOSDSK_RM_DEBUG
+        mov     dx, OFFSET RM_Debug_Load_Good
+        call    RM_Debug_Print_String
+ENDIF
+        ; WIN.COM reclaims allocations owned by its PSP before protected-mode
+        ; initialization. Keep the initialized CDA, FTTs, and device blocks
+        ; resident until ABIOSDSK has copied them into locked system pages.
+        push    ax
+        push    ds
+        mov     ax, cs:[RM_Allocation_Segment]
+        dec     ax
+        mov     ds, ax
+        mov     WORD PTR ds:[1], 0008h
+        mov     DWORD PTR ds:[8], 'OIBA'
+        mov     DWORD PTR ds:[12], 'KSDS'
+        pop     ds
+        pop     ax
         mov     ax, cs:[RM_Allocation_Segment]
         movzx   edx, cs:[RM_Metadata_Offset]
         shl     eax, 16
@@ -110,6 +364,7 @@ BeginProc ABIOSDSK_Real_Mode_Init
         mov     ax, Device_Load_Ok
         push    cs
         pop     ds
+        mov     ax, Device_Load_Ok
         ret
 
 RMRI_No_ABIOS_Free:
@@ -123,6 +378,7 @@ RMRI_Free_Print:
         mov     es, ax
         mov     ah, 49h
         int     21h
+        call    RM_Restore_Owner_Block
         pop     dx
         jmp     SHORT RMRI_Print_Abort
 RMRI_No_ABIOS:
@@ -143,6 +399,67 @@ RMRI_Abort_Silent:
 EndProc ABIOSDSK_Real_Mode_Init
 ENDIF
 
+; INT 15h/C0h is a safe, widely implemented platform query.  ABIOS disk
+; services used here require a Micro Channel PS/2; reject other machines
+; before invoking the much less widely implemented INT 15h/04h service.
+BeginProc RM_Check_ABIOS_Platform
+        pushad
+        push    es
+        stc
+        mov     ah, 0C0h
+        int     15h
+        jc      SHORT RCAP_Fail
+        or      ah, ah
+        jnz     SHORT RCAP_Fail
+        mov     ax, es
+        test    ax, ax
+        jz      SHORT RCAP_Fail
+        cmp     bx, 0FFF9h
+        ja      SHORT RCAP_Fail
+        cmp     WORD PTR es:[bx], 5
+        jb      SHORT RCAP_Fail
+        test    BYTE PTR es:[bx+5], 02h
+        jz      SHORT RCAP_Fail
+        pop     es
+        popad
+        clc
+        ret
+RCAP_Fail:
+        pop     es
+        popad
+        stc
+        ret
+EndProc RM_Check_ABIOS_Platform
+
+; Reject incomplete or corrupt tables before following any firmware pointers.
+BeginProc RM_Validate_ABIOS_Tables
+        pushad
+        cmp     WORD PTR cs:[RM_System_Parameters+ABIOS_SYSTEM_START+2], 0
+        je      SHORT RVAT_Fail
+        cmp     WORD PTR cs:[RM_System_Parameters+ABIOS_SYSTEM_INTERRUPT+2], 0
+        je      SHORT RVAT_Fail
+        cmp     WORD PTR cs:[RM_System_Parameters+ABIOS_SYSTEM_TIMEOUT+2], 0
+        je      SHORT RVAT_Fail
+        mov     cx, WORD PTR cs:[RM_System_Parameters+ABIOS_SYSTEM_ENTRY_COUNT]
+        test    cx, cx
+        jz      SHORT RVAT_Fail
+        cmp     cx, ABIOS_MAX_INIT_ENTRIES
+        ja      SHORT RVAT_Fail
+        mov     si, OFFSET RM_Initialization_Table
+RVAT_Entry:
+        cmp     WORD PTR cs:[si+ABIOS_INIT_ROUTINE+2], 0
+        je      SHORT RVAT_Fail
+        add     si, ABIOS_INIT_ENTRY_SIZE
+        loop    RVAT_Entry
+        popad
+        clc
+        ret
+RVAT_Fail:
+        popad
+        stc
+        ret
+EndProc RM_Validate_ABIOS_Tables
+
 ; Build the BIOS system-parameters and initialization tables. A one-paragraph
 ; zero-length RAM-extension record is supplied because INT 15h requires DS:0.
 BeginProc RM_Build_BIOS_Tables
@@ -160,6 +477,7 @@ BeginProc RM_Build_BIOS_Tables
         pop     es
         mov     di, OFFSET RM_System_Parameters
         mov     ax, 0400h
+        stc
         int     15h
         jc      SHORT RBBT_Free_Fail
         or      ah, ah
@@ -171,10 +489,13 @@ BeginProc RM_Build_BIOS_Tables
         ja      SHORT RBBT_Free_Fail
         mov     di, OFFSET RM_Initialization_Table
         mov     ax, 0500h
+        stc
         int     15h
         jc      SHORT RBBT_Free_Fail
         or      ah, ah
         jnz     SHORT RBBT_Free_Fail
+        call    RM_Validate_ABIOS_Tables
+        jc      SHORT RBBT_Free_Fail
         clc
         jmp     SHORT RBBT_Free
 RBBT_Free_Fail:
@@ -195,6 +516,26 @@ RBBT_Exit:
         popad
         ret
 EndProc RM_Build_BIOS_Tables
+
+BeginProc RM_Restore_Owner_Block
+        cmp     cs:[RM_Owner_Shrunk], 0
+        je      SHORT RROB_Done
+        push    ax
+        push    bx
+        push    es
+        mov     ax, cs:[RM_Owner_PSP]
+        mov     es, ax
+        mov     bx, cs:[RM_Owner_End]
+        sub     bx, ax
+        mov     ah, 4Ah
+        int     21h
+        mov     cs:[RM_Owner_Shrunk], 0
+        pop     es
+        pop     bx
+        pop     ax
+RROB_Done:
+        ret
+EndProc RM_Restore_Owner_Block
 
 ; Compute a compact CDA/DB/FTT layout and allocate it below 1MB with DOS.
 BeginProc RM_Allocate_ABIOS_Data
@@ -253,10 +594,35 @@ RAAD_Sizes:
         add     eax, 15
         shr     eax, 4
         mov     cs:[RM_Allocation_Paras], ax
+        mov     cx, ax
         mov     bx, ax
         mov     ah, 48h
         int     21h
-        jc      RAAD_Fail
+        jnc     SHORT RAAD_Allocated
+
+        ; WIN.COM owns the remaining conventional-memory arena while loading
+        ; VxDs.  Release exactly enough from the top of its PSP block, then
+        ; allocate the ABIOS block as a normal DOS child allocation.
+        mov     ah, 51h
+        int     21h
+        mov     cs:[RM_Owner_PSP], bx
+        mov     es, bx
+        mov     ax, es:[2]
+        mov     cs:[RM_Owner_End], ax
+        sub     ax, bx
+        sub     ax, cx
+        dec     ax
+        jbe     SHORT RAAD_Fail
+        mov     bx, ax
+        mov     ah, 4Ah
+        int     21h
+        jc      SHORT RAAD_Fail
+        mov     cs:[RM_Owner_Shrunk], 1
+        mov     bx, cx
+        mov     ah, 48h
+        int     21h
+        jc      SHORT RAAD_Restore_Fail
+RAAD_Allocated:
         mov     cs:[RM_Allocation_Segment], ax
         mov     es, ax
         xor     di, di
@@ -268,6 +634,8 @@ RAAD_Sizes:
         popad
         clc
         ret
+RAAD_Restore_Fail:
+        call    RM_Restore_Owner_Block
 RAAD_Fail:
         popad
         stc
@@ -515,19 +883,23 @@ RRR_Wait:
         mov     ax, ds:[bx+ABIOS_RB_RC]
         test    ax, ax
         jz      SHORT RRR_Success
+        mov     dx, ax
+        sti
+        mov     eax, es:[6Ch]
+        sub     eax, ebp
+        cmp     eax, 18*10
+        jae     SHORT RRR_Timeout
+        mov     ax, dx
         cmp     ax, ABRC_STAGE_ON_TIME
         je      SHORT RRR_Resume
         test    ax, 1
         jz      SHORT RRR_Fail
-        sti
         hlt
         cli
         cmp     cs:[RM_IRQ_Seen], 0
         jne     SHORT RRR_Resume
-        mov     eax, es:[6Ch]
-        sub     eax, ebp
-        cmp     eax, 18*10
-        jb      SHORT RRR_Wait
+        jmp     SHORT RRR_Wait
+RRR_Timeout:
         mov     al, 2
         call    RM_ABIOS_Call
         jmp     SHORT RRR_Final
@@ -714,7 +1086,7 @@ RGBG_Fail:
         ret
 EndProc RM_Get_BIOS_Geometry
 
-; Compare LBA 0, a midpoint, and the last CBIOS-addressable sector.
+; Compare the four CHS corners of the first and last cylinders plus midpoint.
 BeginProc RM_Validate_Current_Unit
         pushad
         call    RM_Get_BIOS_Geometry
@@ -725,25 +1097,70 @@ BeginProc RM_Validate_Current_Unit
         mov     cs:[RM_Test_Limit], eax
 RVCU_Limit_OK:
         cmp     cs:[RM_Test_Limit], 1
-        jbe     SHORT RVCU_Fail_DS
+        jbe     RVCU_Fail_DS
         mov     cs:[RM_Test_Count], 0
+        mov     cs:[RM_Candidate_Count], 0
+
+        ; First cylinder: both boundary sectors on first and last heads.
         xor     eax, eax
-        call    RM_Validate_One_LBA
-        jc      SHORT RVCU_Fail_DS
-        inc     cs:[RM_Test_Count]
+        call    RM_Add_Validation_Candidate
+        movzx   eax, cs:[RM_BIOS_SPT]
+        dec     eax
+        call    RM_Add_Validation_Candidate
+        movzx   eax, cs:[RM_BIOS_Heads]
+        dec     eax
+        movzx   ebx, cs:[RM_BIOS_SPT]
+        imul    eax, ebx
+        call    RM_Add_Validation_Candidate
+        movzx   eax, cs:[RM_BIOS_Heads]
+        movzx   ebx, cs:[RM_BIOS_SPT]
+        imul    eax, ebx
+        dec     eax
+        call    RM_Add_Validation_Candidate
+
+        ; Last CBIOS cylinder: the same four head/sector corners.
+        movzx   eax, cs:[RM_BIOS_Cylinders]
+        dec     eax
+        movzx   ebx, cs:[RM_BIOS_Heads]
+        imul    eax, ebx
+        movzx   ebx, cs:[RM_BIOS_SPT]
+        imul    eax, ebx
+        mov     edi, eax
+        call    RM_Add_Validation_Candidate
+        movzx   eax, cs:[RM_BIOS_SPT]
+        dec     eax
+        add     eax, edi
+        call    RM_Add_Validation_Candidate
+        movzx   eax, cs:[RM_BIOS_Heads]
+        dec     eax
+        movzx   ebx, cs:[RM_BIOS_SPT]
+        imul    eax, ebx
+        add     eax, edi
+        call    RM_Add_Validation_Candidate
+        movzx   eax, cs:[RM_BIOS_Heads]
+        movzx   ebx, cs:[RM_BIOS_SPT]
+        imul    eax, ebx
+        dec     eax
+        add     eax, edi
+        call    RM_Add_Validation_Candidate
+
+        ; Retain a non-boundary sample in the middle of the usable range.
         mov     eax, cs:[RM_Test_Limit]
         shr     eax, 1
-        test    eax, eax
-        jz      SHORT RVCU_Last
+        call    RM_Add_Validation_Candidate
+
+        xor     esi, esi
+        movzx   ecx, cs:[RM_Candidate_Count]
+RVCU_Test_Loop:
+        jecxz   SHORT RVCU_Done
+        mov     eax, DWORD PTR cs:[RM_Candidates+esi*4]
         call    RM_Validate_One_LBA
-        jc      SHORT RVCU_Fail_DS
+        jc      RVCU_Fail_DS
         inc     cs:[RM_Test_Count]
-RVCU_Last:
-        mov     eax, cs:[RM_Test_Limit]
-        dec     eax
-        call    RM_Validate_One_LBA
-        jc      SHORT RVCU_Fail_DS
-        inc     cs:[RM_Test_Count]
+        inc     esi
+        dec     ecx
+        jmp     SHORT RVCU_Test_Loop
+RVCU_Done:
         push    cs
         pop     ds
         popad
@@ -758,8 +1175,51 @@ RVCU_Fail:
         ret
 EndProc RM_Validate_Current_Unit
 
+; Add one in-range, non-duplicate LBA to the validation set.
+BeginProc RM_Add_Validation_Candidate
+        pushad
+        cmp     eax, cs:[RM_Test_Limit]
+        jae     SHORT RAVC_Done
+        movzx   ecx, cs:[RM_Candidate_Count]
+        xor     esi, esi
+RAVC_Find:
+        test    ecx, ecx
+        jz      SHORT RAVC_Add
+        cmp     eax, DWORD PTR cs:[RM_Candidates+esi*4]
+        je      SHORT RAVC_Done
+        inc     esi
+        dec     ecx
+        jmp     SHORT RAVC_Find
+RAVC_Add:
+        cmp     esi, 9
+        jae     SHORT RAVC_Done
+        mov     DWORD PTR cs:[RM_Candidates+esi*4], eax
+        inc     cs:[RM_Candidate_Count]
+RAVC_Done:
+        popad
+        ret
+EndProc RM_Add_Validation_Candidate
+
 BeginProc RM_Validate_One_LBA
         mov     cs:[RM_Test_LBA], eax
+IFDEF ABIOSDSK_RM_DEBUG
+IFDEF ABIOS_DIAGNOSTIC
+        cmp     BYTE PTR cs:[RM_Detail], 0
+        je      SHORT RVOL_Detail_Started
+        call    RM_Diagnostic_Print_Progress
+RVOL_Detail_Started:
+ELSE
+        push    eax
+        mov     dx, OFFSET RM_Debug_Check_Prefix
+        call    RM_Debug_Print_String
+        mov     al, cs:[RM_Next_Int13]
+        call    RM_Debug_Print_Byte
+        mov     dx, OFFSET RM_Debug_Check_LBA
+        call    RM_Debug_Print_String
+        pop     eax
+        call    RM_Debug_Print_Dword
+ENDIF
+ENDIF
         push    ds
         push    cs
         pop     ds
@@ -770,9 +1230,31 @@ BeginProc RM_Validate_One_LBA
         jc      SHORT RVOL_Fail
         call    RM_Compare_Sectors
         jne     SHORT RVOL_Fail
+IFDEF ABIOSDSK_RM_DEBUG
+IFNDEF ABIOS_DIAGNOSTIC
+        mov     dx, OFFSET RM_Debug_Check_Pass
+        call    RM_Debug_Print_String
+ENDIF
+ENDIF
         clc
         ret
 RVOL_Fail:
+IFDEF ABIOSDSK_RM_DEBUG
+IFDEF ABIOS_DIAGNOSTIC
+        cmp     BYTE PTR cs:[RM_Detail], 0
+        je      SHORT RVOL_Detail_Failed
+        push    ds
+        push    cs
+        pop     ds
+        mov     dx, OFFSET RM_Detail_Check_Fail
+        call    RM_Diagnostic_Print_String
+        pop     ds
+RVOL_Detail_Failed:
+ELSE
+        mov     dx, OFFSET RM_Debug_Check_Fail
+        call    RM_Debug_Print_String
+ENDIF
+ENDIF
         stc
         ret
 EndProc RM_Validate_One_LBA
@@ -867,6 +1349,47 @@ RFVD_Unit_Loop:
         push    cs
         pop     ds
         jc      RFVD_Unit_Rejected
+IFDEF ABIOSDSK_RM_DEBUG
+IFDEF ABIOS_DIAGNOSTIC
+        cmp     BYTE PTR cs:[RM_Detail], 0
+        je      RFVD_Debug_Done
+ENDIF
+        mov     dx, OFFSET RM_Debug_Disk_Prefix
+        call    RM_Debug_Print_String
+        mov     al, cs:[RM_Next_Int13]
+        call    RM_Debug_Print_Byte
+        mov     dx, OFFSET RM_Debug_Disk_LID
+        call    RM_Debug_Print_String
+        mov     ax, cs:[RM_Current_LID]
+        call    RM_Debug_Print_Word
+        mov     dx, OFFSET RM_Debug_Disk_Unit
+        call    RM_Debug_Print_String
+        mov     ax, cs:[RM_Current_Unit]
+        call    RM_Debug_Print_Word
+        mov     dx, OFFSET RM_Debug_Disk_Geometry
+        call    RM_Debug_Print_String
+        mov     eax, DWORD PTR cs:[RM_RDP_Save+ABIOS_RDP_CYLINDERS]
+        call    RM_Debug_Print_Decimal
+        mov     dx, OFFSET RM_Debug_Slash
+        call    RM_Debug_Print_String
+        movzx   eax, BYTE PTR cs:[RM_RDP_Save+ABIOS_RDP_HEADS]
+        call    RM_Debug_Print_Decimal
+        mov     dx, OFFSET RM_Debug_Slash
+        call    RM_Debug_Print_String
+        movzx   eax, WORD PTR cs:[RM_RDP_Save+ABIOS_RDP_SECTORS_PER_TRACK]
+        call    RM_Debug_Print_Decimal
+        mov     dx, OFFSET RM_Debug_Disk_Sectors
+        call    RM_Debug_Print_String
+        mov     eax, DWORD PTR cs:[RM_RDP_Save+ABIOS_RDP_RBA_COUNT]
+        call    RM_Debug_Print_Decimal
+        mov     dx, OFFSET RM_Debug_Disk_Checks
+        call    RM_Debug_Print_String
+        movzx   eax, cs:[RM_Test_Count]
+        call    RM_Debug_Print_Decimal
+        mov     dx, OFFSET RM_Debug_Line_End
+        call    RM_Debug_Print_String
+RFVD_Debug_Done:
+ENDIF
 
         mov     ax, cs:[RM_Allocation_Segment]
         mov     es, ax
@@ -935,6 +1458,295 @@ RFVD_Fail:
 EndProc RM_Find_And_Validate_Disks
 
 IFDEF ABIOS_DIAGNOSTIC
+BeginProc RM_Diagnostic_Option_Equals
+        push    ax
+        push    si
+        push    di
+        mov     si, OFFSET RM_Option_Buffer
+RMDOE_Compare:
+        mov     al, cs:[si]
+        cmp     al, cs:[di]
+        jne     SHORT RMDOE_Different
+        test    al, al
+        jz      SHORT RMDOE_Equal
+        inc     si
+        inc     di
+        jmp     SHORT RMDOE_Compare
+RMDOE_Different:
+        pop     di
+        pop     si
+        pop     ax
+        stc
+        ret
+RMDOE_Equal:
+        pop     di
+        pop     si
+        pop     ax
+        clc
+        ret
+EndProc RM_Diagnostic_Option_Equals
+
+BeginProc RM_Diagnostic_Parse_Options
+        pushad
+        mov     si, 81h
+        xor     cx, cx
+        mov     cl, cs:[80h]
+RMDPO_Skip_Leading:
+        test    cx, cx
+        jz      RMDPO_Done
+        mov     al, cs:[si]
+        cmp     al, ' '
+        je      SHORT RMDPO_Consume_Leading
+        cmp     al, 9
+        jne     SHORT RMDPO_Copy_Start
+RMDPO_Consume_Leading:
+        inc     si
+        dec     cx
+        jmp     SHORT RMDPO_Skip_Leading
+RMDPO_Copy_Start:
+        mov     di, OFFSET RM_Option_Buffer
+RMDPO_Copy:
+        jcxz   SHORT RMDPO_Copied
+        mov     al, cs:[si]
+        cmp     al, ' '
+        je      SHORT RMDPO_Copied
+        cmp     al, 9
+        je      SHORT RMDPO_Copied
+        cmp     di, OFFSET RM_Option_Buffer+11
+        jae     RMDPO_Fail
+        cmp     al, 'a'
+        jb      SHORT RMDPO_Store
+        cmp     al, 'z'
+        ja      SHORT RMDPO_Store
+        sub     al, 'a'-'A'
+RMDPO_Store:
+        mov     cs:[di], al
+        inc     di
+        inc     si
+        dec     cx
+        jmp     SHORT RMDPO_Copy
+RMDPO_Copied:
+        mov     BYTE PTR cs:[di], 0
+RMDPO_Trailing:
+        jcxz   SHORT RMDPO_Match
+        mov     al, cs:[si]
+        cmp     al, ' '
+        je      SHORT RMDPO_Consume_Trailing
+        cmp     al, 9
+        jne     RMDPO_Fail
+RMDPO_Consume_Trailing:
+        inc     si
+        dec     cx
+        jmp     SHORT RMDPO_Trailing
+
+RMDPO_Match:
+        mov     di, OFFSET RM_Option_Help_Slash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Help
+        mov     di, OFFSET RM_Option_H_Slash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Help
+        mov     di, OFFSET RM_Option_Query_Slash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Help
+        mov     di, OFFSET RM_Option_H_Dash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Help
+        mov     di, OFFSET RM_Option_Query_Dash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Help
+        mov     di, OFFSET RM_Option_Help_Long
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Help
+
+        mov     di, OFFSET RM_Option_Version_Slash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Version
+        mov     di, OFFSET RM_Option_V_Slash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Version
+        mov     di, OFFSET RM_Option_V_Dash
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Version
+        mov     di, OFFSET RM_Option_Version_Long
+        call    RM_Diagnostic_Option_Equals
+        jnc     RMDPO_Version
+
+        mov     di, OFFSET RM_Option_Detail_Slash
+        call    RM_Diagnostic_Option_Equals
+        jnc     SHORT RMDPO_Detail
+        mov     di, OFFSET RM_Option_D_Slash
+        call    RM_Diagnostic_Option_Equals
+        jnc     SHORT RMDPO_Detail
+        mov     di, OFFSET RM_Option_D_Dash
+        call    RM_Diagnostic_Option_Equals
+        jnc     SHORT RMDPO_Detail
+        mov     di, OFFSET RM_Option_Detail_Long
+        call    RM_Diagnostic_Option_Equals
+        jc      SHORT RMDPO_Fail
+RMDPO_Detail:
+        mov     BYTE PTR cs:[RM_Detail], 1
+        jmp     SHORT RMDPO_Done
+RMDPO_Help:
+        mov     BYTE PTR cs:[RM_Diagnostic_Action], 1
+        jmp     SHORT RMDPO_Done
+RMDPO_Version:
+        mov     BYTE PTR cs:[RM_Diagnostic_Action], 2
+RMDPO_Done:
+        popad
+        clc
+        ret
+RMDPO_Fail:
+        popad
+        stc
+        ret
+EndProc RM_Diagnostic_Parse_Options
+
+BeginProc RM_Diagnostic_Print_Progress
+        pushad
+        push    ds
+        push    cs
+        pop     ds
+        xor     edx, edx
+        movzx   ecx, cs:[RM_BIOS_SPT]
+        div     ecx
+        mov     esi, edx
+        inc     esi
+        xor     edx, edx
+        movzx   ecx, cs:[RM_BIOS_Heads]
+        div     ecx
+        mov     edi, eax
+        mov     ebp, edx
+        mov     dx, OFFSET RM_Detail_Check_Prefix
+        call    RM_Diagnostic_Print_String
+        mov     al, cs:[RM_Next_Int13]
+        call    RM_Diagnostic_Print_Byte
+        mov     dx, OFFSET RM_Detail_Check_CHS
+        call    RM_Diagnostic_Print_String
+        mov     ax, di
+        call    RM_Diagnostic_Print_Word
+        mov     dl, '/'
+        mov     ah, 2
+        int     21h
+        mov     ax, bp
+        call    RM_Diagnostic_Print_Word
+        mov     dl, '/'
+        mov     ah, 2
+        int     21h
+        mov     ax, si
+        call    RM_Diagnostic_Print_Word
+        mov     dx, OFFSET RM_Detail_Check_End
+        call    RM_Diagnostic_Print_String
+        pop     ds
+        popad
+        ret
+EndProc RM_Diagnostic_Print_Progress
+
+BeginProc RM_Diagnostic_Print_String
+        mov     ah, 9
+        int     21h
+        ret
+EndProc RM_Diagnostic_Print_String
+
+BeginProc RM_Diagnostic_Print_Nibble
+        push    ax
+        push    dx
+        and     al, 0Fh
+        add     al, '0'
+        cmp     al, '9'
+        jbe     SHORT RMDPN_Digit
+        add     al, 'A'-'9'-1
+RMDPN_Digit:
+        mov     dl, al
+        mov     ah, 2
+        int     21h
+        pop     dx
+        pop     ax
+        ret
+EndProc RM_Diagnostic_Print_Nibble
+
+BeginProc RM_Diagnostic_Print_Byte
+        push    ax
+        mov     ah, al
+        shr     al, 4
+        call    RM_Diagnostic_Print_Nibble
+        mov     al, ah
+        call    RM_Diagnostic_Print_Nibble
+        pop     ax
+        ret
+EndProc RM_Diagnostic_Print_Byte
+
+BeginProc RM_Diagnostic_Print_Word
+        xchg    al, ah
+        call    RM_Diagnostic_Print_Byte
+        xchg    al, ah
+        call    RM_Diagnostic_Print_Byte
+        ret
+EndProc RM_Diagnostic_Print_Word
+
+BeginProc RM_Diagnostic_Report_Drives
+        pushad
+        push    ds
+        push    es
+        push    cs
+        pop     ds
+        mov     ax, cs:[RM_Allocation_Segment]
+        mov     es, ax
+        mov     di, cs:[RM_Metadata_Offset]
+        add     di, ABIOS_META_HEADER_SIZE
+        mov     cx, cs:[RM_Disk_Count]
+RMDR_Drive_Loop:
+        jcxz    SHORT RMDR_Summary
+        mov     dx, OFFSET RM_Drive_Prefix
+        call    RM_Diagnostic_Print_String
+        mov     al, es:[di.ADM_Int13_Drive]
+        call    RM_Diagnostic_Print_Byte
+        mov     dx, OFFSET RM_Drive_LID
+        call    RM_Diagnostic_Print_String
+        mov     ax, es:[di.ADM_LID]
+        call    RM_Diagnostic_Print_Word
+        mov     dx, OFFSET RM_Drive_Unit
+        call    RM_Diagnostic_Print_String
+        mov     ax, es:[di.ADM_Unit]
+        call    RM_Diagnostic_Print_Word
+        mov     dx, OFFSET RM_Drive_Reads
+        call    RM_Diagnostic_Print_String
+        mov     al, es:[di.ADM_Validation_Reads]
+        call    RM_Diagnostic_Print_Byte
+        mov     dx, OFFSET RM_Drive_End
+        call    RM_Diagnostic_Print_String
+        add     di, SIZE ABIOS_DRIVE_META
+        loop    RMDR_Drive_Loop
+RMDR_Summary:
+        mov     dx, OFFSET RM_Summary_Prefix
+        call    RM_Diagnostic_Print_String
+        mov     ax, cs:[RM_Disk_Count]
+        call    RM_Diagnostic_Print_Byte
+        mov     dx, OFFSET RM_Summary_Middle
+        call    RM_Diagnostic_Print_String
+        mov     ax, 40h
+        mov     es, ax
+        mov     al, es:[75h]
+        mov     bl, al
+        call    RM_Diagnostic_Print_Byte
+        mov     dx, OFFSET RM_Summary_End
+        call    RM_Diagnostic_Print_String
+        mov     ax, cs:[RM_Disk_Count]
+        cmp     al, bl
+        jne     SHORT RMDR_Fail
+        pop     es
+        pop     ds
+        popad
+        clc
+        ret
+RMDR_Fail:
+        pop     es
+        pop     ds
+        popad
+        stc
+        ret
+EndProc RM_Diagnostic_Report_Drives
+
 RM_Build_Entry LABEL NEAR
 BeginProc RM_Diagnostic_Entry
         mov     ax, cs
@@ -943,12 +1755,27 @@ BeginProc RM_Diagnostic_Entry
         mov     sp, 2FF0h
         sti
         mov     es, ax
+        push    cs
+        pop     ds
+        call    RM_Diagnostic_Parse_Options
+        jc      RMD_Usage
+        cmp     BYTE PTR cs:[RM_Diagnostic_Action], 1
+        je      RMD_Help
+        cmp     BYTE PTR cs:[RM_Diagnostic_Action], 2
+        je      RMD_Version
+        cmp     BYTE PTR cs:[RM_Detail], 0
+        je      SHORT RMD_Not_Detail
+        mov     dx, OFFSET RM_Detail_Start
+        call    RM_Diagnostic_Print_String
+RMD_Not_Detail:
         mov     bx, 300h
         mov     ah, 4Ah
         int     21h
         jc      RMD_Too_Large
         push    cs
         pop     ds
+        call    RM_Check_ABIOS_Platform
+        jc      RMD_No_ABIOS
         call    RM_Build_BIOS_Tables
         jc      RMD_No_ABIOS
         call    RM_Allocate_ABIOS_Data
@@ -957,9 +1784,31 @@ BeginProc RM_Diagnostic_Entry
         jc      SHORT RMD_No_ABIOS_Free
         call    RM_Find_And_Validate_Disks
         jc      SHORT RMD_No_Disk_Free
+        cmp     BYTE PTR cs:[RM_Detail], 0
+        je      SHORT RMD_Report
+        mov     dx, OFFSET RM_Detail_Complete
+        call    RM_Diagnostic_Print_String
+RMD_Report:
+        call    RM_Diagnostic_Report_Drives
+        jc      SHORT RMD_Incomplete_Free
         mov     dx, OFFSET RM_Message_Passed
         xor     bl, bl
         jmp     SHORT RMD_Free_Print
+RMD_Help:
+        mov     dx, OFFSET RM_Message_Help
+        xor     bl, bl
+        jmp     RMD_Print
+RMD_Version:
+        mov     dx, OFFSET RM_Message_Version
+        xor     bl, bl
+        jmp     RMD_Print
+RMD_Usage:
+        mov     dx, OFFSET RM_Message_Usage
+        mov     bl, 2
+        jmp     RMD_Print
+RMD_Incomplete_Free:
+        mov     dx, OFFSET RM_Message_Incomplete
+        jmp     SHORT RMD_Free_Error
 RMD_No_ABIOS_Free:
         mov     dx, OFFSET RM_Message_No_ABIOS
         jmp     SHORT RMD_Free_Error

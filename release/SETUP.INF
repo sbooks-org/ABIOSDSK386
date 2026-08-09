@@ -29,8 +29,8 @@
 ;   HELP.TXT; no registry or .INF knowledge is required for it.
 ;
 ; ABIOSDSK.386 takes no switches and needs no driver-specific
-; settings -- see HELP.TXT for the one standard [386Enh] value
-; that affects it (32BITDISKACCESS, which must stay ON).
+; settings.  Windows for Workgroups 3.11 commonly omits the standard
+; 32BITDISKACCESS value, so this file explicitly enables it below.
 
 ; VERSION INFO
 ; ---------------------------------------------------------------
@@ -56,7 +56,8 @@
 ; ---------------------------------------------------------------
 ; .ini file, section, old line, new line.  An empty "old line"
 ; field tells Setup to add the new line.  This appends the
-; device= entry that makes Windows load ABIOSDSK in 386 enhanced
-; mode, alongside the other virtual block device drivers.
+; settings that enable 32-bit disk access and load ABIOSDSK in
+; 386 enhanced mode alongside the other virtual block drivers.
 [ini.upd.31]
+    system.ini, 386Enh, , "32BITDISKACCESS=ON"
     system.ini, 386Enh, , "device=ABIOSDSK.386"

@@ -1,0 +1,11 @@
+# Native test/application binary
+/addini
+
+# DOS build output and intermediate files
+/ADDINI.COM
+/build/
+/ADDINI.OBJ
+
+# Python
+__pycache__/
+*.pyc

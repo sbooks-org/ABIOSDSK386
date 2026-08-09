@@ -17,6 +17,10 @@ INCLUDE ABIOS.Inc
 
 ABIOSDSK_Major_Ver EQU 0
 ABIOSDSK_Minor_Ver EQU 90
+; ABIOSDSK_DEBUG enables protected-mode diagnostics. Define
+; ABIOSDSK_RM_DEBUG separately when real-mode loader diagnostics are needed.
+ABIOS_COM1_DIVISOR_57600 EQU 2
+
 
 Declare_Virtual_Device ABIOSDSK, ABIOSDSK_Major_Ver, ABIOSDSK_Minor_Ver, ABIOSDSK_Control, Undefined_Device_ID, Undef_Touch_Mem_Init_Order
 
@@ -51,6 +55,17 @@ ABIOS_PM_Common_Start    dd 0
 ABIOS_PM_Common_Interrupt dd 0
 ABIOS_PM_Common_Timeout  dd 0
 ABIOS_Call_Entry         dd 0
+ABIOS_PM_Thunk_Selector  dw 0
+ABIOS_Thunk_Entry        dd 0
+                         dw 0
+; Executed through a dedicated USE16 code selector.  ABIOS records a
+; 16-bit return IP into this thunk; the thunk then uses a patched m16:32
+; far jump to resume the full 32-bit VxD continuation.
+ABIOS_Thunk_Code         db 09Ah
+ABIOS_Thunk_Target       dd 0
+                         db 066h, 0EAh
+ABIOS_Thunk_Return       dd 0
+                         dw 0
 
 ABIOS_Code_Segments      dw ABIOS_MAX_LIDS dup (0)
 ABIOS_Code_Selectors     dw ABIOS_MAX_LIDS dup (0)
@@ -58,6 +73,9 @@ ABIOS_Code_Count         dd 0
 ABIOS_Data_Selectors     dw ABIOS_MAX_LIDS dup (0)
 ABIOS_Data_Count         dd 0
 ABIOS_PM_FTT_Used        dd 0
+ABIOS_PM_LID_Count       dd 0
+ABIOS_PM_Real_Handle     dd 0
+ABIOS_PM_Real_Linear     dd 0
 
 ABIOS_Bounce_Handle      dd 0
 ABIOS_Bounce_Linear      dd 0
@@ -70,6 +88,7 @@ ABIOS_Current_Chunk      dd 0
 ABIOS_Current_Retries    dd 0
 ABIOS_Timeout_Handle     dd 0
 ABIOS_Timeout_Kind       dd 0
+ABIOS_Timeout_Generation dd 0
 ABIOS_Pending_Commands   dd ABIOS_MAX_DRIVES dup (0)
 ABIOS_Pending_BDDs       dd ABIOS_MAX_DRIVES dup (0)
 
@@ -79,10 +98,269 @@ ALIGN 4
 ABIOS_PM_Work_Handle      dd 0
 ABIOS_PM_CDA_Linear       dd 0
 ABIOS_PM_FTT_Linear       dd 0
+ABIOS_PM_Stack_Linear     dd 0
+ABIOS_PM_Stack_Selector   dw 0
+ALIGN 4
+ABIOS_Trace_Magic        dd 'RTBA', '!ECA', 13579BDFh, 2468ACE0h
+ABIOS_Trace_Index        dd 0
+ABIOS_Trace_Entries      dd 2048 dup (0)
+IFDEF ABIOSDSK_DEBUG
+ABIOS_Debug_VGA_Offset   dd 3360
+ABIOS_Debug_PM_Start     db 'ABIOSDSK: protected-mode load starting.',13,10,0
+ABIOS_Debug_PM_Metadata  db 'ABIOSDSK: real-mode metadata accepted.',13,10,0
+ABIOS_Debug_PM_Workspace db 'ABIOSDSK: protected workspace allocated.',13,10,0
+ABIOS_Debug_PM_Tables    db 'ABIOSDSK: protected ABIOS tables built.',13,10,0
+ABIOS_Debug_PM_Bounce    db 'ABIOSDSK: bounce buffer allocated.',13,10,0
+ABIOS_Debug_PM_Register  db 'ABIOSDSK: registering controlled disk with BlockDev.',13,10,0
+ABIOS_Debug_PM_Real_Sel  db 'ABIOSDSK: real-data selector allocated.',13,10,0
+ABIOS_Debug_PM_CDA_Sel   db 'ABIOSDSK: protected CDA selector allocated.',13,10,0
+ABIOS_Debug_PM_FTT_Sel   db 'ABIOSDSK: protected FTT selector allocated.',13,10,0
+ABIOS_Debug_PM_Req_Sel   db 'ABIOSDSK: request selector allocated.',13,10,0
+ABIOS_Debug_PM_CDA_Copy  db 'ABIOSDSK: real CDA copied to protected memory.',13,10,0
+ABIOS_Debug_PM_LIDs      db 'ABIOSDSK: converting LID function tables.',13,10,0
+ABIOS_Debug_PM_Data      db 'ABIOSDSK: converting ABIOS data pointers.',13,10,0
+ABIOS_Debug_PM_Common    db 'ABIOSDSK: converting common entry points.',13,10,0
+ABIOS_Debug_PM_Data_Try  db 'ABIOSDSK: allocating ABIOS data selector.',13,10,0
+ABIOS_Debug_PM_Data_OK   db 'ABIOSDSK: ABIOS data selector allocated.',13,10,0
+ABIOS_Debug_PM_Data_Saved db 'ABIOSDSK: ABIOS data selector recorded.',13,10,0
+ABIOS_Debug_PM_Data_Index db 'ABIOSDSK: data pointer index '
+ABIOS_Debug_PM_Data_Index_Value db 8 dup ('0')
+                            db ' of '
+ABIOS_Debug_PM_Data_Total_Value db 8 dup ('0')
+                            db '.',13,10,0
+ABIOS_Debug_PM_No_Ref    db 'ABIOSDSK: no real-mode reference pointer.',13,10,0
+ABIOS_Debug_PM_Bad_Magic db 'ABIOSDSK: real-mode metadata signature is invalid.',13,10,0
+ABIOS_Debug_PM_Bad_Ver   db 'ABIOSDSK: real-mode metadata version is invalid.',13,10,0
+ABIOS_Debug_PM_No_Drives db 'ABIOSDSK: real-mode metadata contains no disks.',13,10,0
+ABIOS_Debug_PM_Drive     db 'ABIOSDSK: BlockDev accepted a controlled disk.',13,10,0
+ABIOS_Debug_PM_Good      db 'ABIOSDSK: protected-mode load complete; everything is good.',13,10,0
+ABIOS_Debug_PM_Fail      db 'ABIOSDSK: protected-mode load failed.',13,10,0
+ABIOS_Debug_IO_Command    db 'ABIOSDSK: BlockDev command '
+ABIOS_Debug_IO_Command_Value db 8 dup ('0')
+                            db ', sector '
+ABIOS_Debug_IO_Sector_Value db 8 dup ('0')
+                            db ', count '
+ABIOS_Debug_IO_Count_Value db 8 dup ('0')
+                            db ', flags '
+ABIOS_Debug_IO_Flags_Value db 8 dup ('0')
+                            db '.',13,10,0
+ABIOS_Debug_IO_Call       db 'ABIOSDSK: entering ABIOS start routine.',13,10,0
+ABIOS_Debug_IO_Start_RC   db 'ABIOSDSK: ABIOS start returned '
+ABIOS_Debug_IO_Start_RC_Value db 8 dup ('0')
+                            db '.',13,10,0
+ABIOS_Debug_IO_Interrupt  db 'ABIOSDSK: hardware interrupt callback.',13,10,0
+ABIOS_Debug_IO_Interrupt_RC db 'ABIOSDSK: ABIOS interrupt returned '
+ABIOS_Debug_IO_Interrupt_RC_Value db 8 dup ('0')
+                            db '.',13,10,0
+ABIOS_Debug_IO_Timeout    db 'ABIOSDSK: ABIOS timeout callback.',13,10,0
+ABIOS_Debug_IO_Complete   db 'ABIOSDSK: completing BlockDev command with status '
+ABIOS_Debug_IO_Status_Value db 8 dup ('0')
+                            db '.',13,10,0
+ABIOS_Debug_Call_Frame    db 'ABIOSDSK: call frame selector '
+ABIOS_Debug_Call_Selector_Value db 8 dup ('0')
+                            db ', ESP '
+ABIOS_Debug_Call_ESP_Value db 8 dup ('0')
+                            db ', words '
+ABIOS_Debug_Call_Word0_Value db 8 dup ('0')
+                            db '/'
+ABIOS_Debug_Call_Word1_Value db 8 dup ('0')
+                            db '/'
+ABIOS_Debug_Call_Word2_Value db 8 dup ('0')
+                            db '.',13,10,0
+ABIOS_Debug_Call_Target   db 'ABIOSDSK: call target '
+ABIOS_Debug_Call_Target_Value db 8 dup ('0')
+                            db '.',13,10,0
+ABIOS_Debug_IO_Data       db 'ABIOSDSK: read RBA/data/destination '
+ABIOS_Debug_IO_RBA_Value  db 8 dup ('0')
+                            db '/'
+ABIOS_Debug_IO_Data0_Value db 8 dup ('0')
+                            db '/'
+ABIOS_Debug_IO_Data1_Value db 8 dup ('0')
+                            db '/'
+ABIOS_Debug_IO_Data2_Value db 8 dup ('0')
+                            db '/'
+ABIOS_Debug_IO_Data3_Value db 8 dup ('0')
+                            db '/'
+ABIOS_Debug_IO_Dest_Value db 8 dup ('0')
+                            db '.',13,10,0
+ENDIF
 
 VxD_LOCKED_DATA_ENDS
 
 VxD_LOCKED_CODE_SEG
+; EAX=event, EBX/ECX/EDX=event data. Each entry is four dwords.
+BeginProc ABIOSDSK_Trace
+        ret
+EndProc ABIOSDSK_Trace
+IFDEF ABIOSDSK_DEBUG
+BeginProc ABIOSDSK_Debug_Init_COM1
+        pushfd
+        push    eax
+        push    edx
+        cli
+        mov     dx, 3F9h
+        xor     al, al
+        out     dx, al
+        mov     dx, 3FBh
+        mov     al, 80h
+        out     dx, al
+        mov     dx, 3F8h
+        mov     al, ABIOS_COM1_DIVISOR_57600
+        out     dx, al
+        inc     dx
+        xor     al, al
+        out     dx, al
+        mov     dx, 3FBh
+        mov     al, 3
+        out     dx, al
+        mov     dx, 3FAh
+        mov     al, 7
+        out     dx, al
+        mov     dx, 3FCh
+        mov     al, 3
+        out     dx, al
+        pop     edx
+        pop     eax
+        popfd
+        ret
+EndProc ABIOSDSK_Debug_Init_COM1
+
+; ESI addresses a NUL-terminated line. Mirror it to COM1 and VGA text memory.
+BeginProc ABIOSDSK_Debug_Line
+        ret
+        pushfd
+        pushad
+        mov     edi, [ABIOS_Debug_VGA_Offset]
+        add     edi, 0B8000h
+ABDL_Next:
+        lodsb
+        test    al, al
+        jz      SHORT ABDL_Done
+        mov     bl, al
+        mov     dx, 3FDh
+        mov     cx, 0FFFFh
+ABDL_COM_Wait:
+        in      al, dx
+        test    al, 20h
+        jnz     SHORT ABDL_COM_Send
+        loop    ABDL_COM_Wait
+        jmp     SHORT ABDL_VGA
+ABDL_COM_Send:
+        mov     dx, 3F8h
+        mov     al, bl
+        out     dx, al
+ABDL_VGA:
+        cmp     bl, 13
+        je      SHORT ABDL_Next
+        cmp     bl, 10
+        je      SHORT ABDL_Done
+        mov     ah, 07h
+        mov     al, bl
+        mov     WORD PTR [edi], ax
+        add     edi, 2
+        jmp     SHORT ABDL_Next
+ABDL_Done:
+        add     [ABIOS_Debug_VGA_Offset], 160
+        cmp     [ABIOS_Debug_VGA_Offset], 4000
+        jb      SHORT ABDL_Return
+        mov     [ABIOS_Debug_VGA_Offset], 0
+ABDL_Return:
+        popad
+        popfd
+        ret
+EndProc ABIOSDSK_Debug_Line
+
+; EAX is formatted as eight hexadecimal digits at EDI.
+BeginProc ABIOSDSK_Debug_Format_Dword
+        pushad
+        mov     ecx, 8
+ABDFD_Next:
+        rol     eax, 4
+        mov     dl, al
+        and     dl, 0Fh
+        add     dl, '0'
+        cmp     dl, '9'
+        jbe     SHORT ABDFD_Store
+        add     dl, 'A'-'9'-1
+ABDFD_Store:
+        mov     [edi], dl
+        inc     edi
+        loop    ABDFD_Next
+        popad
+        ret
+EndProc ABIOSDSK_Debug_Format_Dword
+BeginProc ABIOSDSK_Debug_Command
+        pushad
+        movzx   eax, WORD PTR [esi.BD_CB_Command]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Command_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     eax, DWORD PTR [esi.BD_CB_Sector]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Sector_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     eax, DWORD PTR [esi.BD_CB_Count]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Count_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     eax, DWORD PTR [esi.BD_CB_Flags]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Flags_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Command
+        call    ABIOSDSK_Debug_Line
+        popad
+        ret
+EndProc ABIOSDSK_Debug_Command
+
+; ESI selects a line containing an eight-digit field at EDI.
+; The current ABIOS return code is written to that field.
+BeginProc ABIOSDSK_Debug_Return_Code
+        pushad
+        movzx   eax, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        call    ABIOSDSK_Debug_Format_Dword
+        call    ABIOSDSK_Debug_Line
+        popad
+        ret
+EndProc ABIOSDSK_Debug_Return_Code
+BeginProc ABIOSDSK_Debug_Read_Data
+        pushad
+        mov     eax, [ABIOS_Request+ABIOS_RW_RBA]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_RBA_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, [ABIOS_Bounce_Linear]
+        mov     eax, [esi]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Data0_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     eax, [esi+4]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Data1_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     eax, [esi+8]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Data2_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     eax, [esi+12]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Data3_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, [ABIOS_Current_Command]
+        mov     esi, [esi.BD_CB_Buffer_Ptr]
+        mov     eax, [esi]
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Dest_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Data
+        call    ABIOSDSK_Debug_Line
+        popad
+        ret
+EndProc ABIOSDSK_Debug_Read_Data
+
+; EAX is the BlockDev completion status.
+BeginProc ABIOSDSK_Debug_Status
+        pushad
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Status_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Complete
+        call    ABIOSDSK_Debug_Line
+        popad
+        ret
+EndProc ABIOSDSK_Debug_Status
+
+ENDIF
+
 
 BeginProc ABIOSDSK_Control
         Control_Dispatch Sys_Critical_Init, ABIOSDSK_Sys_Critical_Init
@@ -94,12 +372,14 @@ EndProc ABIOSDSK_Control
 ; EAX=linear base, ECX=limit. Returns AX=selector, zero on failure.
 BeginProc ABIOSDSK_Alloc_Data_Selector
         push    ebx
+        push    edx
         push    esi
         push    edi
-        VMMcall _BuildDescriptorDWORDs, <eax, ecx, RW_Data_Type, D_GRAN_BYTE, 0>
+        VMMcall _BuildDescriptorDWORDs, <eax, ecx, RW_Data_Type, D_GRAN_BYTE, BDDExplicitDPL>
         VMMcall _Allocate_GDT_Selector, <edx, eax, 0>
         pop     edi
         pop     esi
+        pop     edx
         pop     ebx
         ret
 EndProc ABIOSDSK_Alloc_Data_Selector
@@ -131,7 +411,7 @@ ACDP_Allocate:
         movzx   eax, bx
         shl     eax, 4
         mov     ecx, 0FFFFh
-        VMMcall _BuildDescriptorDWORDs, <eax, ecx, Code_Type, D_DEF16, 0>
+        VMMcall _BuildDescriptorDWORDs, <eax, ecx, Code_Type, D_DEF16, BDDExplicitDPL>
         VMMcall _Allocate_GDT_Selector, <edx, eax, 0>
         test    eax, eax
         jz      SHORT ACDP_Fail
@@ -172,12 +452,32 @@ BeginProc ABIOSDSK_Build_PM_Tables
         movzx   ecx, [ebx.AM_Allocation_Paragraphs]
         mov     [ABIOS_Real_Paragraphs], ecx
         shl     ecx, 4
+        mov     edx, ecx
+        add     edx, 4095
+        shr     edx, 12
+        VMMcall _PageAllocate, <edx, PG_SYS, 0, 0, 0, 0, 0, <PageLocked+PageZeroInit>>
+        test    eax, eax
+        jz      ABPM_Fail
+        mov     [ABIOS_PM_Real_Handle], eax
+        mov     [ABIOS_PM_Real_Linear], edx
+        mov     edi, edx
+        mov     esi, [ABIOS_Real_Base]
+        mov     ecx, [ABIOS_Real_Paragraphs]
+        shl     ecx, 4
+        cld
+        rep movsb
+        mov     eax, [ABIOS_PM_Real_Linear]
+        mov     ecx, [ABIOS_Real_Paragraphs]
+        shl     ecx, 4
         dec     ecx
-        mov     eax, [ABIOS_Real_Base]
         call    ABIOSDSK_Alloc_Data_Selector
         test    eax, eax
         jz      ABPM_Fail
         mov     [ABIOS_Real_Data_Selector], ax
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Real_Sel
+        call    ABIOSDSK_Debug_Line
+ENDIF
 
         mov     eax, [ABIOS_PM_CDA_Linear]
         mov     ecx, ABIOS_MAX_CDA-1
@@ -185,6 +485,10 @@ BeginProc ABIOSDSK_Build_PM_Tables
         test    eax, eax
         jz      ABPM_Fail
         mov     [ABIOS_PM_CDA_Selector], ax
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_CDA_Sel
+        call    ABIOSDSK_Debug_Line
+ENDIF
 
         mov     eax, [ABIOS_PM_FTT_Linear]
         mov     ecx, ABIOS_MAX_PM_FTT-1
@@ -192,6 +496,10 @@ BeginProc ABIOSDSK_Build_PM_Tables
         test    eax, eax
         jz      ABPM_Fail
         mov     [ABIOS_PM_FTT_Selector], ax
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_FTT_Sel
+        call    ABIOSDSK_Debug_Line
+ENDIF
 
         mov     eax, OFFSET32 ABIOS_Request
         mov     ecx, ABIOS_MAX_REQUEST-1
@@ -199,6 +507,10 @@ BeginProc ABIOSDSK_Build_PM_Tables
         test    eax, eax
         jz      ABPM_Fail
         mov     [ABIOS_Request_Selector], ax
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Req_Sel
+        call    ABIOSDSK_Debug_Line
+ENDIF
 
         movzx   ecx, [ebx.AM_CDA_Size]
         cmp     ecx, ABIOS_MAX_CDA
@@ -207,14 +519,23 @@ BeginProc ABIOSDSK_Build_PM_Tables
         mov     edi, [ABIOS_PM_CDA_Linear]
         cld
         rep movsb
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_CDA_Copy
+        call    ABIOSDSK_Debug_Line
+ENDIF
 
         mov     [ABIOS_PM_FTT_Used], 0
-        movzx   ecx, [ebx.AM_LID_Count]
-        cmp     ecx, ABIOS_MAX_LIDS
+        movzx   eax, [ebx.AM_LID_Count]
+        cmp     eax, ABIOS_MAX_LIDS
         ja      ABPM_Fail
+        mov     [ABIOS_PM_LID_Count], eax
         mov     ebp, 1
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_LIDs
+        call    ABIOSDSK_Debug_Line
+ENDIF
 ABPM_LID_Loop:
-        cmp     ebp, ecx
+        cmp     ebp, [ABIOS_PM_LID_Count]
         ja      ABPM_Data_Pointers
         mov     esi, [ABIOS_Real_Base]
         lea     esi, [esi+ebp*8]
@@ -305,6 +626,10 @@ ABPM_Null_LID:
         jmp     ABPM_LID_Loop
 
 ABPM_Data_Pointers:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Data
+        call    ABIOSDSK_Debug_Line
+ENDIF
         mov     esi, [ABIOS_PM_CDA_Linear]
         movzx   edx, WORD PTR [esi.ABIOS_CDA_DATA0_OFFSET]
         movzx   ecx, WORD PTR [esi+edx+6]
@@ -312,6 +637,16 @@ ABPM_Data_Pointers:
         ja      ABPM_Fail
         xor     ebp, ebp
 ABPM_Data_Loop:
+IFDEF ABIOSDSK_DEBUG
+        mov     eax, ebp
+        mov     edi, OFFSET32 ABIOS_Debug_PM_Data_Index_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     eax, ecx
+        mov     edi, OFFSET32 ABIOS_Debug_PM_Data_Total_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Data_Index
+        call    ABIOSDSK_Debug_Line
+ENDIF
         cmp     ebp, ecx
         jae     SHORT ABPM_Common_Pointers
         mov     edi, edx
@@ -323,22 +658,43 @@ ABPM_Data_Loop:
         movzx   ebx, WORD PTR [edi+4]
         shl     ebx, 4
         add     eax, ebx
+        sub     eax, [ABIOS_Real_Base]
+        jc      ABPM_Fail
+        add     eax, [ABIOS_PM_Real_Linear]
         movzx   ebx, WORD PTR [edi]
         mov     esi, ecx
         mov     ecx, ebx
+IFDEF ABIOSDSK_DEBUG
+        push    esi
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Data_Try
+        call    ABIOSDSK_Debug_Line
+        pop     esi
+ENDIF
         call    ABIOSDSK_Alloc_Data_Selector
         mov     ecx, esi
         test    eax, eax
         jz      ABPM_Fail
         mov     WORD PTR [edi+2], 0
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Data_OK
+        call    ABIOSDSK_Debug_Line
+ENDIF
         mov     WORD PTR [edi+4], ax
         mov     ebx, [ABIOS_Data_Count]
         mov     [ABIOS_Data_Selectors+ebx*2], ax
         inc     [ABIOS_Data_Count]
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Data_Saved
+        call    ABIOSDSK_Debug_Line
+ENDIF
         inc     ebp
-        jmp     SHORT ABPM_Data_Loop
+        jmp     ABPM_Data_Loop
 
 ABPM_Common_Pointers:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Common
+        call    ABIOSDSK_Debug_Line
+ENDIF
         mov     ebx, [ABIOS_Meta_Linear]
         mov     eax, [ebx.AM_Common_Start]
         call    ABIOSDSK_Convert_Code_Pointer
@@ -366,11 +722,28 @@ BeginProc ABIOSDSK_Allocate_PM_Workspace
         mov     edx, ABIOS_PM_WORK_PAGES
         VMMcall _PageAllocate, <edx, PG_SYS, 0, 0, 0, 0, 0, <PageLocked+PageZeroInit>>
         test    eax, eax
-        jz      SHORT AAPW_Fail
+        jz      AAPW_Fail
         mov     [ABIOS_PM_Work_Handle], eax
         mov     [ABIOS_PM_CDA_Linear], edx
         add     edx, ABIOS_MAX_CDA
         mov     [ABIOS_PM_FTT_Linear], edx
+        add     edx, ABIOS_MAX_PM_FTT
+        mov     [ABIOS_PM_Stack_Linear], edx
+        mov     eax, edx
+        mov     ecx, ABIOS_PM_STACK_BYTES-1
+        VMMcall _BuildDescriptorDWORDs, <eax, ecx, RW_Data_Type, D_GRAN_BYTE, BDDExplicitDPL>
+        VMMcall _Allocate_GDT_Selector, <edx, eax, 0>
+        test    eax, eax
+        jz      SHORT AAPW_Fail
+        mov     [ABIOS_PM_Stack_Selector], ax
+        mov     eax, OFFSET32 ABIOS_Thunk_Code
+        mov     ecx, 12
+        VMMcall _BuildDescriptorDWORDs, <eax, ecx, Code_Type, D_DEF16, BDDExplicitDPL>
+        VMMcall _Allocate_GDT_Selector, <edx, eax, 0>
+        test    eax, eax
+        jz      SHORT AAPW_Fail
+        mov     [ABIOS_PM_Thunk_Selector], ax
+        mov     WORD PTR [ABIOS_Thunk_Entry+4], ax
         clc
         ret
 AAPW_Fail:
@@ -392,6 +765,13 @@ BeginProc ABIOSDSK_Allocate_Bounce
         test    eax, eax
         jz      SHORT AAB_Fail
         mov     [ABIOS_Bounce_Selector], ax
+        mov     edi, [ABIOS_Bounce_Linear]
+        add     edi, 2000h
+        mov     DWORD PTR [edi], 'RTBA'
+        mov     DWORD PTR [edi+4], '!ECA'
+        mov     DWORD PTR [edi+8], 13579BDFh
+        mov     DWORD PTR [edi+12], 2468ACE0h
+        mov     DWORD PTR [edi+16], 0
         clc
         ret
 AAB_Fail:
@@ -400,26 +780,47 @@ AAB_Fail:
 EndProc ABIOSDSK_Allocate_Bounce
 
 BeginProc ABIOSDSK_Sys_Critical_Init
+IFDEF ABIOSDSK_DEBUG
+        call    ABIOSDSK_Debug_Init_COM1
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Start
+        call    ABIOSDSK_Debug_Line
+ENDIF
         mov     eax, edx
         shr     eax, 16
         test    eax, eax
-        jz      ABSCI_Fail
+        jz      ABSCI_Fail_No_Ref
         shl     eax, 4
         mov     [ABIOS_Real_Base], eax
         movzx   ebx, dx
         add     ebx, eax
         cmp     [ebx.AM_Magic], ABIOS_META_MAGIC
-        jne     ABSCI_Fail
+        jne     ABSCI_Fail_Bad_Magic
         cmp     [ebx.AM_Version], ABIOS_META_VERSION
-        jne     ABSCI_Fail
+        jne     ABSCI_Fail_Bad_Ver
         cmp     [ebx.AM_Drive_Count], 0
-        je      ABSCI_Fail
+        je      ABSCI_Fail_No_Drives
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Metadata
+        call    ABIOSDSK_Debug_Line
+ENDIF
         call    ABIOSDSK_Allocate_PM_Workspace
         jc      ABSCI_Fail
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Workspace
+        call    ABIOSDSK_Debug_Line
+ENDIF
         call    ABIOSDSK_Build_PM_Tables
         jc      ABSCI_Fail
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Tables
+        call    ABIOSDSK_Debug_Line
+ENDIF
         call    ABIOSDSK_Allocate_Bounce
         jc      ABSCI_Fail
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Bounce
+        call    ABIOSDSK_Debug_Line
+ENDIF
 
         mov     ebx, [ABIOS_Meta_Linear]
         movzx   ecx, [ebx.AM_Drive_Count]
@@ -499,8 +900,22 @@ ABSCI_Xfer_OK:
         mov     [edi.ABP_LID_Flags], ax
         mov     ax, [ebx.ADM_Device_Flags]
         mov     [edi.ABP_Device_Flags], ax
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Register
+        call    ABIOSDSK_Debug_Line
+ENDIF
+        push    ebx
+        push    ecx
+        push    ebp
         VxDcall BlockDev_Register_Device
+        pop     ebp
+        pop     ecx
+        pop     ebx
         jc      ABSCI_Fail
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Drive
+        call    ABIOSDSK_Debug_Line
+ENDIF
         inc     ebp
 ABSCI_Next_Drive:
         add     ebx, SIZE ABIOS_DRIVE_META
@@ -510,9 +925,56 @@ ABSCI_Done:
         mov     [ABIOS_Drive_Count], ebp
         test    ebp, ebp
         jz      SHORT ABSCI_Fail
+        ; The real-mode initializer temporarily marks its DOS block as system
+        ; owned so WIN.COM cannot reclaim it before this protected copy exists.
+        ; All ABIOS pointers now reference locked pages; return that conventional
+        ; memory to the DOS arena before Windows sizes its remaining memory.
+        mov     eax, [ABIOS_Real_Base]
+        sub     eax, 10h
+        cmp     BYTE PTR [eax], 'M'
+        je      SHORT ABSCI_Free_Real
+        cmp     BYTE PTR [eax], 'Z'
+        jne     SHORT ABSCI_Real_Freed
+ABSCI_Free_Real:
+        cmp     WORD PTR [eax+1], 0008h
+        jne     SHORT ABSCI_Real_Freed
+        mov     WORD PTR [eax+1], 0000h
+ABSCI_Real_Freed:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Good
+        call    ABIOSDSK_Debug_Line
+ENDIF
         clc
         ret
+ABSCI_Fail_No_Ref:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_No_Ref
+        call    ABIOSDSK_Debug_Line
+ENDIF
+        jmp     SHORT ABSCI_Fail
+ABSCI_Fail_Bad_Magic:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Bad_Magic
+        call    ABIOSDSK_Debug_Line
+ENDIF
+        jmp     SHORT ABSCI_Fail
+ABSCI_Fail_Bad_Ver:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Bad_Ver
+        call    ABIOSDSK_Debug_Line
+ENDIF
+        jmp     SHORT ABSCI_Fail
+ABSCI_Fail_No_Drives:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_No_Drives
+        call    ABIOSDSK_Debug_Line
+ENDIF
+        jmp     SHORT ABSCI_Fail
 ABSCI_Fail:
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_PM_Fail
+        call    ABIOSDSK_Debug_Line
+ENDIF
         stc
         ret
 EndProc ABIOSDSK_Sys_Critical_Init
@@ -520,7 +982,7 @@ EndProc ABIOSDSK_Sys_Critical_Init
 BeginProc ABIOSDSK_Sync_Command
         or      ax, ax
         jnz     SHORT ABSC_Invalid
-        mov     ax, (ABIOSDSK_Major_Ver SHL 8) OR ABIOSDSK_Minor_Ver
+        mov     ax, (BD_Major_Version SHL 8) OR BD_Minor_Version
         clc
         ret
 ABSC_Invalid:
@@ -529,41 +991,119 @@ ABSC_Invalid:
         ret
 EndProc ABIOSDSK_Sync_Command
 
-; EAX selects the common ABIOS entry point before entering this helper.
+; EAX selects the common ABIOS entry point and EDX selects one of the
+; non-overlapping 16-bit stack slices before entering this helper.
 BeginProc ABIOSDSK_Call_Common
         mov     [ABIOS_Call_Entry], eax
+        mov     [ABIOS_Thunk_Target], eax
+        mov     eax, OFFSET32 ABIOSDSK_Call_Return
+        mov     [ABIOS_Thunk_Return], eax
+        mov     ax, cs
+        mov     WORD PTR [ABIOS_Thunk_Return+4], ax
+        pushfd
+        pushad
+        push    ds
+        push    es
+        push    fs
+        push    gs
+        cld
+        mov     ebx, esp
+        mov     cx, ss
+        mov     edi, edx
+IFDEF ABIOSDSK_DEBUG
+        pushad
+        mov     eax, [ABIOS_Call_Entry]
+        mov     edi, OFFSET32 ABIOS_Debug_Call_Target_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, OFFSET32 ABIOS_Debug_Call_Target
+        call    ABIOSDSK_Debug_Line
+        popad
+ENDIF
+        mov     ax, [ABIOS_PM_Stack_Selector]
+        mov     ss, ax
+        mov     esp, edi
+        push    ebx
+        push    ecx
         sub     esp, 14
         mov     WORD PTR [esp+8], 0
         mov     ax, [ABIOS_Request_Selector]
         mov     WORD PTR [esp+10], ax
         mov     ax, [ABIOS_PM_CDA_Selector]
         mov     WORD PTR [esp+12], ax
-        db      066h, 0FFh, 01Dh        ; CALL FAR m16:16 in a USE32 segment
-        dd      OFFSET32 ABIOS_Call_Entry
+IFDEF ABIOSDSK_DEBUG
+        pushad
+        movzx   eax, [ABIOS_Request_Selector]
+        mov     edi, OFFSET32 ABIOS_Debug_Call_Selector_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        lea     eax, [esp+32]
+        mov     edi, OFFSET32 ABIOS_Debug_Call_ESP_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        movzx   eax, WORD PTR [esp+32+8]
+        mov     edi, OFFSET32 ABIOS_Debug_Call_Word0_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        movzx   eax, WORD PTR [esp+32+10]
+        mov     edi, OFFSET32 ABIOS_Debug_Call_Word1_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        movzx   eax, WORD PTR [esp+32+12]
+        mov     edi, OFFSET32 ABIOS_Debug_Call_Word2_Value
+        call    ABIOSDSK_Debug_Format_Dword
+        mov     esi, OFFSET32 ABIOS_Debug_Call_Frame
+        call    ABIOSDSK_Debug_Line
+        popad
+ENDIF
+        db      0FFh, 02Dh              ; JMP FAR m16:32 to the USE16 thunk
+        dd      OFFSET32 ABIOS_Thunk_Entry
+ABIOSDSK_Call_Return:
         add     esp, 14
+        pop     ecx
+        pop     ebx
+        mov     ss, cx
+        mov     esp, ebx
+        pop     gs
+        pop     fs
+        pop     es
+        pop     ds
+        popad
+        popfd
         ret
 EndProc ABIOSDSK_Call_Common
 
 BeginProc ABIOSDSK_Call_Start
+        mov     edx, ABIOS_PM_STACK_START_TOP
         mov     eax, [ABIOS_PM_Common_Start]
         jmp     ABIOSDSK_Call_Common
 EndProc ABIOSDSK_Call_Start
 
 BeginProc ABIOSDSK_Call_Interrupt
+        mov     edx, ABIOS_PM_STACK_INTERRUPT_TOP
         mov     eax, [ABIOS_PM_Common_Interrupt]
         jmp     ABIOSDSK_Call_Common
 EndProc ABIOSDSK_Call_Interrupt
+; A stage-on-time resume invokes the interrupt entry point from timeout
+; context. Use the timeout stack slice so a real IRQ can safely preempt it.
+BeginProc ABIOSDSK_Call_Delay
+        mov     edx, ABIOS_PM_STACK_TIMEOUT_TOP
+        mov     eax, [ABIOS_PM_Common_Interrupt]
+        jmp     ABIOSDSK_Call_Common
+EndProc ABIOSDSK_Call_Delay
+
 
 BeginProc ABIOSDSK_Call_Timeout
         mov     eax, [ABIOS_PM_Common_Timeout]
         test    eax, eax
-        jnz     ABIOSDSK_Call_Common
+        jz      SHORT ACTO_Unsupported
+        mov     edx, ABIOS_PM_STACK_TIMEOUT_TOP
+        jmp     ABIOSDSK_Call_Common
+ACTO_Unsupported:
         mov     WORD PTR [ABIOS_Request+ABIOS_RB_RC], 0C020h
         ret
 EndProc ABIOSDSK_Call_Timeout
 
 BeginProc ABIOSDSK_Cancel_Timeout
+        pushfd
         push    esi
+        cli
+        inc     [ABIOS_Timeout_Generation]
         xor     esi, esi
         xchg    esi, [ABIOS_Timeout_Handle]
         test    esi, esi
@@ -571,6 +1111,7 @@ BeginProc ABIOSDSK_Cancel_Timeout
         VMMcall Cancel_Time_Out
 ACT_None:
         pop     esi
+        popfd
         ret
 EndProc ABIOSDSK_Cancel_Timeout
 
@@ -585,7 +1126,8 @@ BeginProc ABIOSDSK_Arm_Timeout
         mov     eax, 1
 AAT_Nonzero:
         mov     [ABIOS_Timeout_Kind], edx
-        xor     edx, edx
+        inc     [ABIOS_Timeout_Generation]
+        mov     edx, [ABIOS_Timeout_Generation]
         mov     esi, OFFSET32 ABIOSDSK_Timeout_Callback
         VMMcall Set_Global_Time_Out
         mov     [ABIOS_Timeout_Handle], esi
@@ -611,10 +1153,7 @@ AFRC_Time:
         cmp     eax, ABRC_STAGE_ON_TIME
         jne     SHORT AFRC_Exit
         mov     eax, DWORD PTR [ABIOS_Request+ABIOS_RW_WAIT_TIME]
-        add     eax, 999
-        xor     edx, edx
-        mov     ecx, 1000
-        div     ecx
+        ; ABIOS reports this field in milliseconds, matching the VMM timer.
         mov     edx, 2
         call    ABIOSDSK_Arm_Timeout
 AFRC_Exit:
@@ -815,10 +1354,26 @@ ASC_Bounce_OK:
         mov     ecx, eax
         mov     edx, [ABIOS_Current_Completed]
         call    ABIOSDSK_Copy_To_Bounce
-        jc      SHORT ASC_Buffer_Error
+        jc      ASC_Buffer_Error
 ASC_Prepare:
         call    ABIOSDSK_Prepare_Request
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Call
+        call    ABIOSDSK_Debug_Line
+ENDIF
         call    ABIOSDSK_Call_Start
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Start_RC
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Start_RC_Value
+        call    ABIOSDSK_Debug_Return_Code
+ENDIF
+        pushad
+        mov     eax, 2
+        movzx   ebx, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        mov     ecx, [ABIOS_Request+ABIOS_RW_WAIT_TIME]
+        movzx   edx, WORD PTR [ABIOS_Request+ABIOS_RB_TIMEOUT]
+        call    ABIOSDSK_Trace
+        popad
         movzx   eax, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
         cmp     eax, ABRC_COMPLETE
         je      SHORT ASC_Stage_Complete
@@ -928,6 +1483,16 @@ EndProc ABIOSDSK_Start_Next
 
 ; EAX is the BlockDev completion status.
 BeginProc ABIOSDSK_Finish_Current
+        pushad
+        mov     ebx, eax
+        mov     eax, 4
+        mov     ecx, [ABIOS_Current_Completed]
+        mov     edx, [ABIOS_Current_Chunk]
+        call    ABIOSDSK_Trace
+        popad
+IFDEF ABIOSDSK_DEBUG
+        call    ABIOSDSK_Debug_Status
+ENDIF
         push    eax
         call    ABIOSDSK_Cancel_Timeout
         pop     eax
@@ -936,18 +1501,37 @@ BeginProc ABIOSDSK_Finish_Current
         jz      SHORT AFC_Exit
         cmp     esi, -1
         je      SHORT AFC_Exit
+        pushfd
+        cli
         mov     [esi.BD_CB_Cmd_Status], ax
         mov     [ABIOS_Current_Command], -1
         VxDcall BlockDev_Command_Complete
+        cli
         mov     [ABIOS_Current_Command], 0
         mov     [ABIOS_Current_BDD], 0
         call    ABIOSDSK_Start_Next
+        popfd
 AFC_Exit:
         ret
 EndProc ABIOSDSK_Finish_Current
 
 BeginProc ABIOSDSK_Command
+        pushfd
+        cld
         pushad
+IFDEF ABIOSDSK_DEBUG
+        call    ABIOSDSK_Debug_Command
+ENDIF
+        pushad
+        mov     ebx, DWORD PTR [esi.BD_CB_Sector]
+        mov     ecx, DWORD PTR [esi.BD_CB_Count]
+        movzx   edx, WORD PTR [esi.BD_CB_Flags]
+        movzx   eax, WORD PTR [esi.BD_CB_Command]
+        shl     eax, 16
+        or      edx, eax
+        mov     eax, 1
+        call    ABIOSDSK_Trace
+        popad
         cmp     [esi.BD_CB_Command], BDC_Write
         ja      SHORT ACMD_Invalid
         cmp     [ABIOS_Current_Command], 0
@@ -962,11 +1546,20 @@ ACMD_Invalid:
         VxDcall BlockDev_Command_Complete
 ACMD_Exit:
         popad
+        popfd
+        sti
         ret
 EndProc ABIOSDSK_Command
 
 BeginProc ABIOSDSK_Handle_Resumed
         movzx   eax, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        pushad
+        mov     eax, 3
+        movzx   ebx, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        mov     ecx, [ABIOS_Current_Completed]
+        mov     edx, [ABIOS_Request+ABIOS_RW_RBA]
+        call    ABIOSDSK_Trace
+        popad
         cmp     eax, ABRC_COMPLETE
         je      SHORT AHR_Complete
         cmp     eax, ABRC_STAGE_ON_INTERRUPT
@@ -981,10 +1574,29 @@ AHR_Complete:
         mov     esi, [ABIOS_Current_Command]
         cmp     [esi.BD_CB_Command], BDC_Read
         jne     SHORT AHR_Advance
+        pushad
+        mov     esi, [ABIOS_Bounce_Linear]
+        mov     ecx, [ABIOS_Current_Chunk]
+        shl     ecx, 7
+        xor     ebp, ebp
+AHR_Trace_Checksum:
+        xor     ebp, [esi]
+        add     esi, 4
+        loop    AHR_Trace_Checksum
+        mov     eax, 9
+        mov     ebx, [ABIOS_Request+ABIOS_RW_RBA]
+        mov     ecx, ebp
+        mov     edi, [ABIOS_Current_BDD]
+        movzx   edx, [edi.ABP_Unit]
+        call    ABIOSDSK_Trace
+        popad
         mov     ecx, [ABIOS_Current_Chunk]
         mov     edx, [ABIOS_Current_Completed]
         call    ABIOSDSK_Copy_From_Bounce
         jc      SHORT AHR_Copy_Fail
+IFDEF ABIOSDSK_DEBUG
+        call    ABIOSDSK_Debug_Read_Data
+ENDIF
 AHR_Advance:
         mov     eax, [ABIOS_Current_Chunk]
         add     [ABIOS_Current_Completed], eax
@@ -998,17 +1610,42 @@ EndProc ABIOSDSK_Handle_Resumed
 
 BeginProc ABIOSDSK_Hw_Int
         cmp     [ABIOS_Current_Command], 0
-        je      SHORT AHI_Not_Mine
+        je      AHI_Not_Mine
         cmp     [ABIOS_Current_Command], -1
-        je      SHORT AHI_Not_Mine
+        je      AHI_Not_Mine
         cmp     edi, [ABIOS_Current_BDD]
-        jne     SHORT AHI_Not_Mine
+        jne     AHI_Not_Mine
         test    WORD PTR [ABIOS_Request+ABIOS_RB_RC], ABRC_STAGE_ON_INTERRUPT
-        jz      SHORT AHI_Not_Mine
+        jz      AHI_Not_Mine
+        pushfd
+        cld
         pushad
+        pushad
+        mov     eax, 5
+        movzx   ebx, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        mov     ecx, [ABIOS_Current_Completed]
+        mov     edx, [ABIOS_Request+ABIOS_RW_RBA]
+        call    ABIOSDSK_Trace
+        popad
         mov     ebp, eax
         call    ABIOSDSK_Cancel_Timeout
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Interrupt
+        call    ABIOSDSK_Debug_Line
+ENDIF
         call    ABIOSDSK_Call_Interrupt
+        pushad
+        mov     eax, 6
+        movzx   ebx, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        mov     ecx, [ABIOS_Request+ABIOS_RW_WAIT_TIME]
+        movzx   edx, WORD PTR [ABIOS_Request+ABIOS_RB_TIMEOUT]
+        call    ABIOSDSK_Trace
+        popad
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Interrupt_RC
+        mov     edi, OFFSET32 ABIOS_Debug_IO_Interrupt_RC_Value
+        call    ABIOSDSK_Debug_Return_Code
+ENDIF
         movzx   eax, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
         cmp     eax, ABRC_NOT_MY_INTERRUPT
         je      SHORT AHI_Pop_Not_Mine
@@ -1018,33 +1655,61 @@ BeginProc ABIOSDSK_Hw_Int
         VxDcall VPICD_Phys_EOI
         call    ABIOSDSK_Handle_Resumed
         popad
+        popfd
         clc
         ret
 AHI_Pop_Not_Mine:
         call    ABIOSDSK_Arm_For_Return_Code
         popad
+        popfd
+        stc
+        ret
 AHI_Not_Mine:
         stc
         ret
 EndProc ABIOSDSK_Hw_Int
 
 BeginProc ABIOSDSK_Timeout_Callback
+        pushfd
+        cli
+        cld
+        cmp     edx, [ABIOS_Timeout_Generation]
+        jne     SHORT ATC_Exit
         mov     [ABIOS_Timeout_Handle], 0
         cmp     [ABIOS_Current_Command], 0
         je      SHORT ATC_Exit
         cmp     [ABIOS_Current_Command], -1
         je      SHORT ATC_Exit
         pushad
+        pushad
+        mov     eax, 7
+        mov     ebx, [ABIOS_Timeout_Kind]
+        movzx   ecx, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        mov     edx, [ABIOS_Timeout_Generation]
+        call    ABIOSDSK_Trace
+        popad
+IFDEF ABIOSDSK_DEBUG
+        mov     esi, OFFSET32 ABIOS_Debug_IO_Timeout
+        call    ABIOSDSK_Debug_Line
+ENDIF
         cmp     [ABIOS_Timeout_Kind], 2
         je      SHORT ATC_Delay
         call    ABIOSDSK_Call_Timeout
         jmp     SHORT ATC_Resume
 ATC_Delay:
-        call    ABIOSDSK_Call_Interrupt
+        call    ABIOSDSK_Call_Delay
+        pushad
+        mov     eax, 8
+        movzx   ebx, WORD PTR [ABIOS_Request+ABIOS_RB_RC]
+        mov     ecx, [ABIOS_Request+ABIOS_RW_WAIT_TIME]
+        movzx   edx, WORD PTR [ABIOS_Request+ABIOS_RB_TIMEOUT]
+        call    ABIOSDSK_Trace
+        popad
 ATC_Resume:
         call    ABIOSDSK_Handle_Resumed
         popad
 ATC_Exit:
+        popfd
         ret
 EndProc ABIOSDSK_Timeout_Callback
 
