@@ -18,6 +18,19 @@ case "$MODE" in
         exit 2
         ;;
 esac
+case "${RM_DEBUG:-0}" in
+    0)
+        ASM_RM_DEBUG_FLAG=
+        ;;
+    1)
+        ASM_RM_DEBUG_FLAG=-dABIOSDSK_RM_DEBUG
+        ;;
+    *)
+        echo "RM_DEBUG must be 0 or 1" >&2
+        exit 2
+        ;;
+esac
+
 
 BUILD_DIR="$ROOT/build/$MODE"
 mkdir -p "$BUILD_DIR"
@@ -37,7 +50,7 @@ mount d work/ddk-ref/WIN31/DDK/386
 c:
 d:\TOOLS\MASM5.EXE -p -w2 -Mx $ASM_MODE_FLAG -Isrc -Id:\INCLUDE src\abiosdsk.asm,build\abiosdsk.obj,build\abiosdsk.lst; >build\abiosdsk.log
 if errorlevel 1 exit
-d:\TOOLS\MASM5.EXE -p -w2 -Mx $ASM_MODE_FLAG -Isrc -Id:\INCLUDE src\abiosrm.asm,build\abiosrm.obj,build\abiosrm.lst; >build\abiosrm.log
+d:\TOOLS\MASM5.EXE -p -w2 -Mx $ASM_MODE_FLAG $ASM_RM_DEBUG_FLAG -Isrc -Id:\INCLUDE src\abiosrm.asm,build\abiosrm.obj,build\abiosrm.lst; >build\abiosrm.log
 if errorlevel 1 exit
 d:\TOOLS\LINK386.EXE build\abiosdsk.obj+build\abiosrm.obj,build\abiosdsk.386 /BATCH /NOLOGO /NOI /NOD /NOP,build\abiosdsk.map,,src\abiosdsk.def; >build\link.log
 if errorlevel 1 exit
@@ -48,7 +61,11 @@ exit
 EOF
 
 cd "$ROOT"
-dosbox-x -fastlaunch -defaultconf -conf "$BUILD_DIR/dosbox.conf"
+if [ "$(uname -s)" = Darwin ]; then
+    SDL_MAC_BACKGROUND_APP=1 dosbox-x -fastlaunch -defaultconf -conf "$BUILD_DIR/dosbox.conf"
+else
+    dosbox-x -fastlaunch -defaultconf -conf "$BUILD_DIR/dosbox.conf"
+fi
 if [ ! -f "$ROOT/build/driver.ok" ]; then
     echo "$MODE driver build failed; inspect build/*.log" >&2
     exit 1

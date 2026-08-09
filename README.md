@@ -19,7 +19,10 @@ by whatever is supported by ABIOS. In practical terms, disks larger than
 typical real MFM or ESDI disk sizes will not work.
 
 A utility called ABIOSCHK.COM is included which runs the same tests the 32-bit
-driver does to ensure things are working.
+driver does to ensure things are working. Run `ABIOSCHK /DETAIL` to display the
+drive, cylinder, head, and sector currently being checked without scrolling the
+screen for every comparison read. `/HELP` and `/VERSION` display command help
+and version information.
 
 This has not been thoroughly tested and may crash or even corrupt data and
 require completely reformatting your hard disk.

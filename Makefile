@@ -16,12 +16,18 @@ all: release
 
 debug:
 	MODE=debug ./build.sh
-	MODE=debug ./build-addini.sh
+	$(MAKE) -C abioschk debug
+	$(MAKE) -C addini dos
+	cp abioschk/build/debug/ABIOSCHK.COM build/debug/abioschk.com
+	cp addini/ADDINI.COM build/debug/addini.com
 	@printf '%s\n' 'Debug binaries are in build/debug/.'
 
 release:
 	MODE=release ./build.sh
-	MODE=release ./build-addini.sh
+	$(MAKE) -C abioschk dos
+	$(MAKE) -C addini dos
+	cp abioschk/ABIOSCHK.COM build/release/abioschk.com
+	cp addini/ADDINI.COM build/release/addini.com
 	cp build/release/abiosdsk.386 release/ABIOSDSK.386
 	cp build/release/abioschk.com release/ABIOSCHK.COM
 	cp build/release/addini.com release/ADDINI.COM
@@ -35,6 +41,8 @@ stress:
 clean:
 	rm -rf build/*
 	rm -f $(RELEASE_BINARIES) $(RELEASE_CONTAINERS)
+	$(MAKE) -C addini clean
+	$(MAKE) -C abioschk clean
 
 help:
 	@printf '%s\n' \
